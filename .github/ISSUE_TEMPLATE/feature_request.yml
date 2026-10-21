@@ -1,0 +1,21 @@
+name: 💡 Feature request
+description: Suggest an idea for Nook
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Nook aims to stay **tiny and minimal**. The best ideas make it more useful without making it busier. Portuguese is welcome too. 🇧🇷
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would it solve?
+      placeholder: When I'm ... I can't ... because ...
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How would it work? Mockups or screenshots are great.
+    validations:
+      required: true
