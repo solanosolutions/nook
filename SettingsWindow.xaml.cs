@@ -9,6 +9,8 @@ namespace Nook;
 public partial class SettingsWindow : Window
 {
     readonly MainWindow _player;
+    double? _aboveAnchorTop;   // topo do player quando o menu abre acima dele
+    double _workTop;
     static Settings S => App.Settings;
 
     public SettingsWindow(MainWindow player)
@@ -17,7 +19,12 @@ public partial class SettingsWindow : Window
         _player = player;
 
         SourceInitialized += (_, _) => { Native.MakeToolWindow(this); Native.SetBlur(this, true); };
-        SizeChanged += (_, _) => Native.RoundCorners(this, 12);
+        SizeChanged += (_, _) =>
+        {
+            Native.RoundCorners(this, 12);
+            // Aberto acima do player: ao recolher/expandir, cresce para cima e continua grudado nele.
+            if (_aboveAnchorTop is double anchorTop) Top = Math.Max(_workTop + 8, anchorTop - ActualHeight - 8);
+        };
         int opened = Environment.TickCount;
         bool closing = false;
         Closing += (_, _) => closing = true;
@@ -42,6 +49,18 @@ public partial class SettingsWindow : Window
         {
             rb.IsChecked = (string)rb.Tag == S.Visual;
             rb.Checked += (_, _) => { S.Visual = (string)rb.Tag; Commit(); };
+        }
+
+        // Seções recolhíveis: lembra quais ficaram abertas.
+        foreach (var sec in new[] { SecElements, SecLook, SecBehavior })
+        {
+            sec.IsChecked = S.OpenSections.Contains((string)sec.Tag);
+            sec.Click += (_, _) =>
+            {
+                S.OpenSections.Remove((string)sec.Tag);
+                if (sec.IsChecked == true) S.OpenSections.Add((string)sec.Tag);
+                S.Save();
+            };
         }
 
         ScaleSlider.Value = S.Scale;
@@ -70,7 +89,10 @@ public partial class SettingsWindow : Window
         UpdateLayout();
         double left = Math.Clamp(anchor.Left, workArea.Left + 8, workArea.Right - ActualWidth - 8);
         double below = anchor.Top + anchor.ActualHeight + 8;
-        double top = below + ActualHeight <= workArea.Bottom ? below : anchor.Top - ActualHeight - 8;
+        bool fitsBelow = below + ActualHeight <= workArea.Bottom;
+        double top = fitsBelow ? below : anchor.Top - ActualHeight - 8;
+        _workTop = workArea.Top;
+        _aboveAnchorTop = fitsBelow ? null : anchor.Top;
         Left = left;
         Top = Math.Max(workArea.Top + 8, top);
         Activate();

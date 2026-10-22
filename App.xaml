@@ -170,6 +170,40 @@
             </Setter>
         </Style>
 
+        <!-- Cabeçalho de seção recolhível: título à esquerda, seta à direita (marcado = aberto) -->
+        <Style x:Key="SectionToggle" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="{StaticResource FgDim}"/>
+            <Setter Property="FontSize" Value="10.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Background="Transparent" Height="22">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                            <TextBlock x:Name="Chevron" Text="&#xE70D;" FontFamily="{StaticResource IconFont}" FontSize="10"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,4,0"
+                                       RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform><RotateTransform Angle="0"/></TextBlock.RenderTransform>
+                            </TextBlock>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Chevron" Property="RenderTransform">
+                                    <Setter.Value><RotateTransform Angle="180"/></Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Fg}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="SectionTitle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource FgDim}"/>
             <Setter Property="FontSize" Value="10.5"/>

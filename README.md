@@ -121,6 +121,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] Album-art accent color, scrolling titles, Spotify-only volume
 - [x] Auto-hide on fullscreen / when nothing is open
 - [ ] 🇺🇸 English interface (auto-detected from your system)
+- [ ] ⏱️ Focus timer (5 / 10 / 25 min or custom), as discreet as the player, sitting right above it
 - [ ] 🍎 macOS version
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)

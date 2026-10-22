@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using Microsoft.Win32;
@@ -28,6 +29,8 @@ public sealed class Settings
     public bool CoverAccent { get; set; } = true;       // barras/progresso na cor da capa
     public bool CoverClickCycles { get; set; } = true;  // clique na capa troca Capa → Barras → Ondas
     public bool HideWhenIdle { get; set; } = true;      // some quando não há player aberto
+    /// <summary>Seções do menu de configurações abertas ("Elements", "Look", "Behavior").</summary>
+    public List<string> OpenSections { get; set; } = new() { "Look" };
 
     // Comportamento
     public bool Topmost { get; set; } = true;

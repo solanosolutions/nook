@@ -6,6 +6,9 @@
         ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
         Width="290" SizeToContent="Height" UseLayoutRounding="True"
         FontFamily="{StaticResource UiFont}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
 
     <Border CornerRadius="12" BorderThickness="1" BorderBrush="{StaticResource Hairline}" Background="#EE161616">
         <StackPanel Margin="16,12,16,14">
@@ -18,8 +21,8 @@
                         HorizontalAlignment="Right" ToolTip="Fechar" Click="Close_Click"/>
             </Grid>
 
-            <TextBlock Text="ELEMENTOS" Style="{StaticResource SectionTitle}"/>
-            <UniformGrid Columns="2" x:Name="ButtonsGrid">
+            <ToggleButton x:Name="SecElements" Tag="Elements" Style="{StaticResource SectionToggle}" Content="ELEMENTOS"/>
+            <UniformGrid Columns="2" x:Name="ButtonsGrid" Visibility="{Binding IsChecked, ElementName=SecElements, Converter={StaticResource BoolToVis}}">
                 <CheckBox Style="{StaticResource Switch}" Content="Capa" Tag="ShowCover" Margin="0,3,12,3"/>
                 <CheckBox Style="{StaticResource Switch}" Content="Título" Tag="ShowTitle"/>
                 <CheckBox Style="{StaticResource Switch}" Content="Aleatório" Tag="ShowShuffle" Margin="0,3,12,3"/>
@@ -32,7 +35,8 @@
                 <CheckBox Style="{StaticResource Switch}" Content="Engrenagem" Tag="ShowGear"/>
             </UniformGrid>
 
-            <TextBlock Text="APARÊNCIA" Style="{StaticResource SectionTitle}"/>
+            <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="APARÊNCIA"/>
+            <StackPanel Visibility="{Binding IsChecked, ElementName=SecLook, Converter={StaticResource BoolToVis}}">
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -61,8 +65,10 @@
 
             <CheckBox Style="{StaticResource Switch}" Content="Blur (vidro) em repouso" Tag="Blur"/>
             <CheckBox Style="{StaticResource Switch}" Content="Cor da capa no destaque" Tag="CoverAccent"/>
+            </StackPanel>
 
-            <TextBlock Text="COMPORTAMENTO" Style="{StaticResource SectionTitle}"/>
+            <ToggleButton x:Name="SecBehavior" Tag="Behavior" Style="{StaticResource SectionToggle}" Content="COMPORTAMENTO"/>
+            <StackPanel Visibility="{Binding IsChecked, ElementName=SecBehavior, Converter={StaticResource BoolToVis}}">
             <CheckBox Style="{StaticResource Switch}" Content="Sempre no topo" Tag="Topmost"/>
             <CheckBox Style="{StaticResource Switch}" Content="Esconder em tela cheia" Tag="HideOnFullscreen"/>
             <CheckBox Style="{StaticResource Switch}" Content="Esconder sem player aberto" Tag="HideWhenIdle"/>
@@ -71,6 +77,7 @@
             <CheckBox Style="{StaticResource Switch}" Content="Roda do mouse = volume do Spotify" Tag="WheelVolume"/>
             <CheckBox Style="{StaticResource Switch}" Content="Ícone na bandeja" Tag="TrayIcon"/>
             <CheckBox Style="{StaticResource Switch}" Content="Iniciar com o Windows" Tag="StartWithWindows"/>
+            </StackPanel>
 
             <Grid Margin="0,14,0,0">
                 <Button Style="{StaticResource PillButton}" HorizontalAlignment="Left" Click="Spotify_Click"

@@ -119,6 +119,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] Cor da capa, título rolando, volume só do Spotify
 - [x] Esconde em tela cheia / quando nada está aberto
 - [ ] 🇺🇸 Interface em inglês (detectada pelo idioma do sistema)
+- [ ] ⏱️ Timer de foco (5 / 10 / 25 min ou personalizado), discreto como o player e logo acima dele
 - [ ] 🍎 Versão para macOS
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)
