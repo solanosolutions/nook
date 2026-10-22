@@ -1,8 +1,8 @@
-# Gera Assets\nook.ico (16-256 px) e Assets\nook.png a partir do desenho vetorial do ícone.
+# Gera src\Assets\nook.ico (16-256 px) e src\Assets\nook.png a partir do desenho vetorial do ícone.
 # Uso: powershell -ExecutionPolicy Bypass -File tools\make-icon.ps1
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'Stop'
-$assets = Join-Path $PSScriptRoot '..\Assets'
+$assets = Join-Path $PSScriptRoot '..\src\Assets'
 New-Item -ItemType Directory -Force $assets | Out-Null
 
 function New-RoundRect([single]$x, [single]$y, [single]$w, [single]$h, [single]$r) {

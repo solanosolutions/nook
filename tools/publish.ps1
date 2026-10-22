@@ -4,12 +4,12 @@
 param([switch]$NoCompress)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
-$version = ([xml](Get-Content (Join-Path $root 'Nook.csproj'))).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+$version = ([xml](Get-Content (Join-Path $root 'src\Nook.csproj'))).Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
 $suffix = if ($NoCompress) { '-full' } else { '' }
 $out = Join-Path $root "release\v$version$suffix"
 
 $env:PATH += ";C:\Program Files\dotnet"
-dotnet publish (Join-Path $root 'Nook.csproj') -c Release -r win-x64 --self-contained true `
+dotnet publish (Join-Path $root 'src\Nook.csproj') -c Release -r win-x64 --self-contained true `
     -p:PublishSingleFile=true `
     -p:IncludeNativeLibrariesForSelfExtract=true `
     -p:EnableCompressionInSingleFile=$((-not $NoCompress).ToString().ToLower()) `

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Assets/nook.png" width="96" alt="Ícone do Nook" />
+<img src="src/Assets/nook.png" width="96" alt="Ícone do Nook" />
 
 # Nook
 
@@ -134,7 +134,7 @@ Precisa do [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) no Win
 ```powershell
 git clone https://github.com/solanosolutions/nook.git
 cd nook
-dotnet run -c Release                                                  # roda
+dotnet run --project src -c Release                                    # roda
 powershell -ExecutionPolicy Bypass -File tools\publish.ps1             # gera o Nook.exe independente
 ```
 
