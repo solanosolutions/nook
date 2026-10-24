@@ -69,6 +69,15 @@ public static class Strings
         ["Startup"] = ("Start with Windows", "Iniciar com o Windows"),
         ["Language"] = ("Language", "Idioma"),
         ["QuitNook"] = ("Quit Nook", "Sair do Nook"),
+
+        // Timer de foco
+        ["FocusTimer"] = ("Focus timer", "Timer de foco"),
+        ["Focus"] = ("Focus", "Foco"),
+        ["TimesUp"] = ("Time's up!", "Tempo!"),
+        ["Pause"] = ("Pause", "Pausar"),
+        ["Resume"] = ("Resume", "Continuar"),
+        ["Cancel"] = ("Cancel", "Cancelar"),
+        ["CustomTip"] = ("Type minutes and press Enter", "Digite os minutos e aperte Enter"),
     };
 }
 

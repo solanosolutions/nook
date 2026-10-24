@@ -43,6 +43,7 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 | 🎬 **Fullscreen-aware** | Hides automatically when a movie, game or presentation goes fullscreen on its monitor. |
 | 🧲 **Drag anywhere** | Snaps to screen edges and remembers its position. |
 | 🎛️ **Fully configurable** | Pick which buttons show, size, idle opacity, blur, visual style and more. |
+| ⏱️ **Focus timer** | Optional: a tiny glass pill above the player. 5, 10, 25 min or type your own; a soft chime when time's up. |
 | 🌐 **English & Portuguese** | Follows your Windows language automatically, or pick one in settings. |
 | 🚀 **Starts with Windows** | Optional, one toggle. |
 
@@ -121,7 +122,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] Album-art accent color, scrolling titles, Spotify-only volume
 - [x] Auto-hide on fullscreen / when nothing is open
 - [x] 🌐 English and Portuguese interface (follows your Windows language)
-- [ ] ⏱️ Focus timer (5 / 10 / 25 min or custom), as discreet as the player, sitting right above it
+- [x] ⏱️ Focus timer (5 / 10 / 25 min or custom), as discreet as the player
 - [ ] 🍎 macOS version
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)

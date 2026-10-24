@@ -1,0 +1,60 @@
+<Window x:Class="Nook.FocusWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Nook"
+        Title="Nook · Focus"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
+        SizeToContent="WidthAndHeight" UseLayoutRounding="True"
+        FontFamily="{StaticResource UiFont}">
+
+    <Border x:Name="Root" CornerRadius="10" BorderThickness="1" BorderBrush="{StaticResource Hairline}">
+        <Border.Background>
+            <SolidColorBrush x:Name="RootBrush" Color="#F2161616"/>
+        </Border.Background>
+        <Grid>
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="ScaleXf" ScaleX="1" ScaleY="1"/>
+            </Grid.LayoutTransform>
+            <Grid Margin="10,4,6,4" MinHeight="24">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="&#xE916;" FontFamily="{StaticResource IconFont}" FontSize="12" Foreground="{StaticResource FgDim}"
+                               VerticalAlignment="Center" Margin="0,0,7,0"/>
+
+                    <!-- Repouso: rótulo; no hover: atalhos de tempo -->
+                    <TextBlock x:Name="IdleLabel" Text="{local:Tr Focus}" FontSize="11.5" Foreground="{StaticResource FgDim}"
+                               VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <StackPanel x:Name="Presets" Orientation="Horizontal" Visibility="Collapsed">
+                        <Button Style="{StaticResource ChipButton}" Content="5" Tag="5" Click="Preset_Click"/>
+                        <Button Style="{StaticResource ChipButton}" Content="10" Tag="10" Click="Preset_Click"/>
+                        <Button Style="{StaticResource ChipButton}" Content="25" Tag="25" Click="Preset_Click"/>
+                        <Border Background="#1AFFFFFF" CornerRadius="6" Margin="2,0" Padding="4,0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="Custom" Width="28" FontSize="11.5" Background="Transparent" BorderThickness="0"
+                                         Foreground="{StaticResource Fg}" CaretBrush="{StaticResource Fg}" MaxLength="3"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         ToolTip="{local:Tr CustomTip}" KeyDown="Custom_KeyDown" PreviewTextInput="Custom_PreviewTextInput"/>
+                                <TextBlock Text="min" FontSize="10.5" Foreground="{StaticResource FgDim}" VerticalAlignment="Center" Margin="2,0,2,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Rodando / pausado / terminou -->
+                    <TextBlock x:Name="Clock" FontSize="12.5" FontWeight="SemiBold" Foreground="{StaticResource Fg}"
+                               VerticalAlignment="Center" Visibility="Collapsed" Margin="0,0,6,0"
+                               Typography.NumeralAlignment="Tabular"/>
+                    <StackPanel x:Name="RunButtons" Orientation="Horizontal" Visibility="Collapsed">
+                        <Button x:Name="PauseBtn" Style="{StaticResource IconButton}" Width="22" Height="22" FontSize="10" Content="&#xE769;" Click="Pause_Click"/>
+                        <Button Style="{StaticResource IconButton}" Width="22" Height="22" FontSize="9" Content="&#xE711;" ToolTip="{local:Tr Cancel}" Click="Cancel_Click"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border x:Name="Track" Height="2" CornerRadius="1" Background="#1FFFFFFF" VerticalAlignment="Bottom" Margin="0,0,4,-3" Visibility="Collapsed">
+                    <Border x:Name="Fill" Height="2" CornerRadius="1" RenderTransformOrigin="0,0.5">
+                        <Border.RenderTransform><ScaleTransform x:Name="FillScale" ScaleX="0"/></Border.RenderTransform>
+                    </Border>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -70,6 +70,7 @@
 
             <ToggleButton x:Name="SecBehavior" Tag="Behavior" Style="{StaticResource SectionToggle}" Content="{local:Tr SecBehavior}"/>
             <StackPanel Visibility="{Binding IsChecked, ElementName=SecBehavior, Converter={StaticResource BoolToVis}}">
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr FocusTimer}" Tag="FocusTimer"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Topmost}" Tag="Topmost"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideFullscreen}" Tag="HideOnFullscreen"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideIdle}" Tag="HideWhenIdle"/>

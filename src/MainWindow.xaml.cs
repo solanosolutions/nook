@@ -35,6 +35,7 @@ public partial class MainWindow : Window
     Color _accentTarget = DefaultAccent;
     string? _marqueeFor;
     SettingsWindow? _settingsWin;
+    FocusWindow? _focus;
     bool _hover;
 
     static Settings S => App.Settings;
@@ -44,7 +45,8 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         SourceInitialized += (_, _) => Native.MakeToolWindow(this);
-        SizeChanged += (_, _) => { Native.RoundCorners(this, 12); KeepOnScreen(); };
+        SizeChanged += (_, _) => { Native.RoundCorners(this, 12); KeepOnScreen(); _focus?.Reposition(); };
+        LocationChanged += (_, _) => _focus?.Reposition();
         Loaded += OnLoaded;
 
         MouseEnter += (_, _) => SetHover(true);
@@ -66,7 +68,7 @@ public partial class MainWindow : Window
             Viz.Step(_audio.Bands, dt);
         };
         _audio.FailedChanged += () => Dispatcher.InvokeAsync(UpdateViz);
-        IsVisibleChanged += (_, _) => { UpdateViz(); UpdateTitleMotion(); };
+        IsVisibleChanged += (_, _) => { UpdateViz(); UpdateTitleMotion(); SyncFocus(); };
 
         _fsTimer.Tick += (_, _) =>
         {
@@ -141,7 +143,30 @@ public partial class MainWindow : Window
         else { _fsTimer.Stop(); _fsHidden = false; ApplyVisibility(); }
         UpdateIdle();
         UpdateAccent();
+        UpdateFocusWindow();
     }
+
+    // ---------- Timer de foco ----------
+
+    void UpdateFocusWindow()
+    {
+        if (S.FocusTimer && _focus == null) _focus = new FocusWindow(this, _accent);
+        else if (!S.FocusTimer && _focus != null) { _focus.Close(); _focus = null; }
+        _focus?.ApplySettings();
+        SyncFocus();
+    }
+
+    /// <summary>O timer aparece junto com o player, e some enquanto o menu está aberto (ocuparia o mesmo lugar).</summary>
+    void SyncFocus()
+    {
+        if (_focus == null) return;
+        bool show = IsVisible && _settingsWin == null;
+        if (show && !_focus.IsVisible) _focus.Show();
+        else if (!show && _focus.IsVisible) _focus.Hide();
+        _focus.Reposition();
+    }
+
+    public Rect WorkAreaRect() => WorkArea();
 
     // ---------- Cor de destaque (verde ou cor da capa) ----------
 
@@ -239,6 +264,7 @@ public partial class MainWindow : Window
         RepeatBtn.ToolTip = Strings.Get("Repeat");
         OpenBtn.ToolTip = Strings.Get("OpenSpotify");
         GearBtn.ToolTip = Strings.Get("SettingsTip");
+        _focus?.ApplyLanguage();
         Refresh();
     }
 
@@ -415,10 +441,12 @@ public partial class MainWindow : Window
     {
         if (_settingsWin != null) { _settingsWin.Activate(); return; }
         _settingsWin = new SettingsWindow(this);
+        SyncFocus();
         _settingsWin.Closed += (_, _) =>
         {
             _settingsWin = null;
             SetHover(IsMouseOver);
+            SyncFocus();
             Dispatcher.BeginInvoke(Native.TrimMemory, DispatcherPriority.ApplicationIdle);
         };
         SetHover(true);

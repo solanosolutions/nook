@@ -33,6 +33,7 @@ public sealed class Settings
     public List<string> OpenSections { get; set; } = new() { "Look" };
     /// <summary>"auto" (idioma do Windows), "en" ou "pt".</summary>
     public string Language { get; set; } = "auto";
+    public bool FocusTimer { get; set; } = false;      // pílula de timer de foco colada ao player
 
     // Comportamento
     public bool Topmost { get; set; } = true;
