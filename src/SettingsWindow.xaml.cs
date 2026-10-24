@@ -51,6 +51,21 @@ public partial class SettingsWindow : Window
             rb.Checked += (_, _) => { S.Visual = (string)rb.Tag; Commit(); };
         }
 
+        foreach (var rb in FindAll<RadioButton>(LangGroup))
+        {
+            rb.IsChecked = (string)rb.Tag == S.Language;
+            rb.Checked += (_, _) =>
+            {
+                S.Language = (string)rb.Tag;
+                S.Save();
+                Strings.Init(S.Language);
+                _player.ApplyLanguage();
+                App.RebuildTray();
+                Close();
+                _player.Dispatcher.BeginInvoke(_player.OpenSettings); // reabre já no idioma novo
+            };
+        }
+
         // Seções recolhíveis: lembra quais ficaram abertas.
         foreach (var sec in new[] { SecElements, SecLook, SecBehavior })
         {

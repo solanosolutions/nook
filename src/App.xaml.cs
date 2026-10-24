@@ -28,9 +28,18 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += (_, a) => { Log(a.Exception); a.SetObserved(); };
 
         Settings = Settings.Load();
+        Strings.Init(Settings.Language);
         Settings.ApplyStartup(); // mantém o registro apontando para onde o .exe está agora
         Player = new MainWindow();
         Player.Show();
+        UpdateTray();
+    }
+
+    /// <summary>Recria o menu da bandeja (ex.: depois de trocar o idioma).</summary>
+    public static void RebuildTray()
+    {
+        _tray?.Dispose();
+        _tray = null;
         UpdateTray();
     }
 
@@ -45,11 +54,11 @@ public partial class App : Application
         if (_tray != null) return;
 
         var menu = new Forms.ContextMenuStrip();
-        menu.Items.Add("Mostrar / esconder", null, (_, _) => Player.ToggleVisible());
-        menu.Items.Add("Configurações", null, (_, _) => Player.OpenSettings());
-        menu.Items.Add("Abrir Spotify", null, (_, _) => OpenSpotify());
+        menu.Items.Add(Strings.Get("ShowHide"), null, (_, _) => Player.ToggleVisible());
+        menu.Items.Add(Strings.Get("Settings"), null, (_, _) => Player.OpenSettings());
+        menu.Items.Add(Strings.Get("OpenSpotify"), null, (_, _) => OpenSpotify());
         menu.Items.Add(new Forms.ToolStripSeparator());
-        menu.Items.Add("Sair", null, (_, _) => Quit());
+        menu.Items.Add(Strings.Get("Quit"), null, (_, _) => Quit());
 
         _tray = new Forms.NotifyIcon
         {

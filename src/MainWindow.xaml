@@ -47,28 +47,28 @@
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="TitleShift"/>
                                 </StackPanel.RenderTransform>
-                                <TextBlock x:Name="TitleText" Text="Nada tocando" FontSize="12.5" FontWeight="SemiBold"
+                                <TextBlock x:Name="TitleText" Text="{local:Tr NothingPlaying}" FontSize="12.5" FontWeight="SemiBold"
                                            Foreground="{StaticResource Fg}" TextTrimming="CharacterEllipsis" Width="170"/>
                                 <!-- Cópia que entra pela direita, para o loop não ter buraco -->
                                 <TextBlock x:Name="TitleCopy" FontSize="12.5" FontWeight="SemiBold" Margin="40,0,0,0"
                                            Foreground="{StaticResource Fg}" Visibility="Collapsed"/>
                             </StackPanel>
                         </Canvas>
-                        <TextBlock x:Name="ArtistText" Text="Abra o Spotify" FontSize="11" Margin="0,1,0,0"
+                        <TextBlock x:Name="ArtistText" Text="{local:Tr ClickToOpen}" FontSize="11" Margin="0,1,0,0"
                                    Foreground="{StaticResource FgDim}" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
 
                     <!-- Controles -->
-                    <Button x:Name="ShuffleBtn" Style="{StaticResource IconButton}" Content="&#xE8B1;" ToolTip="Aleatório" Click="Shuffle_Click"/>
-                    <Button x:Name="PrevBtn" Style="{StaticResource IconButton}" Content="&#xE892;" ToolTip="Anterior" Click="Prev_Click"/>
-                    <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Content="&#xE768;" ToolTip="Tocar / pausar" Margin="3,0" Click="Play_Click"/>
-                    <Button x:Name="NextBtn" Style="{StaticResource IconButton}" Content="&#xE893;" ToolTip="Próxima" Click="Next_Click"/>
-                    <Button x:Name="RepeatBtn" Style="{StaticResource IconButton}" Content="&#xE8EE;" ToolTip="Repetir" Click="Repeat_Click"/>
+                    <Button x:Name="ShuffleBtn" Style="{StaticResource IconButton}" Content="&#xE8B1;" ToolTip="{local:Tr Shuffle}" Click="Shuffle_Click"/>
+                    <Button x:Name="PrevBtn" Style="{StaticResource IconButton}" Content="&#xE892;" ToolTip="{local:Tr Previous}" Click="Prev_Click"/>
+                    <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Content="&#xE768;" ToolTip="{local:Tr PlayPause}" Margin="3,0" Click="Play_Click"/>
+                    <Button x:Name="NextBtn" Style="{StaticResource IconButton}" Content="&#xE893;" ToolTip="{local:Tr Next}" Click="Next_Click"/>
+                    <Button x:Name="RepeatBtn" Style="{StaticResource IconButton}" Content="&#xE8EE;" ToolTip="{local:Tr Repeat}" Click="Repeat_Click"/>
 
                     <Rectangle x:Name="Divider" Width="1" Height="18" Fill="{StaticResource Hairline}" Margin="6,0,4,0"/>
 
-                    <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="Abrir Spotify" Click="Open_Click"/>
-                    <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="Configurações (ou duplo clique)" Click="Gear_Click"/>
+                    <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="{local:Tr OpenSpotify}" Click="Open_Click"/>
+                    <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="{local:Tr SettingsTip}" Click="Gear_Click"/>
                 </StackPanel>
 
                 <!-- Progresso (clique para pular) -->

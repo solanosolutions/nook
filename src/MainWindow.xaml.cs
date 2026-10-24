@@ -229,10 +229,23 @@ public partial class MainWindow : Window
         Native.VolumeStep(up);
     }
 
+    /// <summary>Reaplica os textos do player depois de trocar o idioma.</summary>
+    public void ApplyLanguage()
+    {
+        ShuffleBtn.ToolTip = Strings.Get("Shuffle");
+        PrevBtn.ToolTip = Strings.Get("Previous");
+        PlayBtn.ToolTip = Strings.Get("PlayPause");
+        NextBtn.ToolTip = Strings.Get("Next");
+        RepeatBtn.ToolTip = Strings.Get("Repeat");
+        OpenBtn.ToolTip = Strings.Get("OpenSpotify");
+        GearBtn.ToolTip = Strings.Get("SettingsTip");
+        Refresh();
+    }
+
     void ShowVolume(int pct)
     {
         _showingVolume = true;
-        ArtistText.Text = $"Volume do Spotify  {pct}%";
+        ArtistText.Text = $"{Strings.Get("SpotifyVolume")}  {pct}%";
         _volumeTimer.Stop();
         _volumeTimer.Start();
     }
@@ -418,8 +431,8 @@ public partial class MainWindow : Window
     {
         if (!_media.HasSession || string.IsNullOrEmpty(_media.Title))
         {
-            TitleText.Text = "Nada tocando";
-            if (!_showingVolume) ArtistText.Text = _media.HasSession ? "" : "Clique ▶ para abrir o Spotify";
+            TitleText.Text = Strings.Get("NothingPlaying");
+            if (!_showingVolume) ArtistText.Text = _media.HasSession ? "" : Strings.Get("ClickToOpen");
             CoverBrush.ImageSource = null;
         }
         else

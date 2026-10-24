@@ -43,6 +43,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 | 🎬 **Respeita a tela cheia** | Some sozinho quando um filme, jogo ou apresentação entra em tela cheia no monitor dele. |
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
 | 🎛️ **Totalmente configurável** | Escolha botões, tamanho, opacidade em repouso, blur, estilo do visual e mais. |
+| 🌐 **Inglês e português** | Segue o idioma do Windows automaticamente, ou escolha nas configurações. |
 | 🚀 **Inicia com o Windows** | Opcional, um clique. |
 
 <div align="center">
@@ -118,7 +119,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] Visualizador de áudio ao vivo (captura só do Spotify)
 - [x] Cor da capa, título rolando, volume só do Spotify
 - [x] Esconde em tela cheia / quando nada está aberto
-- [ ] 🇺🇸 Interface em inglês (detectada pelo idioma do sistema)
+- [x] 🌐 Interface em inglês e português (segue o idioma do Windows)
 - [ ] ⏱️ Timer de foco (5 / 10 / 25 min ou personalizado), discreto como o player e logo acima dele
 - [ ] 🍎 Versão para macOS
 - [ ] 🐧 Versão para Linux

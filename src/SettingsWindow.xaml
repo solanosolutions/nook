@@ -1,6 +1,7 @@
 <Window x:Class="Nook.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Nook"
         Title="Nook · Configurações"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
@@ -18,73 +19,87 @@
                     <TextBlock Text="Nook" Foreground="{StaticResource Fg}" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Button Style="{StaticResource IconButton}" Content="&#xE711;" FontSize="10" Width="24" Height="24"
-                        HorizontalAlignment="Right" ToolTip="Fechar" Click="Close_Click"/>
+                        HorizontalAlignment="Right" ToolTip="{local:Tr Close}" Click="Close_Click"/>
             </Grid>
 
-            <ToggleButton x:Name="SecElements" Tag="Elements" Style="{StaticResource SectionToggle}" Content="ELEMENTOS"/>
+            <ToggleButton x:Name="SecElements" Tag="Elements" Style="{StaticResource SectionToggle}" Content="{local:Tr SecElements}"/>
             <UniformGrid Columns="2" x:Name="ButtonsGrid" Visibility="{Binding IsChecked, ElementName=SecElements, Converter={StaticResource BoolToVis}}">
-                <CheckBox Style="{StaticResource Switch}" Content="Capa" Tag="ShowCover" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Título" Tag="ShowTitle"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Aleatório" Tag="ShowShuffle" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Repetir" Tag="ShowRepeat"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Anterior" Tag="ShowPrev" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Próxima" Tag="ShowNext"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Play" Tag="ShowPlay" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Progresso" Tag="ShowProgress"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Abrir Spotify" Tag="ShowOpen" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="Engrenagem" Tag="ShowGear"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Cover}" Tag="ShowCover" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Title}" Tag="ShowTitle"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Shuffle}" Tag="ShowShuffle" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Repeat}" Tag="ShowRepeat"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Previous}" Tag="ShowPrev" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Next}" Tag="ShowNext"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Play}" Tag="ShowPlay" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Gear}" Tag="ShowGear"/>
             </UniformGrid>
 
-            <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="APARÊNCIA"/>
+            <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="{local:Tr SecLook}"/>
             <StackPanel Visibility="{Binding IsChecked, ElementName=SecLook, Converter={StaticResource BoolToVis}}">
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Visual" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <TextBlock Text="{local:Tr Visual}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
                 <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
                     <UniformGrid x:Name="VisualGroup" Columns="3">
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Cover" Content="Capa"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Bars" Content="Barras"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Waves" Content="Ondas"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Cover" Content="{local:Tr Cover}"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Bars" Content="{local:Tr Bars}"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Waves" Content="{local:Tr Waves}"/>
                     </UniformGrid>
                 </Border>
             </Grid>
             <Grid>
-                <TextBlock Text="Tamanho" Foreground="{StaticResource Fg}" FontSize="12"/>
+                <TextBlock Text="{local:Tr Size}" Foreground="{StaticResource Fg}" FontSize="12"/>
                 <TextBlock x:Name="ScaleLabel" Foreground="{StaticResource FgDim}" FontSize="12" HorizontalAlignment="Right"/>
             </Grid>
             <Slider x:Name="ScaleSlider" Style="{StaticResource FlatSlider}" Minimum="0.7" Maximum="1.6" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,6"/>
 
             <Grid>
-                <TextBlock Text="Opacidade em repouso" Foreground="{StaticResource Fg}" FontSize="12"/>
+                <TextBlock Text="{local:Tr IdleOpacity}" Foreground="{StaticResource Fg}" FontSize="12"/>
                 <TextBlock x:Name="OpacityLabel" Foreground="{StaticResource FgDim}" FontSize="12" HorizontalAlignment="Right"/>
             </Grid>
             <Slider x:Name="OpacitySlider" Style="{StaticResource FlatSlider}" Minimum="0.15" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,6"/>
 
-            <CheckBox Style="{StaticResource Switch}" Content="Blur (vidro) em repouso" Tag="Blur"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Cor da capa no destaque" Tag="CoverAccent"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Blur}" Tag="Blur"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CoverAccent}" Tag="CoverAccent"/>
             </StackPanel>
 
-            <ToggleButton x:Name="SecBehavior" Tag="Behavior" Style="{StaticResource SectionToggle}" Content="COMPORTAMENTO"/>
+            <ToggleButton x:Name="SecBehavior" Tag="Behavior" Style="{StaticResource SectionToggle}" Content="{local:Tr SecBehavior}"/>
             <StackPanel Visibility="{Binding IsChecked, ElementName=SecBehavior, Converter={StaticResource BoolToVis}}">
-            <CheckBox Style="{StaticResource Switch}" Content="Sempre no topo" Tag="Topmost"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Esconder em tela cheia" Tag="HideOnFullscreen"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Esconder sem player aberto" Tag="HideWhenIdle"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Clique na capa troca o visual" Tag="CoverClickCycles"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Travar posição" Tag="LockPosition"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Roda do mouse = volume do Spotify" Tag="WheelVolume"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Ícone na bandeja" Tag="TrayIcon"/>
-            <CheckBox Style="{StaticResource Switch}" Content="Iniciar com o Windows" Tag="StartWithWindows"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Topmost}" Tag="Topmost"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideFullscreen}" Tag="HideOnFullscreen"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideIdle}" Tag="HideWhenIdle"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CoverClick}" Tag="CoverClickCycles"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Lock}" Tag="LockPosition"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Wheel}" Tag="WheelVolume"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr TrayIcon}" Tag="TrayIcon"/>
+            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Startup}" Tag="StartWithWindows"/>
+            <Grid Margin="0,8,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{local:Tr Language}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
+                    <UniformGrid x:Name="LangGroup" Columns="3">
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="auto" Content="Auto"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="en" Content="English"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="pt" Content="Português"/>
+                    </UniformGrid>
+                </Border>
+            </Grid>
             </StackPanel>
 
             <Grid Margin="0,14,0,0">
                 <Button Style="{StaticResource PillButton}" HorizontalAlignment="Left" Click="Spotify_Click"
                         Background="{StaticResource Accent}" Foreground="#111111">
-                    <TextBlock Text="Abrir Spotify" FontWeight="SemiBold"/>
+                    <TextBlock Text="{local:Tr OpenSpotify}" FontWeight="SemiBold"/>
                 </Button>
-                <Button Style="{StaticResource PillButton}" HorizontalAlignment="Right" Click="Quit_Click" Content="Sair do Nook"/>
+                <Button Style="{StaticResource PillButton}" HorizontalAlignment="Right" Click="Quit_Click" Content="{local:Tr QuitNook}"/>
             </Grid>
         </StackPanel>
     </Border>
