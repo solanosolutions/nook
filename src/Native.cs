@@ -39,7 +39,16 @@ static class Native
         finally { Marshal.FreeHGlobal(ptr); }
     }
 
-    /// <summary>Recorta a janela com cantos arredondados, para o blur não vazar nas quinas.</summary>
+    [StructLayout(LayoutKind.Sequential)]
+    struct DwmBlurBehind { public int Flags; public bool Enable; public IntPtr RegionBlur; public bool TransitionOnMaximized; }
+    [DllImport("dwmapi.dll")] static extern int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DwmBlurBehind blur);
+    [DllImport("dwmapi.dll")] static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
+    [DllImport("gdi32.dll")] static extern bool DeleteObject(IntPtr obj);
+
+    /// <summary>
+    /// Arredonda a janela E a área de desfoque. Em janela transparente (layered), o blur do Windows
+    /// ignora o SetWindowRgn e sai retangular — por isso a região de blur também é passada ao DWM.
+    /// </summary>
     public static void RoundCorners(Window w, double radius)
     {
         var hwnd = new WindowInteropHelper(w).Handle;
@@ -48,7 +57,15 @@ static class Native
         double dpi = src.CompositionTarget.TransformToDevice.M11;
         int width = (int)Math.Ceiling(w.ActualWidth * dpi), height = (int)Math.Ceiling(w.ActualHeight * dpi);
         int r = (int)(radius * 2 * dpi);
-        SetWindowRgn(hwnd, CreateRoundRectRgn(0, 0, width + 1, height + 1, r, r), true);
+        SetWindowRgn(hwnd, CreateRoundRectRgn(0, 0, width + 1, height + 1, r, r), true); // o sistema passa a ser dono desta região
+
+        IntPtr blurRgn = CreateRoundRectRgn(0, 0, width + 1, height + 1, r, r);
+        var bb = new DwmBlurBehind { Flags = 0x1 | 0x2, Enable = true, RegionBlur = blurRgn }; // ENABLE | BLURREGION
+        DwmEnableBlurBehindWindow(hwnd, ref bb);
+        DeleteObject(blurRgn); // o DWM copia a região
+
+        int round = 2; // DWMWA_WINDOW_CORNER_PREFERENCE = DWMWCP_ROUND (Windows 11)
+        DwmSetWindowAttribute(hwnd, 33, ref round, sizeof(int));
     }
 
     /// <summary>Some do Alt+Tab e da barra de tarefas.</summary>
