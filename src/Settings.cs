@@ -33,7 +33,10 @@ public sealed class Settings
     public List<string> OpenSections { get; set; } = new() { "Look" };
     /// <summary>"auto" (idioma do Windows), "en" ou "pt".</summary>
     public string Language { get; set; } = "auto";
-    public bool FocusTimer { get; set; } = false;      // pílula de timer de foco colada ao player
+    public bool FocusTimer { get; set; } = false;
+    public bool ShowHideBtn { get; set; } = true;         // botão esconder no player
+    public string Layout { get; set; } = "H";            // "H" horizontal, "V" vertical
+    public int AutoHideMinutes { get; set; } = 5;       // esconde após N min pausado (0 = nunca)      // pílula de timer de foco colada ao player
 
     // Comportamento
     public bool Topmost { get; set; } = true;

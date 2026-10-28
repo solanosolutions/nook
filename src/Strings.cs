@@ -78,6 +78,15 @@ public static class Strings
         ["Resume"] = ("Resume", "Continuar"),
         ["Cancel"] = ("Cancel", "Cancelar"),
         ["CustomTip"] = ("Type minutes and press Enter", "Digite os minutos e aperte Enter"),
+
+        // Esconder e layout
+        ["HideTip"] = ("Hide (comes back on next play)", "Esconder (volta no próximo play)"),
+        ["HideBtnEl"] = ("Hide button", "Botão esconder"),
+        ["AutoHide"] = ("Hide when paused", "Esconder pausado"),
+        ["Never"] = ("Never", "Nunca"),
+        ["Layout"] = ("Layout", "Layout"),
+        ["Horizontal"] = ("Horizontal", "Horizontal"),
+        ["Vertical"] = ("Vertical", "Vertical"),
     };
 }
 

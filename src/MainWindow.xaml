@@ -24,7 +24,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- Arranjo horizontal (padrão). No vertical, o código move os mesmos elementos para o VHost. -->
+                <StackPanel x:Name="HHost" Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- Capa -->
                     <Border x:Name="CoverBox" Width="36" Height="36" CornerRadius="7" Background="#1FFFFFFF" Margin="0,0,10,0">
                         <Grid>
@@ -69,6 +70,15 @@
 
                     <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="{local:Tr OpenSpotify}" Click="Open_Click"/>
                     <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="{local:Tr SettingsTip}" Click="Gear_Click"/>
+                    <Button x:Name="HideBtn" Style="{StaticResource IconButton}" Content="&#xE921;" FontSize="11" ToolTip="{local:Tr HideTip}" Click="Hide_Click"/>
+                </StackPanel>
+
+                <!-- Arranjo vertical: capa grande, título, controles principais e extras -->
+                <StackPanel x:Name="VHost" Visibility="Collapsed" HorizontalAlignment="Center">
+                    <Grid x:Name="VCover" HorizontalAlignment="Center"/>
+                    <Grid x:Name="VInfo" HorizontalAlignment="Center"/>
+                    <StackPanel x:Name="VMain" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    <StackPanel x:Name="VExtras" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                 </StackPanel>
 
                 <!-- Progresso (clique para pular) -->

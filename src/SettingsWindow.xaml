@@ -34,6 +34,7 @@
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen" Margin="0,3,12,3"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Gear}" Tag="ShowGear"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideBtnEl}" Tag="ShowHideBtn" Margin="0,3,12,3"/>
             </UniformGrid>
 
             <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="{local:Tr SecLook}"/>
@@ -49,6 +50,19 @@
                         <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Cover" Content="{local:Tr Cover}"/>
                         <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Bars" Content="{local:Tr Bars}"/>
                         <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Waves" Content="{local:Tr Waves}"/>
+                    </UniformGrid>
+                </Border>
+            </Grid>
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{local:Tr Layout}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
+                    <UniformGrid x:Name="LayoutGroup" Columns="2">
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Layout" Tag="H" Content="{local:Tr Horizontal}"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Layout" Tag="V" Content="{local:Tr Vertical}"/>
                     </UniformGrid>
                 </Border>
             </Grid>
@@ -79,6 +93,15 @@
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Wheel}" Tag="WheelVolume"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr TrayIcon}" Tag="TrayIcon"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Startup}" Tag="StartWithWindows"/>
+            <TextBlock Text="{local:Tr AutoHide}" Foreground="{StaticResource Fg}" FontSize="12" Margin="0,10,0,4"/>
+            <Border Background="#14FFFFFF" CornerRadius="8">
+                <UniformGrid x:Name="AutoHideGroup" Columns="4">
+                    <RadioButton Style="{StaticResource Segment}" GroupName="AutoHide" Tag="0" Content="{local:Tr Never}"/>
+                    <RadioButton Style="{StaticResource Segment}" GroupName="AutoHide" Tag="1" Content="1 min"/>
+                    <RadioButton Style="{StaticResource Segment}" GroupName="AutoHide" Tag="5" Content="5 min"/>
+                    <RadioButton Style="{StaticResource Segment}" GroupName="AutoHide" Tag="15" Content="15 min"/>
+                </UniformGrid>
+            </Border>
             <Grid Margin="0,8,0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

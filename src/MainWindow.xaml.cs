@@ -27,7 +27,9 @@ public partial class MainWindow : Window
     readonly DispatcherTimer _idleTimer = new() { Interval = TimeSpan.FromSeconds(3) };
     readonly DispatcherTimer _cycleTimer = new() { Interval = TimeSpan.FromMilliseconds(Forms.SystemInformation.DoubleClickTime) };
     readonly DispatcherTimer _volumeTimer = new() { Interval = TimeSpan.FromMilliseconds(1200) };
-    bool _userHidden, _fsHidden, _idleHidden, _autoOverride;
+    readonly DispatcherTimer _pauseTimer = new();
+    bool _userHidden, _fsHidden, _idleHidden, _pausedHidden, _manualHidden, _autoOverride;
+    bool _wasPlaying, _vertical, _layoutApplied;
     bool _showingVolume;
 
     static readonly Color DefaultAccent = Color.FromRgb(0x1E, 0xD7, 0x60);
@@ -78,6 +80,7 @@ public partial class MainWindow : Window
             ApplyVisibility();
         };
         _idleTimer.Tick += (_, _) => { _idleTimer.Stop(); _idleHidden = true; ApplyVisibility(); };
+        _pauseTimer.Tick += (_, _) => { _pauseTimer.Stop(); _pausedHidden = true; ApplyVisibility(); };
         _cycleTimer.Tick += (_, _) => { _cycleTimer.Stop(); CycleVisual(); };
         _volumeTimer.Tick += (_, _) => { _volumeTimer.Stop(); _showingVolume = false; Refresh(); };
     }
@@ -86,9 +89,9 @@ public partial class MainWindow : Window
 
     void ApplyVisibility()
     {
-        if (!_fsHidden && !_idleHidden) _autoOverride = false; // a exceção da bandeja vale até a condição passar
-        bool auto = (_fsHidden || _idleHidden) && !_autoOverride;
-        bool show = !_userHidden && !auto;
+        if (!_fsHidden && !_idleHidden && !_pausedHidden) _autoOverride = false; // a exceção da bandeja vale até a condição passar
+        bool auto = (_fsHidden || _idleHidden || _pausedHidden) && !_autoOverride;
+        bool show = !_userHidden && !_manualHidden && !auto;
         if (show && !IsVisible) Show();
         else if (!show && IsVisible) Hide();
     }
@@ -100,6 +103,85 @@ public partial class MainWindow : Window
         if (idle) { if (!_idleHidden && !_idleTimer.IsEnabled) _idleTimer.Start(); return; }
         _idleTimer.Stop();
         if (_idleHidden) { _idleHidden = false; ApplyVisibility(); }
+    }
+
+    /// <summary>
+    /// Pausado por N minutos (com player aberto) → some. Qualquer play (Spotify, teclas de mídia, Nook) traz de volta,
+    /// inclusive quando foi escondido pelo botão.
+    /// </summary>
+    void UpdatePauseHide()
+    {
+        bool playing = _media.IsPlaying;
+        if (playing && !_wasPlaying) _manualHidden = false;
+        _wasPlaying = playing;
+
+        bool paused = S.AutoHideMinutes > 0 && _media.HasSession && !playing;
+        if (paused)
+        {
+            if (!_pausedHidden && !_pauseTimer.IsEnabled)
+            {
+                _pauseTimer.Interval = TimeSpan.FromMinutes(S.AutoHideMinutes);
+                _pauseTimer.Start();
+            }
+        }
+        else
+        {
+            _pauseTimer.Stop();
+            _pausedHidden = false;
+        }
+        ApplyVisibility();
+    }
+
+    void Hide_Click(object s, RoutedEventArgs e)
+    {
+        _manualHidden = true;
+        ApplyVisibility();
+    }
+
+    // ---------- Layout: horizontal (padrão) ou vertical ----------
+
+    static void Detach(FrameworkElement el)
+    {
+        if (el.Parent is System.Windows.Controls.Panel p) p.Children.Remove(el);
+    }
+
+    /// <summary>Move os mesmos elementos entre os dois arranjos e ajusta tamanhos (capa grande e texto centralizado no vertical).</summary>
+    void ApplyLayout()
+    {
+        bool v = S.Layout == "V";
+        if (_layoutApplied && v == _vertical) return;
+        _vertical = v;
+        _layoutApplied = true;
+        StopTicker();
+
+        FrameworkElement[] all = { CoverBox, InfoPanel, ShuffleBtn, PrevBtn, PlayBtn, NextBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn };
+        foreach (var el in all) Detach(el);
+
+        if (v)
+        {
+            VCover.Children.Add(CoverBox);
+            VInfo.Children.Add(InfoPanel);
+            foreach (var el in new FrameworkElement[] { PrevBtn, PlayBtn, NextBtn }) VMain.Children.Add(el);
+            foreach (var el in new FrameworkElement[] { ShuffleBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn }) VExtras.Children.Add(el);
+        }
+        else
+        {
+            foreach (var el in all) HHost.Children.Add(el);
+        }
+
+        double cover = v ? 156 : 36, info = v ? 156 : 170;
+        CoverBox.Width = CoverBox.Height = cover;
+        CoverBox.CornerRadius = CoverLayer.CornerRadius = new CornerRadius(v ? 10 : 7);
+        CoverBox.Margin = v ? new Thickness(0, 2, 0, 0) : new Thickness(0, 0, 10, 0);
+        CoverPlaceholder.FontSize = v ? 40 : 15;
+        InfoPanel.Width = TitleClip.Width = info;
+        InfoPanel.Margin = v ? new Thickness(0, 10, 0, 4) : new Thickness(0, 0, 8, 0);
+        TitleText.Width = info;
+        TitleText.TextAlignment = ArtistText.TextAlignment = v ? TextAlignment.Center : TextAlignment.Left;
+        PlayBtn.Margin = v ? new Thickness(10, 0, 10, 0) : new Thickness(3, 0, 3, 0);
+        HHost.Visibility = Vis(!v);
+        VHost.Visibility = Vis(v);
+        UpdateTitleMotion();
     }
 
     async void OnLoaded(object? sender, RoutedEventArgs e)
@@ -129,7 +211,9 @@ public partial class MainWindow : Window
         ProgressHost.Visibility = Vis(S.ShowProgress);
         OpenBtn.Visibility = Vis(S.ShowOpen);
         GearBtn.Visibility = Vis(S.ShowGear);
-        Divider.Visibility = Vis(S.ShowOpen || S.ShowGear);
+        HideBtn.Visibility = Vis(S.ShowHideBtn);
+        ApplyLayout();
+        Divider.Visibility = Vis(!_vertical && (S.ShowOpen || S.ShowGear || S.ShowHideBtn));
 
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
         Topmost = S.Topmost;
@@ -142,6 +226,8 @@ public partial class MainWindow : Window
         if (S.HideOnFullscreen) _fsTimer.Start();
         else { _fsTimer.Stop(); _fsHidden = false; ApplyVisibility(); }
         UpdateIdle();
+        _pauseTimer.Stop(); // novo tempo de "esconder pausado" vale a partir de agora
+        UpdatePauseHide();
         UpdateAccent();
         UpdateFocusWindow();
     }
@@ -264,6 +350,7 @@ public partial class MainWindow : Window
         RepeatBtn.ToolTip = Strings.Get("Repeat");
         OpenBtn.ToolTip = Strings.Get("OpenSpotify");
         GearBtn.ToolTip = Strings.Get("SettingsTip");
+        HideBtn.ToolTip = Strings.Get("HideTip");
         _focus?.ApplyLanguage();
         Refresh();
     }
@@ -432,7 +519,11 @@ public partial class MainWindow : Window
     public void ToggleVisible()
     {
         _userHidden = IsVisible;
-        if (!_userHidden && (_fsHidden || _idleHidden)) _autoOverride = true; // pediu para mostrar: respeita
+        if (!_userHidden)
+        {
+            _manualHidden = false;
+            if (_fsHidden || _idleHidden || _pausedHidden) _autoOverride = true; // pediu para mostrar: respeita
+        }
         ApplyVisibility();
         if (IsVisible) Activate();
     }
@@ -470,6 +561,7 @@ public partial class MainWindow : Window
             CoverBrush.ImageSource = _media.Cover;
         }
         UpdateTitleMotion();
+        UpdatePauseHide();
         CoverPlaceholder.Visibility = Vis(CoverBrush.ImageSource == null);
         InfoPanel.ToolTip = _media.HasSession ? $"{_media.Title}\n{_media.Artist}" : null;
 

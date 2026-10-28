@@ -66,6 +66,17 @@ public partial class SettingsWindow : Window
             };
         }
 
+        foreach (var rb in FindAll<RadioButton>(LayoutGroup))
+        {
+            rb.IsChecked = (string)rb.Tag == S.Layout;
+            rb.Checked += (_, _) => { S.Layout = (string)rb.Tag; Commit(); };
+        }
+        foreach (var rb in FindAll<RadioButton>(AutoHideGroup))
+        {
+            rb.IsChecked = (string)rb.Tag == S.AutoHideMinutes.ToString();
+            rb.Checked += (_, _) => { S.AutoHideMinutes = int.Parse((string)rb.Tag); Commit(); };
+        }
+
         // Seções recolhíveis: lembra quais ficaram abertas.
         foreach (var sec in new[] { SecElements, SecLook, SecBehavior })
         {
