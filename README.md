@@ -41,6 +41,8 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 | 📜 **Scrolling titles** | Long song names scroll smoothly; hover to freeze them. |
 | 🖱️ **Scroll for volume** | Mouse wheel over the player changes **Spotify's volume only**, not your whole PC. |
 | 🎬 **Fullscreen-aware** | Hides automatically when a movie, game or presentation goes fullscreen on its monitor. |
+| 💤 **Hides when paused** | Paused for a while (1, 5 or 15 min)? It gets out of the way and comes back on the next play. Or hit the hide button. |
+| ↕️ **Horizontal or vertical** | Pick a wide bar or a tall card with a big cover, great next to a vertical taskbar. |
 | 🧲 **Drag anywhere** | Snaps to screen edges and remembers its position. |
 | 🎛️ **Fully configurable** | Pick which buttons show, size, idle opacity, blur, visual style and more. |
 | ⏱️ **Focus timer** | Optional: a tiny glass pill above the player. 5, 10, 25 min or type your own; a soft chime when time's up. |
@@ -74,6 +76,7 @@ No installer and no .NET to install: everything ships inside the single `.exe`.
 | **Click the cover** | Cycle visual: cover → bars → waves |
 | **Mouse wheel** | Spotify volume up / down |
 | **Click the progress bar** | Jump to that point of the song |
+| **Hide button** (—) | Hide now; it comes back on the next play |
 | **Tray icon** | Show / hide, settings, quit |
 
 <details>
@@ -123,6 +126,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] Auto-hide on fullscreen / when nothing is open
 - [x] 🌐 English and Portuguese interface (follows your Windows language)
 - [x] ⏱️ Focus timer (5 / 10 / 25 min or custom), as discreet as the player
+- [x] ↕️ Vertical layout and auto-hide when paused
 - [ ] 🍎 macOS version
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)

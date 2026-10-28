@@ -41,6 +41,8 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 | 📜 **Título rolando** | Nomes longos rolam suavemente; passe o mouse para congelar. |
 | 🖱️ **Roda = volume** | A roda do mouse sobre o player muda **só o volume do Spotify**, não o do PC inteiro. |
 | 🎬 **Respeita a tela cheia** | Some sozinho quando um filme, jogo ou apresentação entra em tela cheia no monitor dele. |
+| 💤 **Some quando pausado** | Ficou pausado um tempo (1, 5 ou 15 min)? Ele sai da frente e volta no próximo play. Ou use o botão esconder. |
+| ↕️ **Horizontal ou vertical** | Escolha uma barra larga ou um cartão em pé com a capa grande, ótimo ao lado de uma barra de tarefas vertical. |
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
 | 🎛️ **Totalmente configurável** | Escolha botões, tamanho, opacidade em repouso, blur, estilo do visual e mais. |
 | ⏱️ **Timer de foco** | Opcional: uma pílula de vidro acima do player. 5, 10, 25 min ou o tempo que você digitar; um toque suave quando acaba. |
@@ -74,6 +76,7 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 | **Clique na capa** | Troca o visual: capa → barras → ondas |
 | **Roda do mouse** | Sobe / desce o volume do Spotify |
 | **Clique na barra de progresso** | Pula para aquele ponto da música |
+| **Botão esconder** (—) | Esconde na hora; volta no próximo play |
 | **Ícone na bandeja** | Mostrar / esconder, configurações, sair |
 
 <details>
@@ -122,6 +125,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] Esconde em tela cheia / quando nada está aberto
 - [x] 🌐 Interface em inglês e português (segue o idioma do Windows)
 - [x] ⏱️ Timer de foco (5 / 10 / 25 min ou personalizado), discreto como o player
+- [x] ↕️ Layout vertical e esconder quando pausado
 - [ ] 🍎 Versão para macOS
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)
