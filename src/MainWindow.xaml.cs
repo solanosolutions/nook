@@ -31,7 +31,7 @@ public partial class MainWindow : Window
     bool _userHidden, _fsHidden, _idleHidden, _pausedHidden, _manualHidden, _autoOverride;
     bool _wasPlaying, _vertical, _compact, _layoutApplied;
     bool _peek; // modo recolhido aberto pelo mouse
-    readonly DispatcherTimer _peekTimer = new() { Interval = TimeSpan.FromMilliseconds(600) };
+    readonly DispatcherTimer _peekTimer = new() { Interval = TimeSpan.FromMilliseconds(200) };
     bool _showingVolume;
 
     static readonly Color DefaultAccent = Color.FromRgb(0x1E, 0xD7, 0x60);
