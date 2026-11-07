@@ -15,6 +15,8 @@ Pause, skip and see what's playing without ever opening Spotify again.
 
 <img src="docs/demo.gif" alt="Nook demo: frosted glass at rest, sharp on hover, live audio waves and bars" />
 
+**🆕 v1.4.0:** collapsed mode (a tiny pill until you hover) and quick links in the settings menu. [See what's new](https://github.com/solanosolutions/nook/releases/tag/v1.4.0)
+
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Features](#-features) · [How to use](#-how-to-use) · [FAQ](#-faq) · [Roadmap](#-roadmap) · [Português](README.pt-BR.md)
 
 </div>
@@ -47,6 +49,7 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 | 🧲 **Drag anywhere** | Snaps to screen edges and remembers its position. |
 | 🎛️ **Fully configurable** | Pick which buttons show, size, idle opacity, blur, visual style and more. |
 | ⏱️ **Focus timer** | Optional: a tiny glass pill above the player. 5, 10, 25 min or type your own; a soft chime when time's up. |
+| 🔗 **Links and version in the menu** | The settings footer shows the version you're running, plus GitHub and Instagram. |
 | 🌐 **English & Portuguese** | Follows your Windows language automatically, or pick one in settings. |
 | 🚀 **Starts with Windows** | Optional, one toggle. |
 

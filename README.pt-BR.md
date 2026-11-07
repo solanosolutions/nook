@@ -15,6 +15,8 @@ Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 <img src="docs/demo.gif" alt="Demonstração do Nook: vidro fosco em repouso, nítido no hover, ondas e barras ao vivo" />
 
+**🆕 v1.4.0:** modo recolhido (uma pílula até você passar o mouse) e atalhos no menu de configurações. [Veja as novidades](https://github.com/solanosolutions/nook/releases/tag/v1.4.0)
+
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Recursos](#-recursos) · [Como usar](#-como-usar) · [Dúvidas](#-dúvidas-frequentes) · [Roadmap](#-roadmap) · [English](README.md)
 
 </div>
@@ -47,6 +49,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
 | 🎛️ **Totalmente configurável** | Escolha botões, tamanho, opacidade em repouso, blur, estilo do visual e mais. |
 | ⏱️ **Timer de foco** | Opcional: uma pílula de vidro acima do player. 5, 10, 25 min ou o tempo que você digitar; um toque suave quando acaba. |
+| 🔗 **Links e versão no menu** | O rodapé das configurações mostra a versão que você está usando, além do GitHub e do Instagram. |
 | 🌐 **Inglês e português** | Segue o idioma do Windows automaticamente, ou escolha nas configurações. |
 | 🚀 **Inicia com o Windows** | Opcional, um clique. |
 
