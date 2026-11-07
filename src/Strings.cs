@@ -87,6 +87,16 @@ public static class Strings
         ["Layout"] = ("Layout", "Layout"),
         ["Horizontal"] = ("Horizontal", "Horizontal"),
         ["Vertical"] = ("Vertical", "Vertical"),
+
+        // Modo recolhido
+        ["CollapseTip"] = ("Collapse (opens on hover)", "Recolher (abre ao passar o mouse)"),
+        ["ExpandTip"] = ("Keep expanded", "Manter aberto"),
+        ["CollapseBtnEl"] = ("Collapse button", "Botão recolher"),
+        ["CollapsedMode"] = ("Collapsed mode", "Modo recolhido"),
+
+        // Rodapé do menu
+        ["GitHubTip"] = ("Nook on GitHub", "Nook no GitHub"),
+        ["InstagramTip"] = ("Follow on Instagram", "Siga no Instagram"),
     };
 }
 

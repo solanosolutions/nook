@@ -43,6 +43,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 | 🎬 **Respeita a tela cheia** | Some sozinho quando um filme, jogo ou apresentação entra em tela cheia no monitor dele. |
 | 💤 **Some quando pausado** | Ficou pausado um tempo (1, 5 ou 15 min)? Ele sai da frente e volta no próximo play. Ou use o botão esconder. |
 | ↕️ **Horizontal ou vertical** | Escolha uma barra larga ou um cartão em pé com a capa grande, ótimo ao lado de uma barra de tarefas vertical. |
+| 🫧 **Modo recolhido** | Encolhe para uma pílula só com a capa e o play. Passou o mouse, o player inteiro abre; tirou, ele recolhe de novo. |
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
 | 🎛️ **Totalmente configurável** | Escolha botões, tamanho, opacidade em repouso, blur, estilo do visual e mais. |
 | ⏱️ **Timer de foco** | Opcional: uma pílula de vidro acima do player. 5, 10, 25 min ou o tempo que você digitar; um toque suave quando acaba. |
@@ -77,6 +78,7 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 | **Roda do mouse** | Sobe / desce o volume do Spotify |
 | **Clique na barra de progresso** | Pula para aquele ponto da música |
 | **Botão esconder** (—) | Esconde na hora; volta no próximo play |
+| **Botão recolher** | Encolhe para a pílula; passe o mouse para abrir, e o alfinete deixa aberto de novo |
 | **Ícone na bandeja** | Mostrar / esconder, configurações, sair |
 
 <details>
@@ -126,6 +128,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] 🌐 Interface em inglês e português (segue o idioma do Windows)
 - [x] ⏱️ Timer de foco (5 / 10 / 25 min ou personalizado), discreto como o player
 - [x] ↕️ Layout vertical e esconder quando pausado
+- [x] 🫧 Modo recolhido (só capa e play até você passar o mouse)
 - [ ] 🍎 Versão para macOS
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)

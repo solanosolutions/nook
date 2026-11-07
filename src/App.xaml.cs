@@ -87,6 +87,20 @@ public partial class App : Application
         catch { }
     }
 
+    public const string GitHubUrl = "https://github.com/solanosolutions/nook";
+    /// <summary>Vazio = botão do Instagram escondido no menu.</summary>
+    public const string InstagramUrl = "https://www.instagram.com/solano.ai/";
+
+    /// <summary>Versão do projeto (Nook.csproj), ex.: "1.4.0".</summary>
+    public static string Version { get; } =
+        typeof(App).Assembly.GetName().Version is { } v ? $"{v.Major}.{v.Minor}.{v.Build}" : "";
+
+    public static void OpenUrl(string url)
+    {
+        try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); }
+        catch { }
+    }
+
     public static void OpenSpotify()
     {
         try { Process.Start(new ProcessStartInfo("spotify:") { UseShellExecute = true }); }
