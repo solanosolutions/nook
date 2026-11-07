@@ -21,6 +21,19 @@ Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 ---
 
+## 🆕 Novidades da v1.5.0
+
+- 🧊 **Três estilos de vidro.** Escolha **Fosco** (o clássico), **Frozen** (desfoque mais forte e frio, com um granulado fino de gelo, ainda mais discreto sobre qualquer fundo) ou **Liquid** (um vidro vivo, com borda de luz, brilho especular no topo e um reflexo suave na cor da capa). Configurações → Aparência → Vidro.
+
+<details>
+<summary>Versões anteriores</summary>
+
+- **v1.4.0** · 🫧 Modo recolhido (só capa e play até você passar o mouse) e links do GitHub/Instagram com a versão no rodapé do menu.
+- **v1.3.0** · ↕️ Layout vertical, esconder quando pausado e botão esconder.
+- **v1.2.0** · ⏱️ Timer de foco, 🌐 interface em inglês e português, cantos do blur arredondados corrigidos.
+
+</details>
+
 ## Por que o Nook?
 
 Eu escuto música o dia inteiro enquanto trabalho. Toda vez que queria pausar ou pular, tinha que caçar o Spotify na barra de tarefas: um app inteiro aberto só para apertar um botão. Os mini players que testei eram pesados, feios ou pediam login com chave de API.
@@ -35,7 +48,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 
 | | |
 |---|---|
-| 🧊 **Vidro fosco** | Translúcido e desfocado em repouso; nítido e sólido assim que o mouse chega. |
+| 🧊 **Vidro do seu jeito** | Translúcido e desfocado em repouso; nítido e sólido assim que o mouse chega. Três estilos: **Fosco**, **Frozen** e **Liquid**. |
 | 🎵 **Visualizador ao vivo** | Barras ou ondas que reagem ao áudio *de verdade*, capturado **só do Spotify** (notificações e vídeos não interferem). |
 | 🎨 **Cor da capa** | Barra de progresso e visualizador assumem a cor dominante da capa atual. |
 | 📜 **Título rolando** | Nomes longos rolam suavemente; passe o mouse para congelar. |
@@ -129,6 +142,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] ⏱️ Timer de foco (5 / 10 / 25 min ou personalizado), discreto como o player
 - [x] ↕️ Layout vertical e esconder quando pausado
 - [x] 🫧 Modo recolhido (só capa e play até você passar o mouse)
+- [x] 🧊 Estilos de vidro: Fosco, Frozen e Liquid
 - [ ] 🍎 Versão para macOS
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)

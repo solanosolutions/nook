@@ -67,6 +67,20 @@
                     </UniformGrid>
                 </Border>
             </Grid>
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{local:Tr GlassStyle}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
+                    <UniformGrid x:Name="GlassGroup" Columns="3">
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Frosted" Content="{local:Tr Frosted}"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Frozen" Content="{local:Tr Frozen}"/>
+                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Liquid" Content="{local:Tr Liquid}"/>
+                    </UniformGrid>
+                </Border>
+            </Grid>
             <Grid>
                 <TextBlock Text="{local:Tr Size}" Foreground="{StaticResource Fg}" FontSize="12"/>
                 <TextBlock x:Name="ScaleLabel" Foreground="{StaticResource FgDim}" FontSize="12" HorizontalAlignment="Right"/>

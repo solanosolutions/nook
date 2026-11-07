@@ -19,9 +19,6 @@ public partial class FocusWindow : Window
 {
     enum State { Idle, Running, Paused, Done }
 
-    static readonly Color Solid = Color.FromArgb(0xF2, 0x16, 0x16, 0x16);
-    static readonly Color Glass = Color.FromArgb(0x50, 0x16, 0x16, 0x16);
-    static readonly Color Dim = Color.FromArgb(0xD0, 0x16, 0x16, 0x16);
     static readonly Duration Fade = TimeSpan.FromMilliseconds(220);
     static Settings S => App.Settings;
 
@@ -41,7 +38,7 @@ public partial class FocusWindow : Window
         _accent = accent;
         Fill.Background = accent;
 
-        SourceInitialized += (_, _) => { Native.MakeToolWindow(this); Native.SetBlur(this, S.Blur); };
+        SourceInitialized += (_, _) => { Native.MakeToolWindow(this); Glass.ApplyNative(this); };
         SizeChanged += (_, _) => { Native.RoundCorners(this, 10); Reposition(); };
         MouseEnter += (_, _) => SetHover(true);
         MouseLeave += (_, _) => { if (!Custom.IsKeyboardFocusWithin) SetHover(false); };
@@ -62,7 +59,10 @@ public partial class FocusWindow : Window
     {
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
         Topmost = S.Topmost;
-        Native.SetBlur(this, S.Blur);
+        Glass.ApplyNative(this);
+        Overlay.StyleName = Glass.Style;
+        Overlay.Tint = _accent.Color;
+        if (_state != State.Done) Root.BorderBrush = Glass.Rim(this);
         ApplyLook(animate: false);
     }
 
@@ -83,19 +83,22 @@ public partial class FocusWindow : Window
 
     void ApplyLook(bool animate)
     {
-        var color = _hover ? Solid : (S.Blur ? Glass : Dim);
+        var color = Glass.Fill(_hover);
         double opacity = _hover || _state == State.Done ? 1.0 : S.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
             BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, Fade));
+            Overlay.BeginAnimation(GlassOverlay.LiftProperty, new DoubleAnimation(_hover ? 1 : 0, Fade));
         }
         else
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, null);
             BeginAnimation(OpacityProperty, null);
+            Overlay.BeginAnimation(GlassOverlay.LiftProperty, null);
             RootBrush.Color = color;
             Opacity = opacity;
+            Overlay.Lift = _hover ? 1 : 0;
         }
     }
 
@@ -183,7 +186,7 @@ public partial class FocusWindow : Window
         _autoClear.Stop();
         _state = State.Idle;
         _total = _remaining = TimeSpan.Zero;
-        Root.BorderBrush = (Brush)FindResource("Hairline");
+        Root.BorderBrush = Glass.Rim(this);
         Root.BorderThickness = new Thickness(1);
         ApplyLook(animate: true);
         Render();

@@ -22,12 +22,17 @@ static class Native
 
     const int GWL_EXSTYLE = -20, WS_EX_TOOLWINDOW = 0x80, WS_EX_APPWINDOW = 0x40000;
 
-    /// <summary>Blur do Windows atrás da janela (vidro). Desliga com enabled=false.</summary>
-    public static void SetBlur(Window w, bool enabled)
+    /// <summary>
+    /// Blur do Windows atrás da janela (vidro). Desliga com enabled=false.
+    /// acrylic=true usa o desfoque mais forte do sistema (Frozen), tingido com a cor dada.
+    /// </summary>
+    public static void SetBlur(Window w, bool enabled, bool acrylic = false, System.Windows.Media.Color tint = default)
     {
         var hwnd = new WindowInteropHelper(w).Handle;
         if (hwnd == IntPtr.Zero) return;
-        var accent = new AccentPolicy { AccentState = enabled ? 3 : 0 }; // 3 = ACCENT_ENABLE_BLURBEHIND
+        var accent = new AccentPolicy { AccentState = !enabled ? 0 : acrylic ? 4 : 3 }; // 3 = BLURBEHIND, 4 = ACRYLICBLURBEHIND
+        if (enabled && acrylic) // GradientColor é ABGR; alfa 0 faz o acrylic sumir, então no mínimo 1
+            accent.GradientColor = (uint)Math.Max((byte)1, tint.A) << 24 | (uint)tint.B << 16 | (uint)tint.G << 8 | tint.R;
         int size = Marshal.SizeOf(accent);
         IntPtr ptr = Marshal.AllocHGlobal(size);
         try

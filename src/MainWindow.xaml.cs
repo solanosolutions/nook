@@ -12,9 +12,6 @@ namespace Nook;
 
 public partial class MainWindow : Window
 {
-    static readonly Color Solid = Color.FromArgb(0xF2, 0x16, 0x16, 0x16);   // hover: cor "normal"
-    static readonly Color Glass = Color.FromArgb(0x50, 0x16, 0x16, 0x16);   // repouso com blur
-    static readonly Color Dim = Color.FromArgb(0xD0, 0x16, 0x16, 0x16);     // repouso sem blur
     static readonly Duration Fade = TimeSpan.FromMilliseconds(220);
 
     readonly MediaService _media = new();
@@ -282,7 +279,7 @@ public partial class MainWindow : Window
 
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
         Topmost = S.Topmost;
-        Native.SetBlur(this, S.Blur);
+        ApplyGlass();
         ApplyLook(animate: false);
         App.UpdateTray();
         _audio.Failed = false; // mudar configuração dá nova chance à captura
@@ -327,6 +324,16 @@ public partial class MainWindow : Window
         if (target == _accentTarget) return;
         _accentTarget = target;
         _accent.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(target, TimeSpan.FromMilliseconds(500)));
+        Overlay.BeginAnimation(GlassOverlay.TintProperty, new ColorAnimation(target, TimeSpan.FromMilliseconds(500)));
+    }
+
+    // ---------- Estilo do vidro (Fosco · Frozen · Liquid) ----------
+
+    void ApplyGlass()
+    {
+        Glass.ApplyNative(this);
+        Root.BorderBrush = Glass.Rim(this);
+        Overlay.StyleName = Glass.Style;
     }
 
     // ---------- Título: título longo rola sozinho; mouse em cima, ele para ----------
@@ -486,19 +493,22 @@ public partial class MainWindow : Window
 
     void ApplyLook(bool animate)
     {
-        var color = _hover ? Solid : (S.Blur ? Glass : Dim);
+        var color = Glass.Fill(_hover);
         double opacity = _hover ? 1.0 : S.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
             BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, Fade));
+            Overlay.BeginAnimation(GlassOverlay.LiftProperty, new DoubleAnimation(_hover ? 1 : 0, Fade));
         }
         else
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, null);
             BeginAnimation(OpacityProperty, null);
+            Overlay.BeginAnimation(GlassOverlay.LiftProperty, null);
             RootBrush.Color = color;
             Opacity = opacity;
+            Overlay.Lift = _hover ? 1 : 0;
         }
     }
 

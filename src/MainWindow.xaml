@@ -14,84 +14,87 @@
         </Border.Background>
 
         <Grid>
-            <Grid.LayoutTransform>
-                <ScaleTransform x:Name="ScaleXf" ScaleX="1" ScaleY="1"/>
-            </Grid.LayoutTransform>
+            <local:GlassOverlay x:Name="Overlay" Radius="11"/>
+            <Grid>
+                <Grid.LayoutTransform>
+                    <ScaleTransform x:Name="ScaleXf" ScaleX="1" ScaleY="1"/>
+                </Grid.LayoutTransform>
 
-            <Grid Margin="8,7,8,5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <Grid Margin="8,7,8,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Arranjo horizontal (padrão). No vertical, o código move os mesmos elementos para o VHost. -->
-                <StackPanel x:Name="HHost" Orientation="Horizontal" VerticalAlignment="Center">
-                    <!-- Capa -->
-                    <Border x:Name="CoverBox" Width="36" Height="36" CornerRadius="7" Background="#1FFFFFFF" Margin="0,0,10,0">
-                        <Grid>
-                            <TextBlock x:Name="CoverPlaceholder" Text="&#xE8D6;" FontFamily="{StaticResource IconFont}" FontSize="15"
-                                       Foreground="{StaticResource FgDim}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Border x:Name="CoverLayer" CornerRadius="7">
-                                <Border.Background>
-                                    <ImageBrush x:Name="CoverBrush" Stretch="UniformToFill"/>
-                                </Border.Background>
-                            </Border>
-                            <local:Visualizer x:Name="Viz" Visibility="Collapsed"/>
-                        </Grid>
-                    </Border>
+                    <!-- Arranjo horizontal (padrão). No vertical, o código move os mesmos elementos para o VHost. -->
+                    <StackPanel x:Name="HHost" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Capa -->
+                        <Border x:Name="CoverBox" Width="36" Height="36" CornerRadius="7" Background="#1FFFFFFF" Margin="0,0,10,0">
+                            <Grid>
+                                <TextBlock x:Name="CoverPlaceholder" Text="&#xE8D6;" FontFamily="{StaticResource IconFont}" FontSize="15"
+                                           Foreground="{StaticResource FgDim}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border x:Name="CoverLayer" CornerRadius="7">
+                                    <Border.Background>
+                                        <ImageBrush x:Name="CoverBrush" Stretch="UniformToFill"/>
+                                    </Border.Background>
+                                </Border>
+                                <local:Visualizer x:Name="Viz" Visibility="Collapsed"/>
+                            </Grid>
+                        </Border>
 
-                    <!-- Título / artista -->
-                    <StackPanel x:Name="InfoPanel" Width="170" VerticalAlignment="Center" Margin="0,0,8,0">
-                        <!-- Canvas não limita a largura dos filhos: o texto inteiro existe e só a janela de 170px é recortada -->
-                        <Canvas x:Name="TitleClip" Width="170" Height="17" ClipToBounds="True">
-                            <StackPanel x:Name="TitleTicker" Orientation="Horizontal">
-                                <StackPanel.RenderTransform>
-                                    <TranslateTransform x:Name="TitleShift"/>
-                                </StackPanel.RenderTransform>
-                                <TextBlock x:Name="TitleText" Text="{local:Tr NothingPlaying}" FontSize="12.5" FontWeight="SemiBold"
-                                           Foreground="{StaticResource Fg}" TextTrimming="CharacterEllipsis" Width="170"/>
-                                <!-- Cópia que entra pela direita, para o loop não ter buraco -->
-                                <TextBlock x:Name="TitleCopy" FontSize="12.5" FontWeight="SemiBold" Margin="40,0,0,0"
-                                           Foreground="{StaticResource Fg}" Visibility="Collapsed"/>
-                            </StackPanel>
-                        </Canvas>
-                        <TextBlock x:Name="ArtistText" Text="{local:Tr ClickToOpen}" FontSize="11" Margin="0,1,0,0"
-                                   Foreground="{StaticResource FgDim}" TextTrimming="CharacterEllipsis"/>
+                        <!-- Título / artista -->
+                        <StackPanel x:Name="InfoPanel" Width="170" VerticalAlignment="Center" Margin="0,0,8,0">
+                            <!-- Canvas não limita a largura dos filhos: o texto inteiro existe e só a janela de 170px é recortada -->
+                            <Canvas x:Name="TitleClip" Width="170" Height="17" ClipToBounds="True">
+                                <StackPanel x:Name="TitleTicker" Orientation="Horizontal">
+                                    <StackPanel.RenderTransform>
+                                        <TranslateTransform x:Name="TitleShift"/>
+                                    </StackPanel.RenderTransform>
+                                    <TextBlock x:Name="TitleText" Text="{local:Tr NothingPlaying}" FontSize="12.5" FontWeight="SemiBold"
+                                               Foreground="{StaticResource Fg}" TextTrimming="CharacterEllipsis" Width="170"/>
+                                    <!-- Cópia que entra pela direita, para o loop não ter buraco -->
+                                    <TextBlock x:Name="TitleCopy" FontSize="12.5" FontWeight="SemiBold" Margin="40,0,0,0"
+                                               Foreground="{StaticResource Fg}" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </Canvas>
+                            <TextBlock x:Name="ArtistText" Text="{local:Tr ClickToOpen}" FontSize="11" Margin="0,1,0,0"
+                                       Foreground="{StaticResource FgDim}" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+
+                        <!-- Controles -->
+                        <Button x:Name="ShuffleBtn" Style="{StaticResource IconButton}" Content="&#xE8B1;" ToolTip="{local:Tr Shuffle}" Click="Shuffle_Click"/>
+                        <Button x:Name="PrevBtn" Style="{StaticResource IconButton}" Content="&#xE892;" ToolTip="{local:Tr Previous}" Click="Prev_Click"/>
+                        <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Content="&#xE768;" ToolTip="{local:Tr PlayPause}" Margin="3,0" Click="Play_Click"/>
+                        <Button x:Name="NextBtn" Style="{StaticResource IconButton}" Content="&#xE893;" ToolTip="{local:Tr Next}" Click="Next_Click"/>
+                        <Button x:Name="RepeatBtn" Style="{StaticResource IconButton}" Content="&#xE8EE;" ToolTip="{local:Tr Repeat}" Click="Repeat_Click"/>
+
+                        <Rectangle x:Name="Divider" Width="1" Height="18" Fill="{StaticResource Hairline}" Margin="6,0,4,0"/>
+
+                        <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="{local:Tr OpenSpotify}" Click="Open_Click"/>
+                        <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="{local:Tr SettingsTip}" Click="Gear_Click"/>
+                        <Button x:Name="HideBtn" Style="{StaticResource IconButton}" Content="&#xE921;" FontSize="11" ToolTip="{local:Tr HideTip}" Click="Hide_Click"/>
+                        <Button x:Name="CollapseBtn" Style="{StaticResource IconButton}" Content="&#xE73F;" FontSize="11" ToolTip="{local:Tr CollapseTip}" Click="Collapse_Click"/>
                     </StackPanel>
 
-                    <!-- Controles -->
-                    <Button x:Name="ShuffleBtn" Style="{StaticResource IconButton}" Content="&#xE8B1;" ToolTip="{local:Tr Shuffle}" Click="Shuffle_Click"/>
-                    <Button x:Name="PrevBtn" Style="{StaticResource IconButton}" Content="&#xE892;" ToolTip="{local:Tr Previous}" Click="Prev_Click"/>
-                    <Button x:Name="PlayBtn" Style="{StaticResource PlayButton}" Content="&#xE768;" ToolTip="{local:Tr PlayPause}" Margin="3,0" Click="Play_Click"/>
-                    <Button x:Name="NextBtn" Style="{StaticResource IconButton}" Content="&#xE893;" ToolTip="{local:Tr Next}" Click="Next_Click"/>
-                    <Button x:Name="RepeatBtn" Style="{StaticResource IconButton}" Content="&#xE8EE;" ToolTip="{local:Tr Repeat}" Click="Repeat_Click"/>
+                    <!-- Arranjo vertical: capa grande, título, controles principais e extras -->
+                    <StackPanel x:Name="VHost" Visibility="Collapsed" HorizontalAlignment="Center">
+                        <Grid x:Name="VCover" HorizontalAlignment="Center"/>
+                        <Grid x:Name="VInfo" HorizontalAlignment="Center"/>
+                        <StackPanel x:Name="VMain" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                        <StackPanel x:Name="VExtras" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    </StackPanel>
 
-                    <Rectangle x:Name="Divider" Width="1" Height="18" Fill="{StaticResource Hairline}" Margin="6,0,4,0"/>
-
-                    <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="{local:Tr OpenSpotify}" Click="Open_Click"/>
-                    <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="{local:Tr SettingsTip}" Click="Gear_Click"/>
-                    <Button x:Name="HideBtn" Style="{StaticResource IconButton}" Content="&#xE921;" FontSize="11" ToolTip="{local:Tr HideTip}" Click="Hide_Click"/>
-                    <Button x:Name="CollapseBtn" Style="{StaticResource IconButton}" Content="&#xE73F;" FontSize="11" ToolTip="{local:Tr CollapseTip}" Click="Collapse_Click"/>
-                </StackPanel>
-
-                <!-- Arranjo vertical: capa grande, título, controles principais e extras -->
-                <StackPanel x:Name="VHost" Visibility="Collapsed" HorizontalAlignment="Center">
-                    <Grid x:Name="VCover" HorizontalAlignment="Center"/>
-                    <Grid x:Name="VInfo" HorizontalAlignment="Center"/>
-                    <StackPanel x:Name="VMain" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                    <StackPanel x:Name="VExtras" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-
-                <!-- Progresso (clique para pular) -->
-                <Grid x:Name="ProgressHost" Grid.Row="1" Height="9" Margin="0,4,0,0" Background="Transparent" Cursor="Hand"
-                      MouseLeftButtonDown="Progress_MouseDown">
-                    <Border Height="3" CornerRadius="1.5" Background="#26FFFFFF" VerticalAlignment="Center"/>
-                    <Border x:Name="ProgressFill" Height="3" CornerRadius="1.5" Background="{StaticResource Accent}"
-                            VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
-                        <Border.RenderTransform>
-                            <ScaleTransform x:Name="ProgressScale" ScaleX="0"/>
-                        </Border.RenderTransform>
-                    </Border>
+                    <!-- Progresso (clique para pular) -->
+                    <Grid x:Name="ProgressHost" Grid.Row="1" Height="9" Margin="0,4,0,0" Background="Transparent" Cursor="Hand"
+                          MouseLeftButtonDown="Progress_MouseDown">
+                        <Border Height="3" CornerRadius="1.5" Background="#26FFFFFF" VerticalAlignment="Center"/>
+                        <Border x:Name="ProgressFill" Height="3" CornerRadius="1.5" Background="{StaticResource Accent}"
+                                VerticalAlignment="Center" RenderTransformOrigin="0,0.5">
+                            <Border.RenderTransform>
+                                <ScaleTransform x:Name="ProgressScale" ScaleX="0"/>
+                            </Border.RenderTransform>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

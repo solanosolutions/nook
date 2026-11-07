@@ -21,6 +21,19 @@ Pause, skip and see what's playing without ever opening Spotify again.
 
 ---
 
+## 🆕 What's new in v1.5.0
+
+- 🧊 **Three glass styles.** Pick **Frosted** (the classic), **Frozen** (stronger, colder blur with a fine ice grain, extra discreet on any wallpaper) or **Liquid** (a living glass with a light-catching rim, a specular shine on top and a soft glow that takes the album-art color). Settings → Look → Glass.
+
+<details>
+<summary>Earlier versions</summary>
+
+- **v1.4.0** · 🫧 Collapsed mode (just the cover and play until you hover) and GitHub/Instagram links plus the version in the settings footer.
+- **v1.3.0** · ↕️ Vertical layout, auto-hide when paused and a hide button.
+- **v1.2.0** · ⏱️ Focus timer, 🌐 English and Portuguese interface, rounded blur corners fixed.
+
+</details>
+
 ## Why Nook?
 
 I listen to music all day while I work. Every time I wanted to pause or skip, I had to dig Spotify out of the taskbar, a whole app just to press one button. Other mini players felt clunky, heavy, or required logging in with API keys.
@@ -35,7 +48,7 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 
 | | |
 |---|---|
-| 🧊 **Frosted glass** | Translucent and blurred at rest, crisp and solid the moment your mouse arrives. |
+| 🧊 **Glass, your way** | Translucent and blurred at rest, crisp and solid the moment your mouse arrives. Three styles: **Frosted**, **Frozen** and **Liquid**. |
 | 🎵 **Live visualizer** | Bars or waves that react to the *real* audio, captured **only from Spotify** (notifications and videos don't interfere). |
 | 🎨 **Album-art accent** | Progress bar and visualizer take the dominant color of the current cover. |
 | 📜 **Scrolling titles** | Long song names scroll smoothly; hover to freeze them. |
@@ -130,6 +143,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] ⏱️ Focus timer (5 / 10 / 25 min or custom), as discreet as the player
 - [x] ↕️ Vertical layout and auto-hide when paused
 - [x] 🫧 Collapsed mode (just the cover and play until you hover)
+- [x] 🧊 Glass styles: Frosted, Frozen and Liquid
 - [ ] 🍎 macOS version
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)

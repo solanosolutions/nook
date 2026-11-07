@@ -24,6 +24,8 @@ public sealed class Settings
     public double Scale { get; set; } = 1.0;
     public double IdleOpacity { get; set; } = 0.55;
     public bool Blur { get; set; } = true;
+    /// <summary>Estilo do vidro: "Frosted" (fosco), "Frozen" ou "Liquid".</summary>
+    public string GlassStyle { get; set; } = "Frosted";
     /// <summary>O que aparece no quadrado da capa: "Cover", "Bars" ou "Waves".</summary>
     public string Visual { get; set; } = "Cover";
     public bool CoverAccent { get; set; } = true;       // barras/progresso na cor da capa
