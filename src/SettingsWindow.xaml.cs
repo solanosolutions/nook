@@ -89,6 +89,9 @@ public partial class SettingsWindow : Window
             };
         }
 
+        VersionText.Text = "v" + App.Version;
+        InstagramBtn.Visibility = App.InstagramUrl.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+
         ScaleSlider.Value = S.Scale;
         OpacitySlider.Value = S.IdleOpacity;
         UpdateLabels();
@@ -127,6 +130,8 @@ public partial class SettingsWindow : Window
     void Close_Click(object s, RoutedEventArgs e) => Close();
     void Spotify_Click(object s, RoutedEventArgs e) { App.OpenSpotify(); Close(); }
     void Quit_Click(object s, RoutedEventArgs e) => App.Quit();
+    void GitHub_Click(object s, RoutedEventArgs e) { App.OpenUrl(App.GitHubUrl); Close(); }
+    void Instagram_Click(object s, RoutedEventArgs e) { App.OpenUrl(App.InstagramUrl); Close(); }
 
     static System.Collections.Generic.IEnumerable<T> FindAll<T>(DependencyObject root) where T : DependencyObject
     {

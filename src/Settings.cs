@@ -35,6 +35,8 @@ public sealed class Settings
     public string Language { get; set; } = "auto";
     public bool FocusTimer { get; set; } = false;
     public bool ShowHideBtn { get; set; } = true;         // botão esconder no player
+    public bool ShowCollapseBtn { get; set; } = true;     // botão recolher no player
+    public bool Collapsed { get; set; } = false;          // modo recolhido: só capa e play, abre no mouse
     public string Layout { get; set; } = "H";            // "H" horizontal, "V" vertical
     public int AutoHideMinutes { get; set; } = 5;       // esconde após N min pausado (0 = nunca)      // pílula de timer de foco colada ao player
 

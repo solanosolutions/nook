@@ -29,7 +29,9 @@ public partial class MainWindow : Window
     readonly DispatcherTimer _volumeTimer = new() { Interval = TimeSpan.FromMilliseconds(1200) };
     readonly DispatcherTimer _pauseTimer = new();
     bool _userHidden, _fsHidden, _idleHidden, _pausedHidden, _manualHidden, _autoOverride;
-    bool _wasPlaying, _vertical, _layoutApplied;
+    bool _wasPlaying, _vertical, _compact, _layoutApplied;
+    bool _peek; // modo recolhido aberto pelo mouse
+    readonly DispatcherTimer _peekTimer = new() { Interval = TimeSpan.FromMilliseconds(600) };
     bool _showingVolume;
 
     static readonly Color DefaultAccent = Color.FromRgb(0x1E, 0xD7, 0x60);
@@ -47,12 +49,14 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         SourceInitialized += (_, _) => Native.MakeToolWindow(this);
-        SizeChanged += (_, _) => { Native.RoundCorners(this, 12); KeepOnScreen(); _focus?.Reposition(); };
+        SizeChanged += (_, e) => { Native.RoundCorners(this, 12); KeepAnchor(e.PreviousSize); KeepOnScreen(); _focus?.Reposition();
+            if (IsLoaded && Compact) SavePosition(); // guarda onde a pílula ficou depois de recolher
+        };
         LocationChanged += (_, _) => _focus?.Reposition();
         Loaded += OnLoaded;
 
-        MouseEnter += (_, _) => SetHover(true);
-        MouseLeave += (_, _) => SetHover(false);
+        MouseEnter += (_, _) => { SetHover(true); UpdatePeek(); };
+        MouseLeave += (_, _) => { SetHover(false); UpdatePeek(); };
         MouseLeftButtonDown += OnDragOrDoubleClick;
         MouseRightButtonUp += (_, _) => OpenSettings();
         MouseWheel += OnWheel;
@@ -83,6 +87,53 @@ public partial class MainWindow : Window
         _pauseTimer.Tick += (_, _) => { _pauseTimer.Stop(); _pausedHidden = true; ApplyVisibility(); };
         _cycleTimer.Tick += (_, _) => { _cycleTimer.Stop(); CycleVisual(); };
         _volumeTimer.Tick += (_, _) => { _volumeTimer.Stop(); _showingVolume = false; Refresh(); };
+        _peekTimer.Tick += (_, _) => ForceCollapseCheck();
+    }
+
+    // ---------- Modo recolhido: só capa e play; abre ao passar o mouse ----------
+
+    /// <summary>Recolhido de fato agora: modo ligado, sem mouse em cima e sem menu aberto.</summary>
+    bool Compact => S.Collapsed && !_peek && _settingsWin == null;
+
+    /// <summary>Mouse entra: abre na hora. Mouse sai: espera um pouco antes de recolher, para não piscar.</summary>
+    void UpdatePeek()
+    {
+        bool over = IsMouseOver || _settingsWin != null;
+        if (over) { _peekTimer.Stop(); SetPeek(true); }
+        else if (_peek && !_peekTimer.IsEnabled) _peekTimer.Start();
+    }
+
+    void SetPeek(bool peek)
+    {
+        if (peek == _peek) return;
+        _peek = peek;
+        ApplyElements();
+        UpdateLayout();
+    }
+
+    void ForceCollapseCheck()
+    {
+        _peekTimer.Stop();
+        if (!IsMouseOver && _settingsWin == null) SetPeek(false);
+    }
+
+    void Collapse_Click(object s, RoutedEventArgs e)
+    {
+        S.Collapsed = !S.Collapsed;
+        S.Save();
+        ApplyElements();
+    }
+
+    /// <summary>
+    /// Mudou de tamanho (recolher, abrir, layout, escala): mantém fixo o canto mais perto da borda da tela,
+    /// para o player crescer "para dentro" em vez de pular de lugar.
+    /// </summary>
+    void KeepAnchor(Size before)
+    {
+        if (!IsLoaded || before.Width <= 0 || before.Height <= 0) return;
+        var wa = WorkArea();
+        if (Left + before.Width / 2 > wa.Left + wa.Width / 2) Left -= ActualWidth - before.Width;
+        if (Top + before.Height / 2 > wa.Top + wa.Height / 2) Top -= ActualHeight - before.Height;
     }
 
     // ---------- Visibilidade: escondido por você (bandeja), pela tela cheia ou sem player ----------
@@ -148,13 +199,15 @@ public partial class MainWindow : Window
     /// <summary>Move os mesmos elementos entre os dois arranjos e ajusta tamanhos (capa grande e texto centralizado no vertical).</summary>
     void ApplyLayout()
     {
-        bool v = S.Layout == "V";
-        if (_layoutApplied && v == _vertical) return;
+        bool compact = Compact;
+        bool v = S.Layout == "V" && !compact; // recolhido é sempre a pílula horizontal
+        if (_layoutApplied && v == _vertical && compact == _compact) return;
         _vertical = v;
+        _compact = compact;
         _layoutApplied = true;
         StopTicker();
 
-        FrameworkElement[] all = { CoverBox, InfoPanel, ShuffleBtn, PrevBtn, PlayBtn, NextBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn };
+        FrameworkElement[] all = { CoverBox, InfoPanel, ShuffleBtn, PrevBtn, PlayBtn, NextBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn, CollapseBtn };
         foreach (var el in all) Detach(el);
 
         if (v)
@@ -162,7 +215,7 @@ public partial class MainWindow : Window
             VCover.Children.Add(CoverBox);
             VInfo.Children.Add(InfoPanel);
             foreach (var el in new FrameworkElement[] { PrevBtn, PlayBtn, NextBtn }) VMain.Children.Add(el);
-            foreach (var el in new FrameworkElement[] { ShuffleBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn }) VExtras.Children.Add(el);
+            foreach (var el in new FrameworkElement[] { ShuffleBtn, RepeatBtn, Divider, OpenBtn, GearBtn, HideBtn, CollapseBtn }) VExtras.Children.Add(el);
         }
         else
         {
@@ -172,7 +225,7 @@ public partial class MainWindow : Window
         double cover = v ? 156 : 36, info = v ? 156 : 170;
         CoverBox.Width = CoverBox.Height = cover;
         CoverBox.CornerRadius = CoverLayer.CornerRadius = new CornerRadius(v ? 10 : 7);
-        CoverBox.Margin = v ? new Thickness(0, 2, 0, 0) : new Thickness(0, 0, 10, 0);
+        CoverBox.Margin = v ? new Thickness(0, 2, 0, 0) : new Thickness(0, 0, compact ? 4 : 10, 0);
         CoverPlaceholder.FontSize = v ? 40 : 15;
         InfoPanel.Width = TitleClip.Width = info;
         InfoPanel.Margin = v ? new Thickness(0, 10, 0, 4) : new Thickness(0, 0, 8, 0);
@@ -199,21 +252,33 @@ public partial class MainWindow : Window
 
     // ---------- Configurações ----------
 
+    /// <summary>O que aparece no player. Recolhido: só capa e play, independente das outras escolhas.</summary>
+    void ApplyElements()
+    {
+        bool full = !Compact;
+        CoverBox.Visibility = Vis(S.ShowCover || !full);
+        InfoPanel.Visibility = Vis(S.ShowTitle && full);
+        ShuffleBtn.Visibility = Vis(S.ShowShuffle && full);
+        PrevBtn.Visibility = Vis(S.ShowPrev && full);
+        PlayBtn.Visibility = Vis(S.ShowPlay || !full);
+        NextBtn.Visibility = Vis(S.ShowNext && full);
+        RepeatBtn.Visibility = Vis(S.ShowRepeat && full);
+        ProgressHost.Visibility = Vis(S.ShowProgress && full);
+        OpenBtn.Visibility = Vis(S.ShowOpen && full);
+        GearBtn.Visibility = Vis(S.ShowGear && full);
+        HideBtn.Visibility = Vis(S.ShowHideBtn && full);
+        CollapseBtn.Visibility = Vis(S.ShowCollapseBtn && full);
+        // Recolhido e aberto pelo mouse, o botão vira "manter aberto" (alfinete).
+        CollapseBtn.Content = S.Collapsed ? "\uE718" : "\uE73F";
+        CollapseBtn.ToolTip = Strings.Get(S.Collapsed ? "ExpandTip" : "CollapseTip");
+        ApplyLayout();
+        Divider.Visibility = Vis(!_vertical && full && (S.ShowOpen || S.ShowGear || S.ShowHideBtn || S.ShowCollapseBtn));
+        UpdateViz();
+    }
+
     public void ApplySettings()
     {
-        CoverBox.Visibility = Vis(S.ShowCover);
-        InfoPanel.Visibility = Vis(S.ShowTitle);
-        ShuffleBtn.Visibility = Vis(S.ShowShuffle);
-        PrevBtn.Visibility = Vis(S.ShowPrev);
-        PlayBtn.Visibility = Vis(S.ShowPlay);
-        NextBtn.Visibility = Vis(S.ShowNext);
-        RepeatBtn.Visibility = Vis(S.ShowRepeat);
-        ProgressHost.Visibility = Vis(S.ShowProgress);
-        OpenBtn.Visibility = Vis(S.ShowOpen);
-        GearBtn.Visibility = Vis(S.ShowGear);
-        HideBtn.Visibility = Vis(S.ShowHideBtn);
-        ApplyLayout();
-        Divider.Visibility = Vis(!_vertical && (S.ShowOpen || S.ShowGear || S.ShowHideBtn));
+        ApplyElements();
 
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
         Topmost = S.Topmost;
@@ -351,6 +416,7 @@ public partial class MainWindow : Window
         OpenBtn.ToolTip = Strings.Get("OpenSpotify");
         GearBtn.ToolTip = Strings.Get("SettingsTip");
         HideBtn.ToolTip = Strings.Get("HideTip");
+        CollapseBtn.ToolTip = Strings.Get(S.Collapsed ? "ExpandTip" : "CollapseTip");
         _focus?.ApplyLanguage();
         Refresh();
     }
@@ -368,7 +434,7 @@ public partial class MainWindow : Window
     /// <summary>Liga a captura só quando faz sentido: modo visual, música tocando e player visível.</summary>
     void UpdateViz()
     {
-        bool want = S.Visual != "Cover" && S.ShowCover && _media.HasSession && _media.IsPlaying
+        bool want = S.Visual != "Cover" && (S.ShowCover || Compact) && _media.HasSession && _media.IsPlaying
                     && IsVisible && !_audio.Failed;
         if (!want)
         {
@@ -514,7 +580,12 @@ public partial class MainWindow : Window
         }
     }
 
-    void SavePosition() { S.Left = Left; S.Top = Top; S.Save(); }
+    /// <summary>No modo recolhido guarda a posição da pílula, que é como o Nook abre da próxima vez.</summary>
+    void SavePosition()
+    {
+        if (S.Collapsed && !Compact) return;
+        S.Left = Left; S.Top = Top; S.Save();
+    }
 
     public void ToggleVisible()
     {
@@ -532,11 +603,15 @@ public partial class MainWindow : Window
     {
         if (_settingsWin != null) { _settingsWin.Activate(); return; }
         _settingsWin = new SettingsWindow(this);
+        ApplyElements(); // recolhido: abre o player inteiro antes de posicionar o menu
+        UpdateLayout();
         SyncFocus();
         _settingsWin.Closed += (_, _) =>
         {
             _settingsWin = null;
             SetHover(IsMouseOver);
+            ForceCollapseCheck();
+            ApplyElements();
             SyncFocus();
             Dispatcher.BeginInvoke(Native.TrimMemory, DispatcherPriority.ApplicationIdle);
         };
