@@ -6,3 +6,5 @@ release/
 .vs/
 marketing/
 CLAUDE.local.md
+mac/.build/
+mac/dist/

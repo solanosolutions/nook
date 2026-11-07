@@ -1,0 +1,21 @@
+name: macOS build
+
+on:
+  push:
+    paths: ["mac/**", ".github/workflows/mac.yml"]
+  pull_request:
+    paths: ["mac/**", ".github/workflows/mac.yml"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Nook.app and .dmg
+        run: mac/scripts/bundle.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nook-macOS
+          path: mac/dist/*.dmg
+          if-no-files-found: error
