@@ -9,13 +9,13 @@
 Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 [![Download](https://img.shields.io/github/v/release/solanosolutions/nook?label=download&color=1ED760&style=for-the-badge)](https://github.com/solanosolutions/nook/releases/latest)
-[![Plataforma](https://img.shields.io/badge/plataforma-Windows%2010%20%7C%2011-0078D4?style=for-the-badge&logo=windows)](#-download)
+[![Plataforma](https://img.shields.io/badge/plataforma-Windows%20%7C%20macOS%20beta-0078D4?style=for-the-badge)](#-download)
 [![Licença](https://img.shields.io/github/license/solanosolutions/nook?style=for-the-badge&color=555)](LICENSE)
 [![Estrelas](https://img.shields.io/github/stars/solanosolutions/nook?style=for-the-badge&color=f5c518)](https://github.com/solanosolutions/nook/stargazers)
 
 <img src="docs/demo.gif" alt="Demonstração do Nook: vidro fosco em repouso, nítido no hover, ondas e barras ao vivo" />
 
-**🆕 v1.4.0:** modo recolhido (uma pílula até você passar o mouse) e atalhos no menu de configurações. [Veja as novidades](https://github.com/solanosolutions/nook/releases/tag/v1.4.0)
+**🆕 Nook para macOS, beta público:** o mesmo mini player de vidro, agora no Mac. [Teste e conte o que achou](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0) com vidro Fosco, Frozen e Liquid.
 
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Recursos](#-recursos) · [Como usar](#-como-usar) · [Dúvidas](#-dúvidas-frequentes) · [Roadmap](#-roadmap) · [English](README.md)
 
@@ -82,7 +82,16 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 
 **Requisitos:** Windows 10 (2004+) ou Windows 11, x64. O visualizador ao vivo precisa do **Windows 11**; no Windows 10 o Nook mostra a capa do álbum.
 
-> 🍎🐧 **macOS e Linux em breve.** Hoje o Nook roda só no Windows. [Dê uma estrela](https://github.com/solanosolutions/nook/stargazers) ou acompanhe as versões para saber quando chegarem.
+### 🍎 macOS (beta público)
+
+1. Baixe o **`Nook-1.6.0-beta.1.dmg`** na [versão beta para macOS](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1).
+2. Abra e arraste o **Nook** para **Aplicativos**.
+3. Na primeira vez, clique com o **botão direito no Nook → Abrir** (o beta ainda não é notarizado pela Apple, então o duplo clique normal é bloqueado).
+4. Permita o Nook controlar o Spotify quando o macOS pedir. O Nook fica na barra de menus, não no Dock.
+
+**Requisitos:** macOS 13 Ventura ou mais novo, Apple Silicon ou Intel, com o app do Spotify instalado. O beta traz o player, os estilos de vidro, a cor da capa, o volume na rolagem e o ícone na barra de menus; os layouts vertical e recolhido, o visualizador e o timer de foco vêm em seguida. Achou um problema? [Conte pra gente](https://github.com/solanosolutions/nook/issues/new/choose).
+
+> 🐧 **Linux mais para frente.** [Dê uma estrela](https://github.com/solanosolutions/nook/stargazers) ou acompanhe as versões para saber quando chegar.
 
 ## 🖱️ Como usar
 
@@ -146,7 +155,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] ↕️ Layout vertical e esconder quando pausado
 - [x] 🫧 Modo recolhido (só capa e play até você passar o mouse)
 - [x] 🧊 Estilos de vidro: Fosco, Frozen e Liquid
-- [ ] 🍎 Versão para macOS
+- [ ] 🍎 Versão para macOS ([beta público disponível](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1))
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)
 - [ ] Versões com assinatura digital
@@ -163,6 +172,8 @@ cd nook
 dotnet run --project src -c Release                                    # roda
 powershell -ExecutionPolicy Bypass -File tools\publish.ps1             # gera o Nook.exe independente
 ```
+
+**macOS:** num Mac com Xcode 15+, rode `mac/scripts/bundle.sh` (detalhes em [mac/README.md](mac/README.md)).
 
 **Como funciona:** WPF/.NET 8. Informações e controles de reprodução vêm do [System Media Transport Controls](https://learn.microsoft.com/uwp/api/windows.media.control) do Windows; o visualizador usa o *process loopback* do WASAPI para capturar só o áudio do Spotify e uma FFT pequena; o volume usa as sessões do Core Audio. Sem dependências de terceiros.
 

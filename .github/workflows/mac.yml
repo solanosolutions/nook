@@ -1,0 +1,45 @@
+name: macOS build
+
+on:
+  push:
+    paths: ["mac/**", ".github/workflows/mac.yml"]
+  pull_request:
+    paths: ["mac/**", ".github/workflows/mac.yml"]
+  # Ao publicar uma release cuja tag tenha "mac" ou "beta" (ex.: v1.6.0-beta.1),
+  # compila o .dmg com a versão da tag e anexa à release, junto com o SHA-256.
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-15
+    if: github.event_name != 'release' || contains(github.event.release.tag_name, 'beta') || contains(github.event.release.tag_name, 'mac')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Nook.app and .dmg
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+            mac/scripts/bundle.sh "${TAG#v}"
+          else
+            mac/scripts/bundle.sh
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nook-macOS
+          path: mac/dist/*.dmg
+          if-no-files-found: error
+      - name: Attach to release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd mac/dist
+          for f in *.dmg; do shasum -a 256 "$f" > "$f.sha256"; done
+          gh release upload "${{ github.event.release.tag_name }}" *.dmg *.dmg.sha256 --clobber

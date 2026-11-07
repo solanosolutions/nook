@@ -9,13 +9,13 @@
 Pause, skip and see what's playing without ever opening Spotify again.
 
 [![Download](https://img.shields.io/github/v/release/solanosolutions/nook?label=download&color=1ED760&style=for-the-badge)](https://github.com/solanosolutions/nook/releases/latest)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4?style=for-the-badge&logo=windows)](#-download)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20beta-0078D4?style=for-the-badge)](#-download)
 [![License](https://img.shields.io/github/license/solanosolutions/nook?style=for-the-badge&color=555)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/solanosolutions/nook?style=for-the-badge&color=f5c518)](https://github.com/solanosolutions/nook/stargazers)
 
 <img src="docs/demo.gif" alt="Nook demo: frosted glass at rest, sharp on hover, live audio waves and bars" />
 
-**🆕 v1.4.0:** collapsed mode (a tiny pill until you hover) and quick links in the settings menu. [See what's new](https://github.com/solanosolutions/nook/releases/tag/v1.4.0)
+**🆕 Nook for macOS, public beta:** the same glass mini player, now on the Mac. [Try it and tell us what you think](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0) with Frosted, Frozen and Liquid glass.
 
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Features](#-features) · [How to use](#-how-to-use) · [FAQ](#-faq) · [Roadmap](#-roadmap) · [Português](README.pt-BR.md)
 
@@ -82,7 +82,16 @@ No installer and no .NET to install: everything ships inside the single `.exe`.
 
 **Requirements:** Windows 10 (2004+) or Windows 11, x64. The live visualizer needs **Windows 11**; on Windows 10 Nook simply shows the album cover.
 
-> 🍎🐧 **macOS and Linux are coming soon.** Nook is Windows-only today. [Star the repo](https://github.com/solanosolutions/nook/stargazers) or watch releases to know when they land.
+### 🍎 macOS (public beta)
+
+1. Grab **`Nook-1.6.0-beta.1.dmg`** from the [macOS beta release](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1).
+2. Open it and drag **Nook** to **Applications**.
+3. The first time, **right-click Nook → Open** (the beta isn't notarized by Apple yet, so a normal double-click is blocked).
+4. Allow Nook to control Spotify when macOS asks. Nook lives in the menu bar, not in the Dock.
+
+**Requirements:** macOS 13 Ventura or later, Apple Silicon or Intel, with the Spotify desktop app. The beta covers the player, glass styles, accent color, scroll volume and menu bar icon; the vertical and collapsed layouts, visualizer and focus timer come next. Found a bug? [Tell us](https://github.com/solanosolutions/nook/issues/new/choose).
+
+> 🐧 **Linux is coming later.** [Star the repo](https://github.com/solanosolutions/nook/stargazers) or watch releases to know when it lands.
 
 ## 🖱️ How to use
 
@@ -147,7 +156,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] ↕️ Vertical layout and auto-hide when paused
 - [x] 🫧 Collapsed mode (just the cover and play until you hover)
 - [x] 🧊 Glass styles: Frosted, Frozen and Liquid
-- [ ] 🍎 macOS version
+- [ ] 🍎 macOS version ([public beta available](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1))
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)
 - [ ] Code-signed releases
@@ -164,6 +173,8 @@ cd nook
 dotnet run --project src -c Release                                    # run it
 powershell -ExecutionPolicy Bypass -File tools\publish.ps1             # build the standalone Nook.exe
 ```
+
+**macOS:** on a Mac with Xcode 15+, run `mac/scripts/bundle.sh` (details in [mac/README.md](mac/README.md)).
 
 **How it works:** WPF/.NET 8. Playback info and controls come from Windows' [System Media Transport Controls](https://learn.microsoft.com/uwp/api/windows.media.control); the visualizer uses WASAPI *process loopback* to capture only Spotify's audio and a small FFT; volume uses Core Audio sessions. No third-party dependencies.
 
