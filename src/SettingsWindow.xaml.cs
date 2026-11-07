@@ -71,6 +71,11 @@ public partial class SettingsWindow : Window
             rb.IsChecked = (string)rb.Tag == S.Layout;
             rb.Checked += (_, _) => { S.Layout = (string)rb.Tag; Commit(); };
         }
+        foreach (var rb in FindAll<RadioButton>(GlassGroup))
+        {
+            rb.IsChecked = (string)rb.Tag == Glass.Style;
+            rb.Checked += (_, _) => { S.GlassStyle = (string)rb.Tag; Commit(); };
+        }
         foreach (var rb in FindAll<RadioButton>(AutoHideGroup))
         {
             rb.IsChecked = (string)rb.Tag == S.AutoHideMinutes.ToString();
