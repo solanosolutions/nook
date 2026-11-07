@@ -10,6 +10,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 VERSION="${1:-$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' ../src/Nook.csproj)}"
+SHORT="${VERSION%%-*}"   # o macOS só aceita números (1.6.0); o sufixo -beta.N fica no nome do .dmg
 BUILD="${BUILD_NUMBER:-1}"
 OUT=dist
 APP="$OUT/Nook.app"
@@ -20,7 +21,7 @@ BIN="$(swift build -c release --arch arm64 --arch x86_64 --show-bin-path)/Nook"
 rm -rf "$OUT"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/Nook"
-sed -e "s/__VERSION__/$VERSION/" -e "s/__BUILD__/$BUILD/" Support/Info.plist > "$APP/Contents/Info.plist"
+sed -e "s/__VERSION__/$SHORT/" -e "s/__BUILD__/$BUILD/" Support/Info.plist > "$APP/Contents/Info.plist"
 
 # Ícone a partir do PNG da versão Windows.
 ICONSET="$OUT/Nook.iconset"
