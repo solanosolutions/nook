@@ -89,7 +89,7 @@ public partial class App : Application
 
     public const string GitHubUrl = "https://github.com/solanosolutions/nook";
     /// <summary>Vazio = botão do Instagram escondido no menu.</summary>
-    public const string InstagramUrl = "";
+    public const string InstagramUrl = "https://www.instagram.com/solano.ai/";
 
     /// <summary>Versão do projeto (Nook.csproj), ex.: "1.4.0".</summary>
     public static string Version { get; } =
