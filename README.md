@@ -21,7 +21,7 @@ Pause, skip and see what's playing without ever opening Spotify again.
 
 ---
 
-## 🆕 What's new in v1.5.0
+## 🆕 What's new in [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0)
 
 - 🧊 **Three glass styles.** Pick **Frosted** (the classic), **Frozen** (stronger, colder blur with a fine ice grain, extra discreet on any wallpaper) or **Liquid** (a living glass with a light-catching rim, a specular shine on top and a soft glow that takes the album-art color). Settings → Look → Glass.
 

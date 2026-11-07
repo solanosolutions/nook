@@ -21,7 +21,7 @@ Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 ---
 
-## 🆕 Novidades da v1.5.0
+## 🆕 Novidades da [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0)
 
 - 🧊 **Três estilos de vidro.** Escolha **Fosco** (o clássico), **Frozen** (desfoque mais forte e frio, com um granulado fino de gelo, ainda mais discreto sobre qualquer fundo) ou **Liquid** (um vidro vivo, com borda de luz, brilho especular no topo e um reflexo suave na cor da capa). Configurações → Aparência → Vidro.
 
