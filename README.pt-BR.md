@@ -86,7 +86,7 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 
 1. Baixe o **`Nook-1.6.0-beta.1.dmg`** na [versão beta para macOS](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1).
 2. Abra e arraste o **Nook** para **Aplicativos**.
-3. Na primeira vez, clique com o **botão direito no Nook → Abrir** (o beta ainda não é notarizado pela Apple, então o duplo clique normal é bloqueado).
+3. O beta ainda não é notarizado pela Apple, então o macOS bloqueia a primeira abertura. Abra o Nook uma vez e clique em **Concluído** (não em "Mover para o Lixo"), depois vá em **Ajustes do Sistema → Privacidade e Segurança**, role até o fim e clique em **Abrir Mesmo Assim**. No macOS 13 ou 14 também dá para clicar com o **botão direito no Nook → Abrir**.
 4. Permita o Nook controlar o Spotify quando o macOS pedir. O Nook fica na barra de menus, não no Dock.
 
 **Requisitos:** macOS 13 Ventura ou mais novo, Apple Silicon ou Intel, com o app do Spotify instalado. O beta traz o player, os estilos de vidro, a cor da capa, o volume na rolagem e o ícone na barra de menus; os layouts vertical e recolhido, o visualizador e o timer de foco vêm em seguida. Achou um problema? [Conte pra gente](https://github.com/solanosolutions/nook/issues/new/choose).

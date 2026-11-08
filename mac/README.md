@@ -19,7 +19,7 @@ System Settings > Privacy & Security > Automation > Nook > Spotify.
 
 ## Signing and notarization
 
-Without signing, the app runs on the Mac that built it, but Gatekeeper blocks it on other Macs.
+Without signing, the app runs on the Mac that built it, but Gatekeeper blocks it on other Macs. On macOS 15+ right-click > Open no longer bypasses this: users click Open Anyway in System Settings > Privacy & Security, or run `xattr -dr com.apple.quarantine /Applications/Nook.app`.
 For public releases (Apple Developer Program):
 
 ```sh
