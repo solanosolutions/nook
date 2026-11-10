@@ -10,11 +10,18 @@ final class AppModel: ObservableObject {
     /// Texto temporário no lugar do artista (ex.: "Volume do Spotify 40%").
     @Published var flash: String?
     @Published var settingsOpen = false
+    /// Modo solto: o mouse está em cima, então o player abre inteiro.
+    @Published var peek = false
+
+    /// Recolhido de fato agora (só capa e play): solto, sem mouse em cima e sem menu aberto.
+    var compact: Bool { settings.Collapsed && !peek && !settingsOpen }
 
     /// Chamado depois de qualquer mudança de configuração (o AppDelegate reaplica janela, barra de menus etc.).
     var onSettingsChanged: (() -> Void)?
     var onOpenSettings: (() -> Void)?
     var onHide: (() -> Void)?
+    /// Tamanho medido do player (o PlayerPanel ajusta a janela).
+    var onContentSize: ((CGSize) -> Void)?
 
     private var flashWork: DispatchWorkItem?
     private var bag = Set<AnyCancellable>()
@@ -50,9 +57,15 @@ final class AppModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2, execute: w)
     }
 
-    /// Roda do mouse / trackpad: volume só do Spotify.
+    /// Pin: fixado = completo; solto = recolhe em capa + play e abre ao passar o mouse.
+    func togglePin() {
+        settings.Collapsed.toggle()
+        changed()
+    }
+
+    /// Roda do mouse / trackpad: volume só do Spotify (sempre ligado).
     func wheel(up: Bool) {
-        guard settings.WheelVolume, spotify.isRunning, let v = spotify.stepVolume(up ? 4 : -4) else { return }
+        guard spotify.isRunning, let v = spotify.stepVolume(up ? 4 : -4) else { return }
         showFlash("\(Strings.get("SpotifyVolume"))  \(v)%")
     }
 

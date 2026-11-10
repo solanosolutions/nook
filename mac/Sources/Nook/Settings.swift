@@ -18,23 +18,22 @@ final class Settings: Codable {
 
     // Aparência
     var Scale = 1.0
-    var IdleOpacity = 0.55
-    var Blur = true
-    /// "Frosted" (fosco), "Frozen" ou "Liquid".
-    var GlassStyle = "Frosted"
+    /// Um dos três estilos fixos (iguais aos da versão Windows): "Minimalist", "OldSchool" ou "Refined".
+    var Style = "Minimalist"
     var CoverAccent = true
-    /// "auto" (idioma do macOS), "en" ou "pt".
-    var Language = "auto"
+    /// Player solto (sem o pin): recolhido em capa + play, abre ao passar o mouse. Padrão: fixado, completo.
+    var Collapsed = false
+    /// Seções do menu de configurações abertas ("Elements", "Look", "Behavior").
+    var OpenSections = ["Look"]
 
     // Comportamento
-    var Topmost = true
+    // Fixos, sem opção no menu: sempre no topo, idioma automático, rolagem = volume, opacidade máxima em repouso.
     var HideWhenIdle = true
     /// Esconde após N minutos pausado (0 = nunca).
     var AutoHideMinutes = 5
     var LockPosition = false
     var StartAtLogin = false
     var TrayIcon = true
-    var WheelVolume = true
 
     var Left: Double?
     var Top: Double?
@@ -59,21 +58,31 @@ final class Settings: Codable {
         ShowGear = v(.ShowGear, ShowGear)
         ShowHideBtn = v(.ShowHideBtn, ShowHideBtn)
         Scale = v(.Scale, Scale)
-        IdleOpacity = v(.IdleOpacity, IdleOpacity)
-        Blur = v(.Blur, Blur)
-        GlassStyle = v(.GlassStyle, GlassStyle)
         CoverAccent = v(.CoverAccent, CoverAccent)
-        Language = v(.Language, Language)
-        Topmost = v(.Topmost, Topmost)
+        Collapsed = v(.Collapsed, Collapsed)
+        OpenSections = v(.OpenSections, OpenSections)
         HideWhenIdle = v(.HideWhenIdle, HideWhenIdle)
         AutoHideMinutes = v(.AutoHideMinutes, AutoHideMinutes)
         LockPosition = v(.LockPosition, LockPosition)
         StartAtLogin = v(.StartAtLogin, StartAtLogin)
         TrayIcon = v(.TrayIcon, TrayIcon)
-        WheelVolume = v(.WheelVolume, WheelVolume)
         Left = v(.Left, Left)
         Top = v(.Top, Top)
+
+        // Estilo: quem vem da versão antiga herda o mais parecido com o vidro que usava (mesma regra do Windows).
+        if let st = try? c.decodeIfPresent(String.self, forKey: .Style), Glass.styles.contains(st) {
+            Style = st
+        } else {
+            let old = try? decoder.container(keyedBy: LegacyKeys.self)
+            let glass = (try? old?.decodeIfPresent(String.self, forKey: .GlassStyle)) ?? nil
+            let visual = (try? old?.decodeIfPresent(String.self, forKey: .Visual)) ?? nil
+            if glass == "Liquid" || visual == "Waves" { Style = Glass.refined }
+            else if glass == "Frozen" || visual == "Cover" { Style = Glass.oldSchool }
+            else { Style = Glass.minimalist }
+        }
     }
+
+    private enum LegacyKeys: String, CodingKey { case GlassStyle, Visual }
 
     static var directory: URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]

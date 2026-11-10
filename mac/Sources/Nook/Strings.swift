@@ -1,16 +1,12 @@
 import Foundation
 
-/// Textos da interface em inglês e português. "auto" segue o idioma do macOS.
+/// Textos da interface em inglês e português, sempre no idioma do macOS (sem opção no menu).
 enum Strings {
     static private(set) var lang = "en"
 
-    static func setup(_ setting: String) {
-        switch setting {
-        case "pt", "en": lang = setting
-        default:
-            let first = Locale.preferredLanguages.first ?? "en"
-            lang = first.hasPrefix("pt") ? "pt" : "en"
-        }
+    static func setup() {
+        let first = Locale.preferredLanguages.first ?? "en"
+        lang = first.hasPrefix("pt") ? "pt" : "en"
     }
 
     static func get(_ key: String) -> String {
@@ -31,6 +27,8 @@ enum Strings {
         "OpenSpotify": ("Open Spotify", "Abrir Spotify"),
         "SettingsTip": ("Settings (or double-click)", "Configurações (ou duplo clique)"),
         "HideTip": ("Hide (comes back on next play)", "Esconder (volta no próximo play)"),
+        "PinTip": ("Pinned: always full. Click to collapse", "Fixado: sempre completo. Clique para recolher"),
+        "UnpinTip": ("Collapsed: opens on hover. Click to pin", "Recolhido: abre ao passar o mouse. Clique para fixar"),
         "AllowAutomation": ("Allow Nook to control Spotify", "Permita o Nook controlar o Spotify"),
         "AllowAutomationHint": ("System Settings › Privacy › Automation", "Ajustes › Privacidade › Automação"),
 
@@ -50,23 +48,15 @@ enum Strings {
         "HideBtnEl": ("Hide button", "Botão esconder"),
         "SecLook": ("LOOK", "APARÊNCIA"),
         "Size": ("Size", "Tamanho"),
-        "IdleOpacity": ("Idle opacity", "Opacidade em repouso"),
-        "GlassStyle": ("Glass", "Vidro"),
-        "Frosted": ("Frosted", "Fosco"),
-        "Frozen": ("Frozen", "Frozen"),
-        "Liquid": ("Liquid", "Liquid"),
-        "Blur": ("Blur (glass) at rest", "Blur (vidro) em repouso"),
+        "Style": ("Style", "Estilo"),
         "CoverAccent": ("Album-art accent color", "Cor da capa no destaque"),
         "SecBehavior": ("BEHAVIOR", "COMPORTAMENTO"),
-        "Topmost": ("Always on top", "Sempre no topo"),
         "HideIdle": ("Hide when Spotify is closed", "Esconder com o Spotify fechado"),
         "AutoHide": ("Hide when paused", "Esconder pausado"),
         "Never": ("Never", "Nunca"),
         "Lock": ("Lock position", "Travar posição"),
-        "Wheel": ("Scroll = Spotify volume", "Rolagem = volume do Spotify"),
         "TrayIcon": ("Menu bar icon", "Ícone na barra de menus"),
         "Startup": ("Open at login", "Abrir ao iniciar sessão"),
-        "Language": ("Language", "Idioma"),
         "QuitNook": ("Quit Nook", "Sair do Nook"),
         "GitHubTip": ("Nook on GitHub", "Nook no GitHub"),
         "InstagramTip": ("Follow on Instagram", "Siga no Instagram"),

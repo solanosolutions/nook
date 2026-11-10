@@ -34,7 +34,7 @@ xcrun stapler staple mac/dist/Nook-1.6.0.dmg
 |---|---|
 | SMTC media session | Spotify AppleScript + `com.spotify.client.PlaybackStateChanged` notification |
 | Core Audio session volume | Spotify `sound volume` (AppleScript) |
-| `SetWindowCompositionAttribute` blur | `NSVisualEffectView` behind the window |
+| `SetWindowCompositionAttribute` blur | Liquid Glass (`NSGlassEffectView`) on macOS 26+, `NSVisualEffectView` on 13–15 |
 | Tool window, topmost | Borderless `NSPanel`, floating level, all Spaces, no Dock icon |
 | Tray icon | Menu bar item |
 | Registry Run key | `SMAppService` (open at login) |
@@ -42,12 +42,17 @@ xcrun stapler staple mac/dist/Nook-1.6.0.dmg
 
 ## Status
 
-Done (phase 1): player with cover, title/artist, shuffle, previous, play/pause, next, repeat, progress with seek,
-open Spotify, settings, hide button; hover glass with idle opacity; Frosted, Frozen and Liquid styles;
-album-art accent color; drag with edge snapping; scroll for Spotify volume; menu bar item; settings panel;
-hide when Spotify is closed or paused; open at login; English and Portuguese.
+Done: player with cover, title/artist, shuffle, previous, play/pause, next, repeat, progress with seek,
+open Spotify, settings, hide button; three fixed styles, same as Windows: **Minimalist** (frosted glass + bars),
+**Old School** (frozen glass, cover only) and **Refined** (liquid glass + waves); native Liquid Glass on macOS 26+;
+pin button (pinned = full player, unpinned = collapsed to cover + play, opens on hover); album-art accent color;
+drag with edge snapping; menu bar item; settings panel with collapsible sections like Windows;
+hide when Spotify is closed or paused; open at login.
+
+Fixed defaults (no longer in settings): always on top, full opacity at rest, scroll = Spotify volume,
+language follows macOS (English or Portuguese).
 
 Next:
-- Phase 2: vertical layout, collapsed mode, scrolling title, collapsible settings sections, hide in fullscreen.
-- Phase 3: bars and waves visualizer (Spotify-only audio tap, macOS 14.2+), focus timer.
+- Phase 2: vertical layout, scrolling title, hide in fullscreen.
+- Phase 3: bars and waves driven by real audio (Spotify-only audio tap, macOS 14.2+; today they animate while playing), focus timer.
 - Phase 4: signed and notarized `.dmg`, README and release.

@@ -6,13 +6,14 @@ final class FirstMouseHostingView<Content: View>: NSHostingView<Content> {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
 
-/// Janela do player: sem borda, flutuante, fora do Dock e do Cmd+Tab, em todas as mesas (Spaces),
-/// com o desfoque do sistema atrás e cantos arredondados.
+/// Janela do player: sem borda, sempre no topo, fora do Dock e do Cmd+Tab, em todas as mesas (Spaces),
+/// com o vidro do sistema atrás (Liquid Glass no macOS 26+) e cantos arredondados.
 final class PlayerPanel: NSPanel {
     let model: AppModel
-    private let blur = NSVisualEffectView()
+    private var backdrop: Backdrop!
     private var hosting: FirstMouseHostingView<PlayerView>!
     private var snapWork: DispatchWorkItem?
+    private var peekWork: DispatchWorkItem?
     private var scrollAccum: CGFloat = 0
     private var monitors: [Any] = []
     private var placed = false
@@ -36,19 +37,15 @@ final class PlayerPanel: NSPanel {
         root.wantsLayer = true
         contentView = root
 
-        blur.material = .hudWindow
-        blur.blendingMode = .behindWindow
-        blur.state = .active // sempre ativo: a janela nunca é a principal
-        blur.maskImage = Self.mask(radius: Self.radius)
-        blur.autoresizingMask = [.width, .height]
-        blur.frame = root.bounds
-        root.addSubview(blur)
-
         hosting = FirstMouseHostingView(rootView: PlayerView(model: model))
-        hosting.sizingOptions = [] // o tamanho da janela é controlado aqui (ver fitToContent)
-        hosting.autoresizingMask = [.width, .height]
-        hosting.frame = root.bounds
-        root.addSubview(hosting)
+        hosting.sizingOptions = [] // o tamanho da janela é controlado aqui (ver fit)
+        backdrop = Backdrop(content: hosting, radius: Self.radius)
+        root.addSubview(backdrop.view)
+        backdrop.setFrame(root.bounds)
+
+        // O SwiftUI avisa o tamanho real do conteúdo sempre que ele muda (capa, título, recolher...),
+        // e a janela acompanha na hora. Antes o tamanho era lido uma vez só e o player saía cortado.
+        model.onContentSize = { [weak self] size in DispatchQueue.main.async { self?.fit(size) } }
 
         NotificationCenter.default.addObserver(forName: NSWindow.didMoveNotification, object: self, queue: .main) { [weak self] _ in
             self?.scheduleSnap()
@@ -62,35 +59,35 @@ final class PlayerPanel: NSPanel {
     // ---------- Aparência ----------
 
     func applySettings() {
-        let s = model.settings
-        level = s.Topmost ? .floating : .normal
-        blur.isHidden = !s.Blur
-        applyAlpha(animated: false)
+        level = .floating // sempre no topo (fixo)
+        alphaValue = 1    // opacidade máxima em repouso (fixo); repouso e hover mudam só o vidro
+        backdrop.apply(model.settings)
         fitToContent()
     }
 
+    /// Mouse entra: abre na hora (modo solto). Sai: espera 200 ms antes de recolher, para não piscar.
     private func setHover(_ hover: Bool) {
         guard model.hover != hover else { return }
         model.hover = hover
-        applyAlpha(animated: true)
-    }
-
-    func applyAlpha(animated: Bool) {
-        let target = model.hover || model.settingsOpen ? 1.0 : CGFloat(model.settings.IdleOpacity)
-        if animated {
-            NSAnimationContext.runAnimationGroup { ctx in
-                ctx.duration = 0.22
-                animator().alphaValue = target
+        peekWork?.cancel(); peekWork = nil
+        if hover {
+            model.peek = true
+        } else if model.peek {
+            let w = DispatchWorkItem { [weak self] in
+                guard let self, !self.model.hover else { return }
+                self.model.peek = false
             }
-        } else {
-            alphaValue = target
+            peekWork = w
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: w)
         }
     }
 
+    func fitToContent() { fit(hosting.fittingSize) }
+
     /// Ajusta a janela ao conteúdo, mantendo fixo o canto mais perto da borda da tela,
     /// para o player crescer "para dentro" em vez de pular de lugar.
-    func fitToContent() {
-        let size = hosting.fittingSize
+    func fit(_ wanted: NSSize) {
+        let size = NSSize(width: ceil(wanted.width), height: ceil(wanted.height))
         guard size.width > 1, size.height > 1 else { return }
         var f = frame
         if f.size == size { return }
@@ -101,18 +98,6 @@ final class PlayerPanel: NSPanel {
         f.size = size
         setFrame(f, display: true)
         invalidateShadow()
-    }
-
-    private static func mask(radius: CGFloat) -> NSImage {
-        let d = radius * 2 + 1
-        let img = NSImage(size: NSSize(width: d, height: d), flipped: false) { rect in
-            NSColor.black.setFill()
-            NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius).fill()
-            return true
-        }
-        img.capInsets = NSEdgeInsets(top: radius, left: radius, bottom: radius, right: radius)
-        img.resizingMode = .stretch
-        return img
     }
 
     // ---------- Posição: começa no canto inferior direito, ímã nas bordas, salva onde ficou ----------
@@ -142,6 +127,8 @@ final class PlayerPanel: NSPanel {
             guard let self else { return }
             if NSEvent.pressedMouseButtons != 0 { self.scheduleSnap(); return } // ainda arrastando
             self.snapToEdges()
+            // Solto e aberto pelo mouse, guarda a posição da pílula recolhida só quando ela estiver recolhida.
+            if self.model.settings.Collapsed && !self.model.compact { return }
             self.model.settings.Left = self.frame.minX
             self.model.settings.Top = self.frame.maxY
             self.model.settings.save()
@@ -161,7 +148,7 @@ final class PlayerPanel: NSPanel {
         if o != frame.origin { setFrameOrigin(o) }
     }
 
-    // ---------- Rolagem = volume do Spotify ----------
+    // ---------- Rolagem = volume do Spotify (fixo) ----------
 
     private func installMonitors() {
         let m = NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { [weak self] e in
