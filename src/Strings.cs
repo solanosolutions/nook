@@ -42,11 +42,7 @@ public static class Strings
         // Menu de configurações
         ["Close"] = ("Close", "Fechar"),
         ["SecElements"] = ("ELEMENTS", "ELEMENTOS"),
-        ["Cover"] = ("Cover", "Capa"),
-        ["Title"] = ("Title", "Título"),
-        ["Play"] = ("Play", "Play"),
         ["Progress"] = ("Progress", "Progresso"),
-        ["Gear"] = ("Gear", "Engrenagem"),
         ["SecLook"] = ("LOOK", "APARÊNCIA"),
         ["Style"] = ("Style", "Estilo"),
         ["Minimalist"] = ("Minimalist", "Minimalist"),
@@ -73,7 +69,6 @@ public static class Strings
 
         // Esconder e layout
         ["HideTip"] = ("Hide (comes back on next play)", "Esconder (volta no próximo play)"),
-        ["HideBtnEl"] = ("Hide button", "Botão esconder"),
         ["AutoHide"] = ("Hide when paused", "Esconder pausado"),
         ["Never"] = ("Never", "Nunca"),
         ["Layout"] = ("Layout", "Layout"),

@@ -60,7 +60,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 | ↕️ **Horizontal ou vertical** | Escolha uma barra larga ou um cartão em pé com a capa grande, ótimo ao lado de uma barra de tarefas vertical. |
 | 📌 **Pin** | O player completo vem fixado por padrão. Solte o pin e ele encolhe para uma pílula só com a capa e o play; passou o mouse, o player inteiro abre, tirou, ele recolhe de novo. |
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
-| 🎛️ **Configuração simples** | Escolha o estilo, os botões, o layout e o tamanho. Sempre no topo, sem ajustes finos. |
+| 🎛️ **Configuração simples** | Escolha o estilo, alguns botões opcionais (aleatório, repetir, progresso, abrir Spotify), o layout e o tamanho. Sempre no topo, sem ajustes finos. |
 | ⏱️ **Timer de foco** | Opcional: uma pílula de vidro acima do player. 5, 10, 25 min ou o tempo que você digitar; um toque suave quando acaba. |
 | 🔗 **Links e versão no menu** | O rodapé das configurações mostra a versão que você está usando, além do GitHub e do Instagram. |
 | 🌐 **Inglês e português** | Segue o idioma do Windows automaticamente. |

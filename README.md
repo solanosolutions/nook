@@ -60,7 +60,7 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 | ↕️ **Horizontal or vertical** | Pick a wide bar or a tall card with a big cover, great next to a vertical taskbar. |
 | 📌 **Pin** | The full player is pinned by default. Unpin it and it shrinks to a tiny pill with just the cover and play; hover and the full player opens, move away and it tucks back in. |
 | 🧲 **Drag anywhere** | Snaps to screen edges and remembers its position. |
-| 🎛️ **Simple settings** | Pick a style, which buttons show, layout and size. Always on top, no knobs to tune. |
+| 🎛️ **Simple settings** | Pick a style, a few optional buttons (shuffle, repeat, progress, open Spotify), layout and size. Always on top, no knobs to tune. |
 | ⏱️ **Focus timer** | Optional: a tiny glass pill above the player. 5, 10, 25 min or type your own; a soft chime when time's up. |
 | 🔗 **Links and version in the menu** | The settings footer shows the version you're running, plus GitHub and Instagram. |
 | 🌐 **English & Portuguese** | Follows your Windows language automatically. |

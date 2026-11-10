@@ -251,17 +251,17 @@ public partial class MainWindow : Window
     void ApplyElements()
     {
         bool full = !Compact;
-        CoverBox.Visibility = Vis(S.ShowCover || !full);
-        InfoPanel.Visibility = Vis(S.ShowTitle && full);
+        CoverBox.Visibility = Visibility.Visible;
+        InfoPanel.Visibility = Vis(full);
         ShuffleBtn.Visibility = Vis(S.ShowShuffle && full);
-        PrevBtn.Visibility = Vis(S.ShowPrev && full);
-        PlayBtn.Visibility = Vis(S.ShowPlay || !full);
-        NextBtn.Visibility = Vis(S.ShowNext && full);
+        PrevBtn.Visibility = Vis(full);
+        PlayBtn.Visibility = Visibility.Visible;
+        NextBtn.Visibility = Vis(full);
         RepeatBtn.Visibility = Vis(S.ShowRepeat && full);
         ProgressHost.Visibility = Vis(S.ShowProgress && full);
         OpenBtn.Visibility = Vis(S.ShowOpen && full);
-        GearBtn.Visibility = Vis(S.ShowGear && full);
-        HideBtn.Visibility = Vis(S.ShowHideBtn && full);
+        GearBtn.Visibility = Vis(full);
+        HideBtn.Visibility = Vis(full);
         CollapseBtn.Visibility = Vis(full); // o pin sempre aparece no player aberto
         // Pin preenchido = fixado (completo); vazado = solto (recolhe e abre no mouse).
         CollapseBtn.Content = S.Collapsed ? "\uE718" : "\uE842";
@@ -413,7 +413,7 @@ public partial class MainWindow : Window
     void UpdateViz()
     {
         string visual = Look.Visual;
-        bool want = visual != "Cover" && (S.ShowCover || Compact) && _media.HasSession && _media.IsPlaying
+        bool want = visual != "Cover" && _media.HasSession && _media.IsPlaying
                     && IsVisible && !_audio.Failed;
         if (!want)
         {

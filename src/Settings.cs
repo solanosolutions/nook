@@ -9,17 +9,11 @@ namespace Nook;
 
 public sealed class Settings
 {
-    // Elementos visíveis
-    public bool ShowCover { get; set; } = true;
-    public bool ShowTitle { get; set; } = true;
+    // Elementos opcionais (capa, título, play, anterior, próxima, engrenagem e esconder são fixos)
     public bool ShowShuffle { get; set; } = false;
-    public bool ShowPrev { get; set; } = true;
-    public bool ShowPlay { get; set; } = true;
-    public bool ShowNext { get; set; } = true;
     public bool ShowRepeat { get; set; } = false;
     public bool ShowProgress { get; set; } = true;
     public bool ShowOpen { get; set; } = true;
-    public bool ShowGear { get; set; } = true;
 
     // Aparência
     public double Scale { get; set; } = 1.0;
@@ -30,7 +24,6 @@ public sealed class Settings
     /// <summary>Seções do menu de configurações abertas ("Elements", "Look", "Behavior").</summary>
     public List<string> OpenSections { get; set; } = new() { "Look" };
     public bool FocusTimer { get; set; } = false;         // pílula de timer de foco colada ao player
-    public bool ShowHideBtn { get; set; } = true;         // botão esconder no player
     public bool Collapsed { get; set; } = false;          // pin solto: só capa e play, abre no mouse
     public string Layout { get; set; } = "H";            // "H" horizontal, "V" vertical
     public int AutoHideMinutes { get; set; } = 5;       // esconde após N min pausado (0 = nunca)

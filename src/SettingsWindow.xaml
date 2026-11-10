@@ -24,17 +24,10 @@
 
             <ToggleButton x:Name="SecElements" Tag="Elements" Style="{StaticResource SectionToggle}" Content="{local:Tr SecElements}"/>
             <UniformGrid Columns="2" x:Name="ButtonsGrid" Visibility="{Binding IsChecked, ElementName=SecElements, Converter={StaticResource BoolToVis}}">
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Cover}" Tag="ShowCover" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Title}" Tag="ShowTitle"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Shuffle}" Tag="ShowShuffle" Margin="0,3,12,3"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Repeat}" Tag="ShowRepeat"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Previous}" Tag="ShowPrev" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Next}" Tag="ShowNext"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Play}" Tag="ShowPlay" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Gear}" Tag="ShowGear"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideBtnEl}" Tag="ShowHideBtn" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen"/>
             </UniformGrid>
 
             <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="{local:Tr SecLook}"/>
