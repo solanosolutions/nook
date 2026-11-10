@@ -452,7 +452,7 @@ public partial class MainWindow : Window
 
     static Visibility Vis(bool v) => v ? Visibility.Visible : Visibility.Collapsed;
 
-    // ---------- Hover: vidro em repouso, cor normal no mouse (opacidade sempre máxima) ----------
+    // ---------- Hover: vidro em repouso, cor normal no mouse (transparência máxima em repouso) ----------
 
     void SetHover(bool hover)
     {
@@ -466,16 +466,20 @@ public partial class MainWindow : Window
     void ApplyLook(bool animate)
     {
         var color = Glass.Fill(_hover);
+        double opacity = _hover ? 1.0 : Glass.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
+            BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, Fade));
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, new DoubleAnimation(_hover ? 1 : 0, Fade));
         }
         else
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, null);
+            BeginAnimation(OpacityProperty, null);
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, null);
             RootBrush.Color = color;
+            Opacity = opacity;
             Overlay.Lift = _hover ? 1 : 0;
         }
     }

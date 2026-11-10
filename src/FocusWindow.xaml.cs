@@ -77,16 +77,20 @@ public partial class FocusWindow : Window
     void ApplyLook(bool animate)
     {
         var color = Glass.Fill(_hover);
+        double opacity = _hover || _state == State.Done ? 1.0 : Glass.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
+            BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, Fade));
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, new DoubleAnimation(_hover ? 1 : 0, Fade));
         }
         else
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, null);
+            BeginAnimation(OpacityProperty, null);
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, null);
             RootBrush.Color = color;
+            Opacity = opacity;
             Overlay.Lift = _hover ? 1 : 0;
         }
     }

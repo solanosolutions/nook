@@ -50,7 +50,7 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 
 | | |
 |---|---|
-| 🎨 **Three styles** | **Minimalist** (frosted glass + live bars), **Old School** (frozen glass, just the album art, like a 2010 MP3 player) and **Refined** (Liquid glass + live waves). Always fully visible at rest, crisp and solid the moment your mouse arrives. |
+| 🎨 **Three styles** | **Minimalist** (frosted glass + live bars), **Old School** (frozen glass, just the album art, like a 2010 MP3 player) and **Refined** (Liquid glass + live waves). As see-through as possible at rest, crisp and solid the moment your mouse arrives. |
 | 🎵 **Live visualizer** | Bars or waves that react to the *real* audio, captured **only from Spotify** (notifications and videos don't interfere). |
 | 🎨 **Album-art accent** | Progress bar and visualizer take the dominant color of the current cover. |
 | 📜 **Scrolling titles** | Long song names scroll smoothly; hover to freeze them. |

@@ -35,6 +35,9 @@ static class Glass
 
     public static string Style => Look.Glass;
 
+    /// <summary>Opacidade em repouso: fixa no máximo de transparência (o menor valor do antigo slider). Hover = 100%.</summary>
+    public const double IdleOpacity = 0.15;
+
     /// <summary>Cor de fundo do vidro: hover = nítido; repouso = translúcido sobre o blur.</summary>
     public static Color Fill(bool hover) => (Style, hover) switch
     {

@@ -50,7 +50,7 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 
 | | |
 |---|---|
-| 🎨 **Três estilos** | **Minimalist** (vidro fosco + barras ao vivo), **Old School** (vidro Frozen, só a capa, como um MP3 player de 2010) e **Refined** (vidro Liquid + ondas ao vivo). Sempre totalmente visível em repouso; nítido e sólido assim que o mouse chega. |
+| 🎨 **Três estilos** | **Minimalist** (vidro fosco + barras ao vivo), **Old School** (vidro Frozen, só a capa, como um MP3 player de 2010) e **Refined** (vidro Liquid + ondas ao vivo). O mais transparente possível em repouso; nítido e sólido assim que o mouse chega. |
 | 🎵 **Visualizador ao vivo** | Barras ou ondas que reagem ao áudio *de verdade*, capturado **só do Spotify** (notificações e vídeos não interferem). |
 | 🎨 **Cor da capa** | Barra de progresso e visualizador assumem a cor dominante da capa atual. |
 | 📜 **Título rolando** | Nomes longos rolam suavemente; passe o mouse para congelar. |
