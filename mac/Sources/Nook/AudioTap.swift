@@ -81,10 +81,10 @@ final class AudioTap {
         let processes = Self.spotifyProcesses()
         guard !processes.isEmpty else { return false }
 
-        let desc = CATapDescription(stereoMixdownOfProcesses: processes.map { NSNumber(value: $0) })
+        let desc = CATapDescription(stereoMixdownOfProcesses: processes)
         desc.name = "Nook"
         desc.isPrivate = true
-        desc.muteBehavior = .unmuted
+        // muteBehavior fica no padrão (não muta): o som continua saindo normal.
         var tap = AudioObjectID(kAudioObjectUnknown)
         guard AudioHardwareCreateProcessTap(desc, &tap) == noErr else { return false }
         tapID = tap
