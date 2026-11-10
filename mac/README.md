@@ -43,7 +43,7 @@ xcrun stapler staple mac/dist/Nook-1.6.0.dmg
 ## Status
 
 Done: player with cover, title/artist, shuffle, previous, play/pause, next, repeat, progress with seek,
-open Spotify, settings, hide button; three fixed styles, same as Windows: **Minimalist** (frosted glass + bars),
+open Spotify, settings, hide button; three fixed styles, same as Windows. Cover, title, previous, play, next, gear, hide and pin are always on; shuffle, repeat, progress and open Spotify stay optional. Styles:: **Minimalist** (frosted glass + bars),
 **Old School** (frozen glass, cover only) and **Refined** (liquid glass + waves); native Liquid Glass on macOS 26+;
 pin button (pinned = full player, unpinned = collapsed to cover + play, opens on hover); album-art accent color;
 drag with edge snapping; menu bar item; settings panel with collapsible sections like Windows;

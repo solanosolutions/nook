@@ -3,18 +3,11 @@ import Foundation
 /// Preferências do usuário, com as mesmas chaves do settings.json da versão Windows.
 /// Fica em ~/Library/Application Support/Nook/settings.json.
 final class Settings: Codable {
-    // Elementos visíveis
-    var ShowCover = true
-    var ShowTitle = true
+    // Elementos opcionais. Capa, título, anterior, play, próxima, engrenagem, esconder e pin são fixos.
     var ShowShuffle = false
-    var ShowPrev = true
-    var ShowPlay = true
-    var ShowNext = true
     var ShowRepeat = false
     var ShowProgress = true
     var ShowOpen = true
-    var ShowGear = true
-    var ShowHideBtn = true
 
     // Aparência
     var Scale = 1.0
@@ -27,7 +20,7 @@ final class Settings: Codable {
     var OpenSections = ["Look"]
 
     // Comportamento
-    // Fixos, sem opção no menu: sempre no topo, idioma automático, rolagem = volume, opacidade máxima em repouso.
+    // Fixos, sem opção no menu: sempre no topo, idioma automático, rolagem = volume, transparência máxima em repouso (0.15).
     var HideWhenIdle = true
     /// Esconde após N minutos pausado (0 = nunca).
     var AutoHideMinutes = 5
@@ -46,17 +39,10 @@ final class Settings: Codable {
         func v<T: Decodable>(_ key: CodingKeys, _ fallback: T) -> T {
             (try? c.decodeIfPresent(T.self, forKey: key)) ?? fallback
         }
-        ShowCover = v(.ShowCover, ShowCover)
-        ShowTitle = v(.ShowTitle, ShowTitle)
         ShowShuffle = v(.ShowShuffle, ShowShuffle)
-        ShowPrev = v(.ShowPrev, ShowPrev)
-        ShowPlay = v(.ShowPlay, ShowPlay)
-        ShowNext = v(.ShowNext, ShowNext)
         ShowRepeat = v(.ShowRepeat, ShowRepeat)
         ShowProgress = v(.ShowProgress, ShowProgress)
         ShowOpen = v(.ShowOpen, ShowOpen)
-        ShowGear = v(.ShowGear, ShowGear)
-        ShowHideBtn = v(.ShowHideBtn, ShowHideBtn)
         Scale = v(.Scale, Scale)
         CoverAccent = v(.CoverAccent, CoverAccent)
         Collapsed = v(.Collapsed, Collapsed)

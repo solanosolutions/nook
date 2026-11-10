@@ -61,10 +61,8 @@ struct PlayerView: View {
 
     private var row: some View {
         HStack(spacing: 0) {
-            if s.ShowCover || !full {
-                CoverView(image: sp.cover, size: 36 * k, radius: 7 * k, visual: visual, accent: model.accent)
-                    .padding(.trailing, (full ? 10 : 4) * k)
-            }
+            CoverView(image: sp.cover, size: 36 * k, radius: 7 * k, visual: visual, accent: model.accent)
+                .padding(.trailing, (full ? 10 : 4) * k)
             if full { fullControls } else {
                 PlayButton(playing: sp.isPlaying, k: k) {
                     if sp.isRunning { sp.playPause() } else { SpotifyService.open() }
@@ -75,42 +73,34 @@ struct PlayerView: View {
     }
 
     @ViewBuilder private var fullControls: some View {
-        if s.ShowTitle {
-            VStack(alignment: .leading, spacing: 1 * k) {
-                Text(title)
-                    .font(.system(size: 12.5 * k, weight: .semibold))
-                    .foregroundColor(Glass.fg)
-                Text(subtitle)
-                    .font(.system(size: 11 * k))
-                    .foregroundColor(Glass.fgDim)
-            }
-            .lineLimit(1)
-            .truncationMode(.tail)
-            .frame(width: 170 * k, alignment: .leading)
-            .padding(.trailing, 8 * k)
-            .contentShape(Rectangle())
-            .onTapGesture { NookApp.openAutomationSettings() }
-            // Só recebe clique quando falta a permissão; no resto, o texto deixa arrastar o player.
-            .allowsHitTesting(sp.notAuthorized)
+        VStack(alignment: .leading, spacing: 1 * k) {
+            Text(title)
+                .font(.system(size: 12.5 * k, weight: .semibold))
+                .foregroundColor(Glass.fg)
+            Text(subtitle)
+                .font(.system(size: 11 * k))
+                .foregroundColor(Glass.fgDim)
         }
+        .lineLimit(1)
+        .truncationMode(.tail)
+        .frame(width: 170 * k, alignment: .leading)
+        .padding(.trailing, 8 * k)
+        .contentShape(Rectangle())
+        .onTapGesture { NookApp.openAutomationSettings() }
+        // Só recebe clique quando falta a permissão; no resto, o texto deixa arrastar o player.
+        .allowsHitTesting(sp.notAuthorized)
         if s.ShowShuffle {
             IconButton(symbol: "shuffle", size: 12 * k, box: 28 * k,
                        color: sp.shuffle ? model.accent : Glass.fgDim, tip: "Shuffle") { sp.toggleShuffle() }
         }
-        if s.ShowPrev {
-            IconButton(symbol: "backward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
-                       tip: "Previous") { sp.previous() }
+        IconButton(symbol: "backward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
+                   tip: "Previous") { sp.previous() }
+        PlayButton(playing: sp.isPlaying, k: k) {
+            if sp.isRunning { sp.playPause() } else { SpotifyService.open() }
         }
-        if s.ShowPlay {
-            PlayButton(playing: sp.isPlaying, k: k) {
-                if sp.isRunning { sp.playPause() } else { SpotifyService.open() }
-            }
-            .padding(.horizontal, 3 * k)
-        }
-        if s.ShowNext {
-            IconButton(symbol: "forward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
-                       tip: "Next") { sp.next() }
-        }
+        .padding(.horizontal, 3 * k)
+        IconButton(symbol: "forward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
+                   tip: "Next") { sp.next() }
         if s.ShowRepeat {
             IconButton(symbol: "repeat", size: 12 * k, box: 28 * k,
                        color: sp.repeating ? model.accent : Glass.fgDim, tip: "Repeat") { sp.toggleRepeat() }
@@ -122,12 +112,8 @@ struct PlayerView: View {
         if s.ShowOpen {
             IconButton(symbol: "arrow.up.forward.app", size: 11 * k, box: 28 * k, tip: "OpenSpotify") { SpotifyService.open() }
         }
-        if s.ShowGear {
-            IconButton(symbol: "gearshape", size: 11 * k, box: 28 * k, tip: "SettingsTip") { model.onOpenSettings?() }
-        }
-        if s.ShowHideBtn {
-            IconButton(symbol: "eye.slash", size: 10 * k, box: 28 * k, tip: "HideTip") { model.onHide?() }
-        }
+        IconButton(symbol: "gearshape", size: 11 * k, box: 28 * k, tip: "SettingsTip") { model.onOpenSettings?() }
+        IconButton(symbol: "eye.slash", size: 10 * k, box: 28 * k, tip: "HideTip") { model.onHide?() }
         // Pin nativo, sempre visível: fixado = completo; solto = recolhe e abre no hover.
         IconButton(symbol: s.Collapsed ? "pin" : "pin.fill", size: 10 * k, box: 28 * k,
                    color: s.Collapsed ? Glass.fgDim : Glass.fg,

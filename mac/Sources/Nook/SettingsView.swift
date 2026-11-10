@@ -27,17 +27,10 @@ struct SettingsView: View {
                     section("Elements", "SecElements") {
                         LazyVGrid(columns: [GridItem(.flexible(), spacing: 14), GridItem(.flexible())],
                                   alignment: .leading, spacing: 6) {
-                            toggle("Cover", \.ShowCover)
-                            toggle("Title", \.ShowTitle)
                             toggle("Shuffle", \.ShowShuffle)
                             toggle("Repeat", \.ShowRepeat)
-                            toggle("Previous", \.ShowPrev)
-                            toggle("Next", \.ShowNext)
-                            toggle("Play", \.ShowPlay)
                             toggle("Progress", \.ShowProgress)
                             toggle("OpenSpotify", \.ShowOpen)
-                            toggle("Gear", \.ShowGear)
-                            toggle("HideBtnEl", \.ShowHideBtn)
                         }
                     }
 
