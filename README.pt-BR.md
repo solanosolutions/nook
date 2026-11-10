@@ -15,7 +15,7 @@ Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 <img src="docs/demo.gif" alt="Demonstração do Nook: vidro fosco em repouso, nítido no hover, ondas e barras ao vivo" />
 
-**🆕 Nook para macOS, beta público:** o mesmo mini player de vidro, agora no Mac. [Teste e conte o que achou](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0) com vidro Fosco, Frozen e Liquid.
+**🆕 Nook para macOS, beta público:** o mesmo mini player de vidro, agora no Mac. [Teste e conte o que achou](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.7.0](https://github.com/solanosolutions/nook/releases/tag/v1.7.0) com três estilos fixos: Minimalist, Old School e Refined.
 
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Recursos](#-recursos) · [Como usar](#-como-usar) · [Dúvidas](#-dúvidas-frequentes) · [Roadmap](#-roadmap) · [English](README.md)
 
@@ -23,13 +23,16 @@ Pause, pule e veja o que está tocando sem nunca mais abrir o Spotify.
 
 ---
 
-## 🆕 Novidades da [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0)
+## 🆕 Novidades da [v1.7.0](https://github.com/solanosolutions/nook/releases/tag/v1.7.0)
 
-- 🧊 **Três estilos de vidro.** Escolha **Fosco** (o clássico), **Frozen** (desfoque mais forte e frio, com um granulado fino de gelo, ainda mais discreto sobre qualquer fundo) ou **Liquid** (um vidro vivo, com borda de luz, brilho especular no topo e um reflexo suave na cor da capa). Configurações → Aparência → Vidro.
+- 🎨 **Três estilos fixos.** **Minimalist** (vidro fosco + barras ao vivo), **Old School** (vidro Frozen, só a capa) e **Refined** (vidro Liquid + ondas ao vivo). Configurações → Aparência → Estilo.
+- 📌 **Botão pin** sempre no player: fixado mantém o player completo (padrão); solto, ele vira a pílula que abre ao passar o mouse.
+- 🧹 **Configuração mais simples.** Padrões fixos no lugar de ajustes: transparente em repouso e sólido no hover, sempre no topo, roda = volume do app que está tocando (agora também o navegador), idioma do Windows e botões principais sempre visíveis.
 
 <details>
 <summary>Versões anteriores</summary>
 
+- **v1.5.0** · 🧊 Três estilos de vidro: Fosco, Frozen e Liquid.
 - **v1.4.0** · 🫧 Modo recolhido (só capa e play até você passar o mouse) e links do GitHub/Instagram com a versão no rodapé do menu.
 - **v1.3.0** · ↕️ Layout vertical, esconder quando pausado e botão esconder.
 - **v1.2.0** · ⏱️ Timer de foco, 🌐 interface em inglês e português, cantos do blur arredondados corrigidos.
