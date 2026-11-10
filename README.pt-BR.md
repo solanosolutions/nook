@@ -84,12 +84,13 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 
 ### 🍎 macOS (beta público)
 
-1. Baixe o **`Nook-1.6.0-beta.1.dmg`** na [versão beta para macOS](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1).
+1. Baixe o **`Nook-1.6.0-beta.2.dmg`** na [versão beta para macOS](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.2).
 2. Abra e arraste o **Nook** para **Aplicativos**.
 3. O beta ainda não é notarizado pela Apple, então o macOS bloqueia a primeira abertura. Abra o Nook uma vez e clique em **Concluído** (não em "Mover para o Lixo"), depois vá em **Ajustes do Sistema → Privacidade e Segurança**, role até o fim e clique em **Abrir Mesmo Assim**. No macOS 13 ou 14 também dá para clicar com o **botão direito no Nook → Abrir**.
 4. Permita o Nook controlar o Spotify quando o macOS pedir. O Nook fica na barra de menus, não no Dock.
+5. Quando uma música tocar no estilo **Minimalist** ou **Refined**, o macOS pede para o Nook gravar o áudio do sistema. Clique em **Permitir**: o Nook só escuta o Spotify, para as barras e ondas acompanharem a música, e nada é gravado nem enviado. Se recusou, ligue o Nook em **Ajustes do Sistema → Privacidade e Segurança → Gravação de Tela e Áudio do Sistema** (em *Somente Gravação de Áudio do Sistema*). Sem a permissão as barras continuam se mexendo, só que fora do ritmo. Precisa do macOS 14.2 ou mais novo.
 
-**Requisitos:** macOS 13 Ventura ou mais novo, Apple Silicon ou Intel, com o app do Spotify instalado. O beta traz o player, os estilos de vidro, a cor da capa, o volume na rolagem e o ícone na barra de menus; os layouts vertical e recolhido, o visualizador e o timer de foco vêm em seguida. Achou um problema? [Conte pra gente](https://github.com/solanosolutions/nook/issues/new/choose).
+**Requisitos:** macOS 13 Ventura ou mais novo, Apple Silicon ou Intel, com o app do Spotify instalado. O beta traz o player, os três estilos (Minimalist, Old School, Refined) com Liquid Glass nativo no macOS 26, barras e ondas que seguem a música, o pin para recolher o player, a cor da capa, o volume na rolagem e o ícone na barra de menus; o layout vertical e o timer de foco vêm em seguida. Achou um problema? [Conte pra gente](https://github.com/solanosolutions/nook/issues/new/choose).
 
 > 🐧 **Linux mais para frente.** [Dê uma estrela](https://github.com/solanosolutions/nook/stargazers) ou acompanhe as versões para saber quando chegar.
 

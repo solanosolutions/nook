@@ -18,5 +18,7 @@
     <key>NSHumanReadableCopyright</key><string>MIT License, Lucas Solano</string>
     <key>NSAppleEventsUsageDescription</key>
     <string>Nook controls Spotify (play, pause, skip, volume) and shows the current track.</string>
+    <key>NSAudioCaptureUsageDescription</key>
+    <string>Nook listens only to Spotify's audio to animate the bars and waves on the cover. Nothing is recorded or sent anywhere.</string>
 </dict>
 </plist>

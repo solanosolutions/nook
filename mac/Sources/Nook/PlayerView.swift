@@ -11,13 +11,16 @@ struct PlayerView: View {
     private var sp: SpotifyService { model.spotify }
     private var k: CGFloat { CGFloat(min(max(s.Scale, 0.7), 2)) }
 
+    /// Recolhido (solto, sem mouse em cima): só capa e play.
+    private var full: Bool { !model.compact }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4 * k) {
             row
                 .background(GeometryReader { g in
                     Color.clear.preference(key: WidthKey.self, value: g.size.width)
                 })
-            if s.ShowProgress {
+            if s.ShowProgress && full {
                 ProgressBar(model: model, height: 9 * k)
                     .frame(width: rowWidth)
             }
@@ -32,6 +35,11 @@ struct PlayerView: View {
             }
         )
         .fixedSize()
+        // Tamanho real do conteúdo: a janela acompanha (corrige o corte da capa no lado esquerdo).
+        .background(GeometryReader { g in
+            Color.clear.preference(key: SizeKey.self, value: g.size)
+        })
+        .onPreferenceChange(SizeKey.self) { size in model.onContentSize?(size) }
         .animation(.easeInOut(duration: 0.5), value: model.spotify.coverColor)
         .environment(\.colorScheme, .dark)
     }
@@ -48,70 +56,74 @@ struct PlayerView: View {
         return sp.isRunning ? "" : Strings.get("ClickToOpen")
     }
 
-    private var showDivider: Bool { s.ShowOpen || s.ShowGear || s.ShowHideBtn }
+    /// Barras/ondas no quadrado da capa: no estilo certo, tocando.
+    private var visual: Glass.Visual { sp.isPlaying && sp.hasTrack ? Glass.visual(s) : .cover }
 
     private var row: some View {
         HStack(spacing: 0) {
-            if s.ShowCover {
-                CoverView(image: sp.cover, size: 36 * k, radius: 7 * k)
-                    .padding(.trailing, 10 * k)
-            }
-            if s.ShowTitle {
-                VStack(alignment: .leading, spacing: 1 * k) {
-                    Text(title)
-                        .font(.system(size: 12.5 * k, weight: .semibold))
-                        .foregroundColor(Glass.fg)
-                    Text(subtitle)
-                        .font(.system(size: 11 * k))
-                        .foregroundColor(Glass.fgDim)
-                }
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .frame(width: 170 * k, alignment: .leading)
-                .padding(.trailing, 8 * k)
-                .contentShape(Rectangle())
-                .onTapGesture { NookApp.openAutomationSettings() }
-                // Só recebe clique quando falta a permissão; no resto, o texto deixa arrastar o player.
-                .allowsHitTesting(sp.notAuthorized)
-            }
-            if s.ShowShuffle {
-                IconButton(symbol: "shuffle", size: 12 * k, box: 28 * k,
-                           color: sp.shuffle ? model.accent : Glass.fgDim, tip: "Shuffle") { sp.toggleShuffle() }
-            }
-            if s.ShowPrev {
-                IconButton(symbol: "backward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
-                           tip: "Previous") { sp.previous() }
-            }
-            if s.ShowPlay {
+            CoverView(image: sp.cover, size: 36 * k, radius: 7 * k, visual: visual, accent: model.accent, audio: model.audio)
+                .padding(.trailing, (full ? 10 : 4) * k)
+            if full { fullControls } else {
                 PlayButton(playing: sp.isPlaying, k: k) {
                     if sp.isRunning { sp.playPause() } else { SpotifyService.open() }
                 }
-                .padding(.horizontal, 3 * k)
-            }
-            if s.ShowNext {
-                IconButton(symbol: "forward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
-                           tip: "Next") { sp.next() }
-            }
-            if s.ShowRepeat {
-                IconButton(symbol: "repeat", size: 12 * k, box: 28 * k,
-                           color: sp.repeating ? model.accent : Glass.fgDim, tip: "Repeat") { sp.toggleRepeat() }
-            }
-            if showDivider {
-                Rectangle().fill(Glass.hairline)
-                    .frame(width: 1, height: 18 * k)
-                    .padding(.leading, 6 * k).padding(.trailing, 4 * k)
-            }
-            if s.ShowOpen {
-                IconButton(symbol: "arrow.up.forward.app", size: 11 * k, box: 28 * k, tip: "OpenSpotify") { SpotifyService.open() }
-            }
-            if s.ShowGear {
-                IconButton(symbol: "gearshape", size: 11 * k, box: 28 * k, tip: "SettingsTip") { model.onOpenSettings?() }
-            }
-            if s.ShowHideBtn {
-                IconButton(symbol: "eye.slash", size: 10 * k, box: 28 * k, tip: "HideTip") { model.onHide?() }
+                .padding(.trailing, 1 * k)
             }
         }
     }
+
+    @ViewBuilder private var fullControls: some View {
+        VStack(alignment: .leading, spacing: 1 * k) {
+            Text(title)
+                .font(.system(size: 12.5 * k, weight: .semibold))
+                .foregroundColor(Glass.fg)
+            Text(subtitle)
+                .font(.system(size: 11 * k))
+                .foregroundColor(Glass.fgDim)
+        }
+        .lineLimit(1)
+        .truncationMode(.tail)
+        .frame(width: 170 * k, alignment: .leading)
+        .padding(.trailing, 8 * k)
+        .contentShape(Rectangle())
+        .onTapGesture { NookApp.openAutomationSettings() }
+        // Só recebe clique quando falta a permissão; no resto, o texto deixa arrastar o player.
+        .allowsHitTesting(sp.notAuthorized)
+        if s.ShowShuffle {
+            IconButton(symbol: "shuffle", size: 12 * k, box: 28 * k,
+                       color: sp.shuffle ? model.accent : Glass.fgDim, tip: "Shuffle") { sp.toggleShuffle() }
+        }
+        IconButton(symbol: "backward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
+                   tip: "Previous") { sp.previous() }
+        PlayButton(playing: sp.isPlaying, k: k) {
+            if sp.isRunning { sp.playPause() } else { SpotifyService.open() }
+        }
+        .padding(.horizontal, 3 * k)
+        IconButton(symbol: "forward.fill", size: 12 * k, box: 28 * k, enabled: sp.hasTrack || !sp.isRunning,
+                   tip: "Next") { sp.next() }
+        if s.ShowRepeat {
+            IconButton(symbol: "repeat", size: 12 * k, box: 28 * k,
+                       color: sp.repeating ? model.accent : Glass.fgDim, tip: "Repeat") { sp.toggleRepeat() }
+        }
+        // Divisória sempre: o pin fica sempre à direita dela.
+        Rectangle().fill(Glass.hairline)
+            .frame(width: 1, height: 18 * k)
+            .padding(.leading, 6 * k).padding(.trailing, 4 * k)
+        if s.ShowOpen {
+            IconButton(symbol: "arrow.up.forward.app", size: 11 * k, box: 28 * k, tip: "OpenSpotify") { SpotifyService.open() }
+        }
+        IconButton(symbol: "gearshape", size: 11 * k, box: 28 * k, tip: "SettingsTip") { model.onOpenSettings?() }
+        IconButton(symbol: "eye.slash", size: 10 * k, box: 28 * k, tip: "HideTip") { model.onHide?() }
+        // Pin nativo, sempre visível: fixado = completo; solto = recolhe e abre no hover.
+        IconButton(symbol: s.Collapsed ? "pin" : "pin.fill", size: 10 * k, box: 28 * k,
+                   color: s.Collapsed ? Glass.fgDim : Glass.fg,
+                   tip: s.Collapsed ? "UnpinTip" : "PinTip") { model.togglePin() }
+    }
+}
+
+private struct SizeKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
 }
 
 private struct WidthKey: PreferenceKey {
@@ -123,16 +135,27 @@ struct CoverView: View {
     let image: NSImage?
     let size: CGFloat
     let radius: CGFloat
+    var visual: Glass.Visual = .cover
+    var accent: Color = Glass.spotifyGreen
+    var audio: AudioTap?
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: radius, style: .continuous).fill(Glass.argb(0x1F, 0xFF, 0xFF, 0xFF))
-            if let image {
-                Image(nsImage: image).resizable().interpolation(.high).aspectRatio(contentMode: .fill)
-            } else {
-                Image(systemName: "music.note").font(.system(size: size * 0.4)).foregroundColor(Glass.fgDim)
+            Group {
+                if let image {
+                    Image(nsImage: image).resizable().interpolation(.high).aspectRatio(contentMode: .fill)
+                } else {
+                    Image(systemName: "music.note").font(.system(size: size * 0.4)).foregroundColor(Glass.fgDim)
+                }
+            }
+            // Com barras/ondas a capa fica ao fundo, apagada (como no Windows).
+            .opacity(visual == .cover ? 1 : 0.2)
+            if visual != .cover, let audio {
+                VisualizerView(waves: visual == .waves, accent: accent, audio: audio)
             }
         }
+        .animation(.easeOut(duration: 0.25), value: visual)
         .frame(width: size, height: size)
         .clipShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
         .allowsHitTesting(false)

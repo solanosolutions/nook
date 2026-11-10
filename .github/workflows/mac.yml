@@ -20,6 +20,17 @@ jobs:
     if: github.event_name != 'release' || contains(github.event.release.tag_name, 'beta') || contains(github.event.release.tag_name, 'mac')
     steps:
       - uses: actions/checkout@v4
+      # O Liquid Glass nativo (NSGlassEffectView) só entra no app compilado com o SDK do macOS 26 (Xcode 26+).
+      # Sem ele o app compila igual, mas usa o desfoque antigo também no macOS 26.
+      - name: Use the newest Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -1)
+          [ -n "$X" ] && sudo xcode-select -s "$X"
+          xcodebuild -version
+          swift --version
+          if ! swift --version 2>&1 | grep -qE 'version (6\.([2-9]|[1-9][0-9])|[7-9])'; then
+            echo "::warning::Swift < 6.2 (sem SDK do macOS 26): o app sai sem o Liquid Glass nativo."
+          fi
       - name: Build Nook.app and .dmg
         env:
           BUILD_NUMBER: ${{ github.run_number }}

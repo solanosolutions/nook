@@ -51,7 +51,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let settings = Settings.load()
-        Strings.setup(settings.Language)
+        Strings.setup() // idioma sempre automático (o do macOS)
         model = AppModel(settings: settings)
         model.onOpenSettings = { [weak self] in self?.openSettings() }
         model.onHide = { [weak self] in self?.manualHidden = true; self?.applyVisibility() }
@@ -63,7 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         player.orderFrontRegardless()
 
         model.spotify.$isRunning.removeDuplicates().receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.updateIdle() }.store(in: &bag)
+            .sink { [weak self] _ in self?.updateIdle(); self?.model.audio.restart() }.store(in: &bag)
         model.spotify.$isPlaying.removeDuplicates().receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.updatePauseHide() }.store(in: &bag)
         model.spotify.start()
@@ -75,9 +75,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // ---------- Configurações ----------
 
     private func settingsChanged() {
-        Strings.setup(S.Language)
         player.applySettings()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in self?.player.fitToContent() }
+        DispatchQueue.main.async { [weak self] in self?.settingsPanel?.refit() }
         rebuildStatusItem()
         applyLoginItem()
         updateIdle()
@@ -89,8 +88,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if let p = settingsPanel { p.makeKeyAndOrderFront(nil); return }
         let panel = SettingsPanel(model: model) { [weak self] in self?.closeSettings() }
         settingsPanel = panel
-        model.settingsOpen = true
+        model.settingsOpen = true // recolhido: abre o player inteiro antes de posicionar o menu
         player.applyAlpha(animated: true)
+        player.fitToContent()
         NSApp.activate(ignoringOtherApps: true)
         panel.show(near: player)
         resignToken = NotificationCenter.default.addObserver(forName: NSWindow.didResignKeyNotification, object: panel, queue: .main) { [weak self] _ in
@@ -125,6 +125,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let show = !userHidden && !manualHidden && !auto
         if show && !player.isVisible { player.orderFrontRegardless() }
         else if !show && player.isVisible { player.orderOut(nil) }
+        model.audio.setSuspended(!show) // escondido: não capta áudio
     }
 
     /// Some (após 3 s, para não piscar ao reabrir) quando o Spotify está fechado.
