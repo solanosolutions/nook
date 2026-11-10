@@ -84,12 +84,13 @@ No installer and no .NET to install: everything ships inside the single `.exe`.
 
 ### 🍎 macOS (public beta)
 
-1. Grab **`Nook-1.6.0-beta.1.dmg`** from the [macOS beta release](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1).
+1. Grab **`Nook-1.6.0-beta.2.dmg`** from the [macOS beta release](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.2).
 2. Open it and drag **Nook** to **Applications**.
 3. The beta isn't notarized by Apple yet, so macOS blocks the first launch. Open Nook once and click **Done** (not "Move to Trash"), then go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**. On macOS 13 or 14 you can also **right-click Nook → Open**.
 4. Allow Nook to control Spotify when macOS asks. Nook lives in the menu bar, not in the Dock.
+5. When music plays in the **Minimalist** or **Refined** style, macOS asks to let Nook record system audio. Click **Allow**: Nook listens only to Spotify, to move the bars and waves with the music, and nothing is recorded or sent anywhere. If you said no, turn Nook on in **System Settings → Privacy & Security → Screen & System Audio Recording** (under *System Audio Recording Only*). Without it the bars still move, just not to the beat. Needs macOS 14.2 or later.
 
-**Requirements:** macOS 13 Ventura or later, Apple Silicon or Intel, with the Spotify desktop app. The beta covers the player, glass styles, accent color, scroll volume and menu bar icon; the vertical and collapsed layouts, visualizer and focus timer come next. Found a bug? [Tell us](https://github.com/solanosolutions/nook/issues/new/choose).
+**Requirements:** macOS 13 Ventura or later, Apple Silicon or Intel, with the Spotify desktop app. The beta covers the player, the three styles (Minimalist, Old School, Refined) with native Liquid Glass on macOS 26, bars and waves that follow the music, the pin to collapse the player, accent color, scroll volume and menu bar icon; the vertical layout and focus timer come next. Found a bug? [Tell us](https://github.com/solanosolutions/nook/issues/new/choose).
 
 > 🐧 **Linux is coming later.** [Star the repo](https://github.com/solanosolutions/nook/stargazers) or watch releases to know when it lands.
 
