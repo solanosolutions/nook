@@ -63,7 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         player.orderFrontRegardless()
 
         model.spotify.$isRunning.removeDuplicates().receive(on: RunLoop.main)
-            .sink { [weak self] _ in self?.updateIdle() }.store(in: &bag)
+            .sink { [weak self] _ in self?.updateIdle(); self?.model.audio.restart() }.store(in: &bag)
         model.spotify.$isPlaying.removeDuplicates().receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.updatePauseHide() }.store(in: &bag)
         model.spotify.start()
@@ -125,6 +125,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let show = !userHidden && !manualHidden && !auto
         if show && !player.isVisible { player.orderFrontRegardless() }
         else if !show && player.isVisible { player.orderOut(nil) }
+        model.audio.setSuspended(!show) // escondido: não capta áudio
     }
 
     /// Some (após 3 s, para não piscar ao reabrir) quando o Spotify está fechado.

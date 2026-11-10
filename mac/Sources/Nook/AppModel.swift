@@ -5,6 +5,8 @@ import Combine
 final class AppModel: ObservableObject {
     let settings: Settings
     let spotify = SpotifyService()
+    /// Áudio do Spotify para as barras e ondas.
+    let audio = AudioTap()
 
     @Published var hover = false
     /// Texto temporário no lugar do artista (ex.: "Volume do Spotify 40%").

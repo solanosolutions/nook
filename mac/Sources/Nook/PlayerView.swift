@@ -61,7 +61,7 @@ struct PlayerView: View {
 
     private var row: some View {
         HStack(spacing: 0) {
-            CoverView(image: sp.cover, size: 36 * k, radius: 7 * k, visual: visual, accent: model.accent)
+            CoverView(image: sp.cover, size: 36 * k, radius: 7 * k, visual: visual, accent: model.accent, audio: model.audio)
                 .padding(.trailing, (full ? 10 : 4) * k)
             if full { fullControls } else {
                 PlayButton(playing: sp.isPlaying, k: k) {
@@ -137,6 +137,7 @@ struct CoverView: View {
     let radius: CGFloat
     var visual: Glass.Visual = .cover
     var accent: Color = Glass.spotifyGreen
+    var audio: AudioTap?
 
     var body: some View {
         ZStack {
@@ -150,8 +151,8 @@ struct CoverView: View {
             }
             // Com barras/ondas a capa fica ao fundo, apagada (como no Windows).
             .opacity(visual == .cover ? 1 : 0.2)
-            if visual != .cover {
-                VisualizerView(waves: visual == .waves, accent: accent)
+            if visual != .cover, let audio {
+                VisualizerView(waves: visual == .waves, accent: accent, audio: audio)
             }
         }
         .animation(.easeOut(duration: 0.25), value: visual)

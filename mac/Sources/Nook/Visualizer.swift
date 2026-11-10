@@ -2,22 +2,38 @@ import SwiftUI
 
 /// Barras (Minimalist) ou ondas (Refined) no quadrado da capa, com o mesmo desenho da versão Windows.
 ///
-/// No Mac, por enquanto, o movimento é gerado aqui (cinco faixas com ritmos diferentes) enquanto a música toca.
-/// Reagir ao áudio de verdade exige captar o som do Spotify (Core Audio tap, macOS 14.2+), que pede uma
-/// permissão extra de gravação de áudio; isso fica para a fase do visualizador com áudio.
+/// Segue o áudio do Spotify (AudioTap, macOS 14.2+ com a permissão de gravação de áudio do sistema).
+/// Sem som chegando (permissão negada, macOS antigo ou o tap ainda subindo), usa uma animação própria.
 struct VisualizerView: View {
     let waves: Bool
     let accent: Color
+    let audio: AudioTap
+    @State private var smooth = Smoother()
 
     var body: some View {
         TimelineView(.animation(minimumInterval: 1.0 / 30)) { ctx in
             let t = ctx.date.timeIntervalSinceReferenceDate
             Canvas { gc, size in
-                let levels = Self.levels(t)
+                let target = audio.live ? audio.bands.map(Double.init) : Self.levels(t)
+                let levels = smooth.step(target)
                 if waves { Self.drawWaves(gc, size, levels, t, accent) } else { Self.drawBars(gc, size, levels, accent) }
             }
         }
+        .onAppear { audio.retain() }
+        .onDisappear { audio.release() }
         .allowsHitTesting(false)
+    }
+
+    /// Sobe rápido e desce devagar (sensação de "peso"), como no Windows.
+    final class Smoother {
+        private var levels = [Double](repeating: 0, count: VisualizerView.bandCount)
+        func step(_ target: [Double]) -> [Double] {
+            for i in levels.indices {
+                let t = i < target.count ? target[i] : 0
+                levels[i] += (t - levels[i]) * (t > levels[i] ? 0.55 : 0.12)
+            }
+            return levels
+        }
     }
 
     static let bandCount = 5
