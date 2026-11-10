@@ -89,6 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let panel = SettingsPanel(model: model) { [weak self] in self?.closeSettings() }
         settingsPanel = panel
         model.settingsOpen = true // recolhido: abre o player inteiro antes de posicionar o menu
+        player.applyAlpha(animated: true)
         player.fitToContent()
         NSApp.activate(ignoringOtherApps: true)
         panel.show(near: player)
@@ -105,6 +106,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         settingsPanel = nil
         p.orderOut(nil)
         model.settingsOpen = false
+        player.applyAlpha(animated: true)
     }
 
     private func applyLoginItem() {

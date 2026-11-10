@@ -60,15 +60,29 @@ final class PlayerPanel: NSPanel {
 
     func applySettings() {
         level = .floating // sempre no topo (fixo)
-        alphaValue = 1    // opacidade máxima em repouso (fixo); repouso e hover mudam só o vidro
         backdrop.apply(model.settings)
+        applyAlpha(animated: false)
         fitToContent()
+    }
+
+    /// Repouso: transparência máxima (valor fixo, igual ao Windows). Mouse em cima ou menu aberto: normal.
+    func applyAlpha(animated: Bool) {
+        let target: CGFloat = model.hover || model.settingsOpen ? 1 : Glass.idleOpacity
+        if animated {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = 0.22
+                animator().alphaValue = target
+            }
+        } else {
+            alphaValue = target
+        }
     }
 
     /// Mouse entra: abre na hora (modo solto). Sai: espera 200 ms antes de recolher, para não piscar.
     private func setHover(_ hover: Bool) {
         guard model.hover != hover else { return }
         model.hover = hover
+        applyAlpha(animated: true)
         peekWork?.cancel(); peekWork = nil
         if hover {
             model.peek = true

@@ -49,7 +49,7 @@ pin button (pinned = full player, unpinned = collapsed to cover + play, opens on
 drag with edge snapping; menu bar item; settings panel with collapsible sections like Windows;
 hide when Spotify is closed or paused; open at login.
 
-Fixed defaults (no longer in settings): always on top, full opacity at rest, scroll = Spotify volume,
+Fixed defaults (no longer in settings): always on top, maximum transparency at rest (normal on hover), scroll = Spotify volume,
 language follows macOS (English or Portuguese).
 
 Next:

@@ -16,6 +16,9 @@ enum Glass {
 
     static let frosted = "Frosted", frozen = "Frozen", liquid = "Liquid"
 
+    /// Opacidade da janela em repouso (fixa, sem opção no menu; mesmo valor da versão Windows).
+    static let idleOpacity: CGFloat = 0.15
+
     /// Vidro de cada estilo.
     static func style(_ s: Settings) -> String {
         switch s.Style {
