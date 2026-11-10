@@ -45,36 +45,16 @@ public partial class SettingsWindow : Window
             };
         }
 
-        foreach (var rb in FindAll<RadioButton>(VisualGroup))
+        foreach (var rb in FindAll<RadioButton>(StyleGroup))
         {
-            rb.IsChecked = (string)rb.Tag == S.Visual;
-            rb.Checked += (_, _) => { S.Visual = (string)rb.Tag; Commit(); };
-        }
-
-        foreach (var rb in FindAll<RadioButton>(LangGroup))
-        {
-            rb.IsChecked = (string)rb.Tag == S.Language;
-            rb.Checked += (_, _) =>
-            {
-                S.Language = (string)rb.Tag;
-                S.Save();
-                Strings.Init(S.Language);
-                _player.ApplyLanguage();
-                App.RebuildTray();
-                Close();
-                _player.Dispatcher.BeginInvoke(_player.OpenSettings); // reabre já no idioma novo
-            };
+            rb.IsChecked = (string)rb.Tag == Look.Current;
+            rb.Checked += (_, _) => { S.Style = (string)rb.Tag; Commit(); };
         }
 
         foreach (var rb in FindAll<RadioButton>(LayoutGroup))
         {
             rb.IsChecked = (string)rb.Tag == S.Layout;
             rb.Checked += (_, _) => { S.Layout = (string)rb.Tag; Commit(); };
-        }
-        foreach (var rb in FindAll<RadioButton>(GlassGroup))
-        {
-            rb.IsChecked = (string)rb.Tag == Glass.Style;
-            rb.Checked += (_, _) => { S.GlassStyle = (string)rb.Tag; Commit(); };
         }
         foreach (var rb in FindAll<RadioButton>(AutoHideGroup))
         {
@@ -98,17 +78,11 @@ public partial class SettingsWindow : Window
         InstagramBtn.Visibility = App.InstagramUrl.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
 
         ScaleSlider.Value = S.Scale;
-        OpacitySlider.Value = S.IdleOpacity;
         UpdateLabels();
         ScaleSlider.ValueChanged += (_, e) => { S.Scale = Math.Round(e.NewValue, 2); UpdateLabels(); Commit(); };
-        OpacitySlider.ValueChanged += (_, e) => { S.IdleOpacity = Math.Round(e.NewValue, 2); UpdateLabels(); Commit(); };
     }
 
-    void UpdateLabels()
-    {
-        ScaleLabel.Text = $"{S.Scale * 100:0}%";
-        OpacityLabel.Text = $"{S.IdleOpacity * 100:0}%";
-    }
+    void UpdateLabels() => ScaleLabel.Text = $"{S.Scale * 100:0}%";
 
     void Commit()
     {

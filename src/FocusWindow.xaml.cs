@@ -58,19 +58,12 @@ public partial class FocusWindow : Window
     public void ApplySettings()
     {
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
-        Topmost = S.Topmost;
+        Topmost = true;
         Glass.ApplyNative(this);
         Overlay.StyleName = Glass.Style;
         Overlay.Tint = _accent.Color;
         if (_state != State.Done) Root.BorderBrush = Glass.Rim(this);
         ApplyLook(animate: false);
-    }
-
-    public void ApplyLanguage()
-    {
-        IdleLabel.Text = Strings.Get("Focus");
-        Custom.ToolTip = Strings.Get("CustomTip");
-        Render();
     }
 
     void SetHover(bool hover)
@@ -84,20 +77,16 @@ public partial class FocusWindow : Window
     void ApplyLook(bool animate)
     {
         var color = Glass.Fill(_hover);
-        double opacity = _hover || _state == State.Done ? 1.0 : S.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
-            BeginAnimation(OpacityProperty, new DoubleAnimation(opacity, Fade));
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, new DoubleAnimation(_hover ? 1 : 0, Fade));
         }
         else
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, null);
-            BeginAnimation(OpacityProperty, null);
             Overlay.BeginAnimation(GlassOverlay.LiftProperty, null);
             RootBrush.Color = color;
-            Opacity = opacity;
             Overlay.Lift = _hover ? 1 : 0;
         }
     }

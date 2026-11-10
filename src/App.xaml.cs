@@ -28,18 +28,10 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += (_, a) => { Log(a.Exception); a.SetObserved(); };
 
         Settings = Settings.Load();
-        Strings.Init(Settings.Language);
+        Strings.Init(); // idioma sempre segue o Windows
         Settings.ApplyStartup(); // mantém o registro apontando para onde o .exe está agora
         Player = new MainWindow();
         Player.Show();
-        UpdateTray();
-    }
-
-    /// <summary>Recria o menu da bandeja (ex.: depois de trocar o idioma).</summary>
-    public static void RebuildTray()
-    {
-        _tray?.Dispose();
-        _tray = null;
         UpdateTray();
     }
 

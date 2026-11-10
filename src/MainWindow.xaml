@@ -73,7 +73,7 @@
                         <Button x:Name="OpenBtn" Style="{StaticResource IconButton}" Content="&#xE8A7;" FontSize="12" ToolTip="{local:Tr OpenSpotify}" Click="Open_Click"/>
                         <Button x:Name="GearBtn" Style="{StaticResource IconButton}" Content="&#xE713;" FontSize="12" ToolTip="{local:Tr SettingsTip}" Click="Gear_Click"/>
                         <Button x:Name="HideBtn" Style="{StaticResource IconButton}" Content="&#xE921;" FontSize="11" ToolTip="{local:Tr HideTip}" Click="Hide_Click"/>
-                        <Button x:Name="CollapseBtn" Style="{StaticResource IconButton}" Content="&#xE73F;" FontSize="11" ToolTip="{local:Tr CollapseTip}" Click="Collapse_Click"/>
+                        <Button x:Name="CollapseBtn" Style="{StaticResource IconButton}" Content="&#xE842;" FontSize="11" ToolTip="{local:Tr UnpinTip}" Click="Collapse_Click"/>
                     </StackPanel>
 
                     <!-- Arranjo vertical: capa grande, título, controles principais e extras -->

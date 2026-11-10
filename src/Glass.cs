@@ -6,29 +6,44 @@ using System.Windows.Media.Imaging;
 namespace Nook;
 
 /// <summary>
-/// Estilos de vidro: "Frosted" (fosco, o original), "Frozen" (gelo: mais opaco, frio e granulado)
+/// Os três estilos fixos do Nook. Cada um junta um vidro e o que aparece no quadrado da capa:
+/// Minimalist = vidro fosco + barras · Old School = vidro Frozen + só a capa · Refined = vidro Liquid + ondas.
+/// </summary>
+static class Look
+{
+    public const string Minimalist = "Minimalist", OldSchool = "OldSchool", Refined = "Refined";
+
+    public static bool IsValid(string? s) => s is Minimalist or OldSchool or Refined;
+    public static string Current => IsValid(App.Settings.Style) ? App.Settings.Style! : Minimalist;
+
+    /// <summary>Vidro do estilo atual.</summary>
+    public static string Glass => Current switch { OldSchool => Nook.Glass.Frozen, Refined => Nook.Glass.Liquid, _ => Nook.Glass.Frosted };
+
+    /// <summary>Quadrado da capa: "Bars", "Waves" ou "Cover" (só a arte, sem visualizador).</summary>
+    public static string Visual => Current switch { OldSchool => "Cover", Refined => "Waves", _ => "Bars" };
+}
+
+/// <summary>
+/// Vidros: "Frosted" (fosco, o original), "Frozen" (gelo: mais opaco, frio e granulado)
 /// e "Liquid" (vidro vivo: borda de luz, brilho especular no topo, sombra interna e reflexo da capa).
 /// Tudo é desenhado uma vez (sem animação contínua), então o custo de CPU fica igual ao fosco.
+/// O vidro vem do estilo (<see cref="Look"/>) e o blur fica sempre ligado.
 /// </summary>
 static class Glass
 {
     public const string Frosted = "Frosted", Frozen = "Frozen", Liquid = "Liquid";
 
-    static Settings S => App.Settings;
-    public static string Style => S.GlassStyle is Frozen or Liquid ? S.GlassStyle : Frosted;
+    public static string Style => Look.Glass;
 
-    /// <summary>Cor de fundo do vidro: hover = nítido; repouso com ou sem blur.</summary>
-    public static Color Fill(bool hover) => (Style, hover, S.Blur) switch
+    /// <summary>Cor de fundo do vidro: hover = nítido; repouso = translúcido sobre o blur.</summary>
+    public static Color Fill(bool hover) => (Style, hover) switch
     {
-        (Frozen, true, _) => Color.FromArgb(0xF2, 0x19, 0x20, 0x28),
-        (Frozen, false, true) => Color.FromArgb(0x8C, 0x1B, 0x24, 0x2E),
-        (Frozen, false, false) => Color.FromArgb(0xDC, 0x1B, 0x23, 0x2C),
-        (Liquid, true, _) => Color.FromArgb(0xEB, 0x14, 0x15, 0x17),
-        (Liquid, false, true) => Color.FromArgb(0x46, 0x12, 0x13, 0x16),
-        (Liquid, false, false) => Color.FromArgb(0xC8, 0x14, 0x15, 0x17),
-        (_, true, _) => Color.FromArgb(0xF2, 0x16, 0x16, 0x16),
-        (_, false, true) => Color.FromArgb(0x50, 0x16, 0x16, 0x16),
-        _ => Color.FromArgb(0xD0, 0x16, 0x16, 0x16),
+        (Frozen, true) => Color.FromArgb(0xF2, 0x19, 0x20, 0x28),
+        (Frozen, false) => Color.FromArgb(0x8C, 0x1B, 0x24, 0x2E),
+        (Liquid, true) => Color.FromArgb(0xEB, 0x14, 0x15, 0x17),
+        (Liquid, false) => Color.FromArgb(0x46, 0x12, 0x13, 0x16),
+        (_, true) => Color.FromArgb(0xF2, 0x16, 0x16, 0x16),
+        _ => Color.FromArgb(0x50, 0x16, 0x16, 0x16),
     };
 
     static readonly Brush FrozenRim = Frz(new SolidColorBrush(Color.FromArgb(0x38, 0xD6, 0xEB, 0xFF)));
@@ -50,7 +65,7 @@ static class Glass
 
     /// <summary>Blur do sistema. Frozen usa o acrylic (desfoque mais forte) com tinta fria.</summary>
     public static void ApplyNative(Window w) =>
-        Native.SetBlur(w, S.Blur, acrylic: Style == Frozen, tint: Color.FromArgb(0x40, 0x1C, 0x25, 0x30));
+        Native.SetBlur(w, true, acrylic: Style == Frozen, tint: Color.FromArgb(0x40, 0x1C, 0x25, 0x30));
 
     internal static T Frz<T>(T f) where T : Freezable { f.Freeze(); return f; }
 }

@@ -6,19 +6,15 @@ using System.Windows.Markup;
 namespace Nook;
 
 /// <summary>
-/// Textos da interface em inglês e português. "auto" segue o idioma do Windows:
+/// Textos da interface em inglês e português. O idioma sempre segue o Windows:
 /// português se o sistema estiver em português, inglês para qualquer outro.
 /// </summary>
 public static class Strings
 {
     public static string Lang { get; private set; } = "en";
 
-    public static void Init(string setting) => Lang = setting switch
-    {
-        "pt" => "pt",
-        "en" => "en",
-        _ => CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "pt" ? "pt" : "en",
-    };
+    public static void Init() =>
+        Lang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "pt" ? "pt" : "en";
 
     public static string Get(string key) =>
         Table.TryGetValue(key, out var t) ? (Lang == "pt" ? t.pt : t.en) : key;
@@ -29,6 +25,7 @@ public static class Strings
         ["NothingPlaying"] = ("Nothing playing", "Nada tocando"),
         ["ClickToOpen"] = ("Click ▶ to open Spotify", "Clique ▶ para abrir o Spotify"),
         ["SpotifyVolume"] = ("Spotify volume", "Volume do Spotify"),
+        ["Volume"] = ("Volume", "Volume"),
         ["Shuffle"] = ("Shuffle", "Aleatório"),
         ["Previous"] = ("Previous", "Anterior"),
         ["PlayPause"] = ("Play / pause", "Tocar / pausar"),
@@ -51,27 +48,18 @@ public static class Strings
         ["Progress"] = ("Progress", "Progresso"),
         ["Gear"] = ("Gear", "Engrenagem"),
         ["SecLook"] = ("LOOK", "APARÊNCIA"),
-        ["Visual"] = ("Visual", "Visual"),
-        ["Bars"] = ("Bars", "Barras"),
-        ["Waves"] = ("Waves", "Ondas"),
+        ["Style"] = ("Style", "Estilo"),
+        ["Minimalist"] = ("Minimalist", "Minimalist"),
+        ["OldSchool"] = ("Old School", "Old School"),
+        ["Refined"] = ("Refined", "Refined"),
         ["Size"] = ("Size", "Tamanho"),
-        ["IdleOpacity"] = ("Idle opacity", "Opacidade em repouso"),
-        ["GlassStyle"] = ("Glass", "Vidro"),
-        ["Frosted"] = ("Frosted", "Fosco"),
-        ["Frozen"] = ("Frozen", "Frozen"),
-        ["Liquid"] = ("Liquid", "Liquid"),
-        ["Blur"] = ("Blur (glass) at rest", "Blur (vidro) em repouso"),
         ["CoverAccent"] = ("Album-art accent color", "Cor da capa no destaque"),
         ["SecBehavior"] = ("BEHAVIOR", "COMPORTAMENTO"),
-        ["Topmost"] = ("Always on top", "Sempre no topo"),
         ["HideFullscreen"] = ("Hide in fullscreen", "Esconder em tela cheia"),
         ["HideIdle"] = ("Hide when no player is open", "Esconder sem player aberto"),
-        ["CoverClick"] = ("Click cover to switch visual", "Clique na capa troca o visual"),
         ["Lock"] = ("Lock position", "Travar posição"),
-        ["Wheel"] = ("Mouse wheel = Spotify volume", "Roda do mouse = volume do Spotify"),
         ["TrayIcon"] = ("Tray icon", "Ícone na bandeja"),
         ["Startup"] = ("Start with Windows", "Iniciar com o Windows"),
-        ["Language"] = ("Language", "Idioma"),
         ["QuitNook"] = ("Quit Nook", "Sair do Nook"),
 
         // Timer de foco
@@ -92,11 +80,9 @@ public static class Strings
         ["Horizontal"] = ("Horizontal", "Horizontal"),
         ["Vertical"] = ("Vertical", "Vertical"),
 
-        // Modo recolhido
-        ["CollapseTip"] = ("Collapse (opens on hover)", "Recolher (abre ao passar o mouse)"),
-        ["ExpandTip"] = ("Keep expanded", "Manter aberto"),
-        ["CollapseBtnEl"] = ("Collapse button", "Botão recolher"),
-        ["CollapsedMode"] = ("Collapsed mode", "Modo recolhido"),
+        // Pin: fixado (completo) ou solto (recolhido, abre no mouse)
+        ["UnpinTip"] = ("Unpin (collapses, opens on hover)", "Soltar (recolhe e abre ao passar o mouse)"),
+        ["PinTip"] = ("Pin open", "Fixar aberto"),
 
         // Rodapé do menu
         ["GitHubTip"] = ("Nook on GitHub", "Nook no GitHub"),
