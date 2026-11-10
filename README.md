@@ -15,7 +15,7 @@ Pause, skip and see what's playing without ever opening Spotify again.
 
 <img src="docs/demo.gif" alt="Nook demo: frosted glass at rest, sharp on hover, live audio waves and bars" />
 
-**🆕 Nook for macOS, public beta:** the same glass mini player, now on the Mac. [Try it and tell us what you think](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0) with Frosted, Frozen and Liquid glass.
+**🆕 Nook for macOS, public beta:** the same glass mini player, now on the Mac. [Try it and tell us what you think](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1) · Windows: [v1.7.0](https://github.com/solanosolutions/nook/releases/tag/v1.7.0) with three fixed styles: Minimalist, Old School and Refined.
 
 [**Download**](https://github.com/solanosolutions/nook/releases/latest) · [Features](#-features) · [How to use](#-how-to-use) · [FAQ](#-faq) · [Roadmap](#-roadmap) · [Português](README.pt-BR.md)
 
@@ -23,13 +23,16 @@ Pause, skip and see what's playing without ever opening Spotify again.
 
 ---
 
-## 🆕 What's new in [v1.5.0](https://github.com/solanosolutions/nook/releases/tag/v1.5.0)
+## 🆕 What's new in [v1.7.0](https://github.com/solanosolutions/nook/releases/tag/v1.7.0)
 
-- 🧊 **Three glass styles.** Pick **Frosted** (the classic), **Frozen** (stronger, colder blur with a fine ice grain, extra discreet on any wallpaper) or **Liquid** (a living glass with a light-catching rim, a specular shine on top and a soft glow that takes the album-art color). Settings → Look → Glass.
+- 🎨 **Three fixed styles.** **Minimalist** (frosted glass + live bars), **Old School** (Frozen glass, just the album art) and **Refined** (Liquid glass + live waves). Settings → Look → Style.
+- 📌 **Pin button** always on the player: pinned keeps the full player (default), unpinned shrinks it to the pill that opens on hover.
+- 🧹 **Simpler settings.** Fixed defaults instead of knobs: see-through at rest and solid on hover, always on top, wheel = the playing app's volume (now also your browser), language follows Windows, core buttons always shown.
 
 <details>
 <summary>Earlier versions</summary>
 
+- **v1.5.0** · 🧊 Three glass styles: Frosted, Frozen and Liquid.
 - **v1.4.0** · 🫧 Collapsed mode (just the cover and play until you hover) and GitHub/Instagram links plus the version in the settings footer.
 - **v1.3.0** · ↕️ Vertical layout, auto-hide when paused and a hide button.
 - **v1.2.0** · ⏱️ Focus timer, 🌐 English and Portuguese interface, rounded blur corners fixed.
