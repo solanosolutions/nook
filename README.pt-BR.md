@@ -50,20 +50,20 @@ Então criei o que eu queria: **minimalista, bonito e invisível até você prec
 
 | | |
 |---|---|
-| 🧊 **Vidro do seu jeito** | Translúcido e desfocado em repouso; nítido e sólido assim que o mouse chega. Três estilos: **Fosco**, **Frozen** e **Liquid**. |
+| 🎨 **Três estilos** | **Minimalist** (vidro fosco + barras ao vivo), **Old School** (vidro Frozen, só a capa, como um MP3 player de 2010) e **Refined** (vidro Liquid + ondas ao vivo). O mais transparente possível em repouso; nítido e sólido assim que o mouse chega. |
 | 🎵 **Visualizador ao vivo** | Barras ou ondas que reagem ao áudio *de verdade*, capturado **só do Spotify** (notificações e vídeos não interferem). |
 | 🎨 **Cor da capa** | Barra de progresso e visualizador assumem a cor dominante da capa atual. |
 | 📜 **Título rolando** | Nomes longos rolam suavemente; passe o mouse para congelar. |
-| 🖱️ **Roda = volume** | A roda do mouse sobre o player muda **só o volume do Spotify**, não o do PC inteiro. |
+| 🖱️ **Roda = volume** | A roda do mouse sobre o player muda **só o volume do player** (Spotify, navegador...), não o do PC inteiro. |
 | 🎬 **Respeita a tela cheia** | Some sozinho quando um filme, jogo ou apresentação entra em tela cheia no monitor dele. |
 | 💤 **Some quando pausado** | Ficou pausado um tempo (1, 5 ou 15 min)? Ele sai da frente e volta no próximo play. Ou use o botão esconder. |
 | ↕️ **Horizontal ou vertical** | Escolha uma barra larga ou um cartão em pé com a capa grande, ótimo ao lado de uma barra de tarefas vertical. |
-| 🫧 **Modo recolhido** | Encolhe para uma pílula só com a capa e o play. Passou o mouse, o player inteiro abre; tirou, ele recolhe de novo. |
+| 📌 **Pin** | O player completo vem fixado por padrão. Solte o pin e ele encolhe para uma pílula só com a capa e o play; passou o mouse, o player inteiro abre, tirou, ele recolhe de novo. |
 | 🧲 **Arraste para onde quiser** | Gruda nas bordas da tela e lembra a posição. |
-| 🎛️ **Totalmente configurável** | Escolha botões, tamanho, opacidade em repouso, blur, estilo do visual e mais. |
+| 🎛️ **Configuração simples** | Escolha o estilo, alguns botões opcionais (aleatório, repetir, progresso, abrir Spotify), o layout e o tamanho. Sempre no topo, sem ajustes finos. |
 | ⏱️ **Timer de foco** | Opcional: uma pílula de vidro acima do player. 5, 10, 25 min ou o tempo que você digitar; um toque suave quando acaba. |
 | 🔗 **Links e versão no menu** | O rodapé das configurações mostra a versão que você está usando, além do GitHub e do Instagram. |
-| 🌐 **Inglês e português** | Segue o idioma do Windows automaticamente, ou escolha nas configurações. |
+| 🌐 **Inglês e português** | Segue o idioma do Windows automaticamente. |
 | 🚀 **Inicia com o Windows** | Opcional, um clique. |
 
 <div align="center">
@@ -99,11 +99,10 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 |---|---|
 | **Arrastar** | Move o player para qualquer lugar |
 | **Duplo clique** ou **botão direito** | Abre as configurações |
-| **Clique na capa** | Troca o visual: capa → barras → ondas |
-| **Roda do mouse** | Sobe / desce o volume do Spotify |
+| **Roda do mouse** | Sobe / desce o volume do player |
 | **Clique na barra de progresso** | Pula para aquele ponto da música |
 | **Botão esconder** (—) | Esconde na hora; volta no próximo play |
-| **Botão recolher** | Encolhe para a pílula; passe o mouse para abrir, e o alfinete deixa aberto de novo |
+| **Botão pin** | Solte para encolher na pílula (passar o mouse abre); fixe de novo para deixar aberto |
 | **Ícone na bandeja** | Mostrar / esconder, configurações, sair |
 
 <details>
@@ -123,7 +122,7 @@ Sem instalador e sem precisar instalar o .NET: vai tudo dentro de um único `.ex
 <details>
 <summary><b>Funciona com outros apps além do Spotify?</b></summary>
 
-Sim. O Nook prioriza o Spotify, mas se ele não estiver aberto, controla o que estiver tocando (YouTube no navegador, outros players), e a roda do mouse passa a mexer no volume do sistema.
+Sim. O Nook prioriza o Spotify, mas se ele não estiver aberto, controla o que estiver tocando (YouTube no navegador, outros players), e a roda do mouse mexe no volume desse app (ou no do sistema, se não achar o app).
 </details>
 
 <details>
@@ -155,6 +154,7 @@ Desligue "Iniciar com o Windows" nas configurações, saia pelo ícone da bandej
 - [x] ↕️ Layout vertical e esconder quando pausado
 - [x] 🫧 Modo recolhido (só capa e play até você passar o mouse)
 - [x] 🧊 Estilos de vidro: Fosco, Frozen e Liquid
+- [x] 🎨 Três estilos fixos: Minimalist, Old School e Refined
 - [ ] 🍎 Versão para macOS ([beta público disponível](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1))
 - [ ] 🐧 Versão para Linux
 - [ ] ❤️ Botão de curtir (login opcional no Spotify)

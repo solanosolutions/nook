@@ -29,6 +29,22 @@ public sealed class MediaService
 
     public bool HasSession => _session != null;
     public bool IsSpotify => _session?.SourceAppUserModelId?.Contains("spotify", StringComparison.OrdinalIgnoreCase) == true;
+
+    /// <summary>
+    /// Nome do processo do app que está tocando, para mexer só no volume dele: "Spotify", ou o que dá para tirar
+    /// do id do app ("chrome.exe" → "chrome", "MSEdge" → "MSEdge"). Null para apps da Store, que não dá para mapear.
+    /// </summary>
+    public string? SourceProcessName
+    {
+        get
+        {
+            if (IsSpotify) return "Spotify";
+            string? id = _session?.SourceAppUserModelId;
+            if (string.IsNullOrWhiteSpace(id) || id.Contains('!')) return null;
+            id = System.IO.Path.GetFileName(id);
+            return id.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) ? id[..^4] : id;
+        }
+    }
     public string Title { get; private set; } = "";
     public string Artist { get; private set; } = "";
     public ImageSource? Cover { get; private set; }

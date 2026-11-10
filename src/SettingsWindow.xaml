@@ -24,36 +24,22 @@
 
             <ToggleButton x:Name="SecElements" Tag="Elements" Style="{StaticResource SectionToggle}" Content="{local:Tr SecElements}"/>
             <UniformGrid Columns="2" x:Name="ButtonsGrid" Visibility="{Binding IsChecked, ElementName=SecElements, Converter={StaticResource BoolToVis}}">
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Cover}" Tag="ShowCover" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Title}" Tag="ShowTitle"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Shuffle}" Tag="ShowShuffle" Margin="0,3,12,3"/>
                 <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Repeat}" Tag="ShowRepeat"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Previous}" Tag="ShowPrev" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Next}" Tag="ShowNext"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Play}" Tag="ShowPlay" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Gear}" Tag="ShowGear"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideBtnEl}" Tag="ShowHideBtn" Margin="0,3,12,3"/>
-                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CollapseBtnEl}" Tag="ShowCollapseBtn"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Progress}" Tag="ShowProgress" Margin="0,3,12,3"/>
+                <CheckBox Style="{StaticResource Switch}" Content="{local:Tr OpenSpotify}" Tag="ShowOpen"/>
             </UniformGrid>
 
             <ToggleButton x:Name="SecLook" Tag="Look" Style="{StaticResource SectionToggle}" Content="{local:Tr SecLook}"/>
             <StackPanel Visibility="{Binding IsChecked, ElementName=SecLook, Converter={StaticResource BoolToVis}}">
-            <Grid Margin="0,0,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{local:Tr Visual}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
-                    <UniformGrid x:Name="VisualGroup" Columns="3">
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Cover" Content="{local:Tr Cover}"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Bars" Content="{local:Tr Bars}"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Visual" Tag="Waves" Content="{local:Tr Waves}"/>
-                    </UniformGrid>
-                </Border>
-            </Grid>
+            <TextBlock Text="{local:Tr Style}" Foreground="{StaticResource Fg}" FontSize="12" Margin="0,0,0,4"/>
+            <Border Background="#14FFFFFF" CornerRadius="8" Margin="0,0,0,8">
+                <UniformGrid x:Name="StyleGroup" Columns="3">
+                    <RadioButton Style="{StaticResource Segment}" GroupName="Style" Tag="Minimalist" Content="{local:Tr Minimalist}"/>
+                    <RadioButton Style="{StaticResource Segment}" GroupName="Style" Tag="OldSchool" Content="{local:Tr OldSchool}"/>
+                    <RadioButton Style="{StaticResource Segment}" GroupName="Style" Tag="Refined" Content="{local:Tr Refined}"/>
+                </UniformGrid>
+            </Border>
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -67,46 +53,21 @@
                     </UniformGrid>
                 </Border>
             </Grid>
-            <Grid Margin="0,0,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{local:Tr GlassStyle}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
-                    <UniformGrid x:Name="GlassGroup" Columns="3">
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Frosted" Content="{local:Tr Frosted}"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Frozen" Content="{local:Tr Frozen}"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Glass" Tag="Liquid" Content="{local:Tr Liquid}"/>
-                    </UniformGrid>
-                </Border>
-            </Grid>
             <Grid>
                 <TextBlock Text="{local:Tr Size}" Foreground="{StaticResource Fg}" FontSize="12"/>
                 <TextBlock x:Name="ScaleLabel" Foreground="{StaticResource FgDim}" FontSize="12" HorizontalAlignment="Right"/>
             </Grid>
             <Slider x:Name="ScaleSlider" Style="{StaticResource FlatSlider}" Minimum="0.7" Maximum="1.6" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,6"/>
 
-            <Grid>
-                <TextBlock Text="{local:Tr IdleOpacity}" Foreground="{StaticResource Fg}" FontSize="12"/>
-                <TextBlock x:Name="OpacityLabel" Foreground="{StaticResource FgDim}" FontSize="12" HorizontalAlignment="Right"/>
-            </Grid>
-            <Slider x:Name="OpacitySlider" Style="{StaticResource FlatSlider}" Minimum="0.15" Maximum="1" SmallChange="0.05" LargeChange="0.1" Margin="0,2,0,6"/>
-
-            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CollapsedMode}" Tag="Collapsed"/>
-            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Blur}" Tag="Blur"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CoverAccent}" Tag="CoverAccent"/>
             </StackPanel>
 
             <ToggleButton x:Name="SecBehavior" Tag="Behavior" Style="{StaticResource SectionToggle}" Content="{local:Tr SecBehavior}"/>
             <StackPanel Visibility="{Binding IsChecked, ElementName=SecBehavior, Converter={StaticResource BoolToVis}}">
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr FocusTimer}" Tag="FocusTimer"/>
-            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Topmost}" Tag="Topmost"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideFullscreen}" Tag="HideOnFullscreen"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr HideIdle}" Tag="HideWhenIdle"/>
-            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr CoverClick}" Tag="CoverClickCycles"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Lock}" Tag="LockPosition"/>
-            <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Wheel}" Tag="WheelVolume"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr TrayIcon}" Tag="TrayIcon"/>
             <CheckBox Style="{StaticResource Switch}" Content="{local:Tr Startup}" Tag="StartWithWindows"/>
             <TextBlock Text="{local:Tr AutoHide}" Foreground="{StaticResource Fg}" FontSize="12" Margin="0,10,0,4"/>
@@ -118,20 +79,6 @@
                     <RadioButton Style="{StaticResource Segment}" GroupName="AutoHide" Tag="15" Content="15 min"/>
                 </UniformGrid>
             </Border>
-            <Grid Margin="0,8,0,2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{local:Tr Language}" Foreground="{StaticResource Fg}" FontSize="12" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                <Border Grid.Column="1" Background="#14FFFFFF" CornerRadius="8">
-                    <UniformGrid x:Name="LangGroup" Columns="3">
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="auto" Content="Auto"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="en" Content="English"/>
-                        <RadioButton Style="{StaticResource Segment}" GroupName="Lang" Tag="pt" Content="Português"/>
-                    </UniformGrid>
-                </Border>
-            </Grid>
             </StackPanel>
 
             <Grid Margin="0,14,0,0">

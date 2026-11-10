@@ -22,7 +22,6 @@ public partial class MainWindow : Window
     int _spotifyPid;
     readonly DispatcherTimer _fsTimer = new() { Interval = TimeSpan.FromMilliseconds(700) };
     readonly DispatcherTimer _idleTimer = new() { Interval = TimeSpan.FromSeconds(3) };
-    readonly DispatcherTimer _cycleTimer = new() { Interval = TimeSpan.FromMilliseconds(Forms.SystemInformation.DoubleClickTime) };
     readonly DispatcherTimer _volumeTimer = new() { Interval = TimeSpan.FromMilliseconds(1200) };
     readonly DispatcherTimer _pauseTimer = new();
     bool _userHidden, _fsHidden, _idleHidden, _pausedHidden, _manualHidden, _autoOverride;
@@ -82,14 +81,13 @@ public partial class MainWindow : Window
         };
         _idleTimer.Tick += (_, _) => { _idleTimer.Stop(); _idleHidden = true; ApplyVisibility(); };
         _pauseTimer.Tick += (_, _) => { _pauseTimer.Stop(); _pausedHidden = true; ApplyVisibility(); };
-        _cycleTimer.Tick += (_, _) => { _cycleTimer.Stop(); CycleVisual(); };
         _volumeTimer.Tick += (_, _) => { _volumeTimer.Stop(); _showingVolume = false; Refresh(); };
         _peekTimer.Tick += (_, _) => ForceCollapseCheck();
     }
 
-    // ---------- Modo recolhido: só capa e play; abre ao passar o mouse ----------
+    // ---------- Pin: fixado = player completo; solto = só capa e play, abre ao passar o mouse ----------
 
-    /// <summary>Recolhido de fato agora: modo ligado, sem mouse em cima e sem menu aberto.</summary>
+    /// <summary>Recolhido de fato agora: pin solto, sem mouse em cima e sem menu aberto.</summary>
     bool Compact => S.Collapsed && !_peek && _settingsWin == null;
 
     /// <summary>Mouse entra: abre na hora. Mouse sai: espera um pouco antes de recolher, para não piscar.</summary>
@@ -253,23 +251,23 @@ public partial class MainWindow : Window
     void ApplyElements()
     {
         bool full = !Compact;
-        CoverBox.Visibility = Vis(S.ShowCover || !full);
-        InfoPanel.Visibility = Vis(S.ShowTitle && full);
+        CoverBox.Visibility = Visibility.Visible;
+        InfoPanel.Visibility = Vis(full);
         ShuffleBtn.Visibility = Vis(S.ShowShuffle && full);
-        PrevBtn.Visibility = Vis(S.ShowPrev && full);
-        PlayBtn.Visibility = Vis(S.ShowPlay || !full);
-        NextBtn.Visibility = Vis(S.ShowNext && full);
+        PrevBtn.Visibility = Vis(full);
+        PlayBtn.Visibility = Visibility.Visible;
+        NextBtn.Visibility = Vis(full);
         RepeatBtn.Visibility = Vis(S.ShowRepeat && full);
         ProgressHost.Visibility = Vis(S.ShowProgress && full);
         OpenBtn.Visibility = Vis(S.ShowOpen && full);
-        GearBtn.Visibility = Vis(S.ShowGear && full);
-        HideBtn.Visibility = Vis(S.ShowHideBtn && full);
-        CollapseBtn.Visibility = Vis(S.ShowCollapseBtn && full);
-        // Recolhido e aberto pelo mouse, o botão vira "manter aberto" (alfinete).
-        CollapseBtn.Content = S.Collapsed ? "\uE718" : "\uE73F";
-        CollapseBtn.ToolTip = Strings.Get(S.Collapsed ? "ExpandTip" : "CollapseTip");
+        GearBtn.Visibility = Vis(full);
+        HideBtn.Visibility = Vis(full);
+        CollapseBtn.Visibility = Vis(full); // o pin sempre aparece no player aberto
+        // Pin preenchido = fixado (completo); vazado = solto (recolhe e abre no mouse).
+        CollapseBtn.Content = S.Collapsed ? "\uE718" : "\uE842";
+        CollapseBtn.ToolTip = Strings.Get(S.Collapsed ? "PinTip" : "UnpinTip");
         ApplyLayout();
-        Divider.Visibility = Vis(!_vertical && full && (S.ShowOpen || S.ShowGear || S.ShowHideBtn || S.ShowCollapseBtn));
+        Divider.Visibility = Vis(!_vertical && full);
         UpdateViz();
     }
 
@@ -278,7 +276,7 @@ public partial class MainWindow : Window
         ApplyElements();
 
         ScaleXf.ScaleX = ScaleXf.ScaleY = S.Scale;
-        Topmost = S.Topmost;
+        Topmost = true; // sempre no topo
         ApplyGlass();
         ApplyLook(animate: false);
         App.UpdateTray();
@@ -384,25 +382,14 @@ public partial class MainWindow : Window
             TitleText.FontSize, Brushes.White, VisualTreeHelper.GetDpi(this).PixelsPerDip)
         .WidthIncludingTrailingWhitespace;
 
-    // ---------- Clique na capa: Capa → Barras → Ondas ----------
-
-    void CycleVisual()
-    {
-        if (!_media.IsPlaying) return; // pausado a capa sempre aparece; trocar não teria efeito visível
-        S.Visual = S.Visual switch { "Cover" => "Bars", "Bars" => "Waves", _ => "Cover" };
-        S.Save();
-        UpdateViz();
-    }
-
-    // ---------- Roda do mouse: volume do Spotify (ou do Windows para outros players) ----------
+    // ---------- Roda do mouse: volume do player que está tocando (do Windows só se não achar o app) ----------
 
     void OnWheel(object sender, MouseWheelEventArgs e)
     {
-        if (!S.WheelVolume) return;
         bool up = e.Delta > 0;
         try
         {
-            if (_media.IsSpotify && SpotifyVolume.TryStep(up ? 0.04f : -0.04f, out int pct))
+            if (AppVolume.TryStep(_media.SourceProcessName, up ? 0.04f : -0.04f, out int pct))
             {
                 ShowVolume(pct);
                 return;
@@ -412,26 +399,10 @@ public partial class MainWindow : Window
         Native.VolumeStep(up);
     }
 
-    /// <summary>Reaplica os textos do player depois de trocar o idioma.</summary>
-    public void ApplyLanguage()
-    {
-        ShuffleBtn.ToolTip = Strings.Get("Shuffle");
-        PrevBtn.ToolTip = Strings.Get("Previous");
-        PlayBtn.ToolTip = Strings.Get("PlayPause");
-        NextBtn.ToolTip = Strings.Get("Next");
-        RepeatBtn.ToolTip = Strings.Get("Repeat");
-        OpenBtn.ToolTip = Strings.Get("OpenSpotify");
-        GearBtn.ToolTip = Strings.Get("SettingsTip");
-        HideBtn.ToolTip = Strings.Get("HideTip");
-        CollapseBtn.ToolTip = Strings.Get(S.Collapsed ? "ExpandTip" : "CollapseTip");
-        _focus?.ApplyLanguage();
-        Refresh();
-    }
-
     void ShowVolume(int pct)
     {
         _showingVolume = true;
-        ArtistText.Text = $"{Strings.Get("SpotifyVolume")}  {pct}%";
+        ArtistText.Text = $"{Strings.Get(_media.IsSpotify ? "SpotifyVolume" : "Volume")}  {pct}%";
         _volumeTimer.Stop();
         _volumeTimer.Start();
     }
@@ -441,7 +412,8 @@ public partial class MainWindow : Window
     /// <summary>Liga a captura só quando faz sentido: modo visual, música tocando e player visível.</summary>
     void UpdateViz()
     {
-        bool want = S.Visual != "Cover" && (S.ShowCover || Compact) && _media.HasSession && _media.IsPlaying
+        string visual = Look.Visual;
+        bool want = visual != "Cover" && _media.HasSession && _media.IsPlaying
                     && IsVisible && !_audio.Failed;
         if (!want)
         {
@@ -453,7 +425,7 @@ public partial class MainWindow : Window
         }
 
         _audio.Start(_media.IsSpotify ? SpotifyPid() : 0);
-        Viz.Waves = S.Visual == "Waves";
+        Viz.Waves = visual == "Waves";
         Viz.Visibility = Visibility.Visible;
         CoverLayer.Opacity = 0.2;
         if (!_vizTick.IsEnabled) { _vizClock.Restart(); _vizTick.Start(); }
@@ -480,7 +452,7 @@ public partial class MainWindow : Window
 
     static Visibility Vis(bool v) => v ? Visibility.Visible : Visibility.Collapsed;
 
-    // ---------- Hover: vidro em repouso, cor normal no mouse ----------
+    // ---------- Hover: vidro em repouso, cor normal no mouse (transparência máxima em repouso) ----------
 
     void SetHover(bool hover)
     {
@@ -494,7 +466,7 @@ public partial class MainWindow : Window
     void ApplyLook(bool animate)
     {
         var color = Glass.Fill(_hover);
-        double opacity = _hover ? 1.0 : S.IdleOpacity;
+        double opacity = _hover ? 1.0 : Glass.IdleOpacity;
         if (animate)
         {
             RootBrush.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation(color, Fade));
@@ -529,22 +501,17 @@ public partial class MainWindow : Window
 
         if (isDouble)
         {
-            _cycleTimer.Stop(); // era duplo clique, não clique na capa
             e.Handled = true;
             Dispatcher.BeginInvoke(OpenSettings, DispatcherPriority.Input);
             return;
         }
 
-        bool onCover = S.CoverClickCycles && CoverBox.IsMouseOver;
-        double left = Left, top = Top;
         if (!S.LockPosition)
         {
             try { DragMove(); } catch { }
             SnapToEdges();
             SavePosition();
         }
-        // Clique (sem arrastar) na capa: espera o tempo do duplo clique antes de trocar o visual.
-        if (onCover && Math.Abs(Left - left) < 1 && Math.Abs(Top - top) < 1) _cycleTimer.Start();
     }
 
     Rect WorkArea()

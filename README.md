@@ -50,20 +50,20 @@ So I built the one I wanted: **minimal, beautiful, and invisible until you need 
 
 | | |
 |---|---|
-| 🧊 **Glass, your way** | Translucent and blurred at rest, crisp and solid the moment your mouse arrives. Three styles: **Frosted**, **Frozen** and **Liquid**. |
+| 🎨 **Three styles** | **Minimalist** (frosted glass + live bars), **Old School** (frozen glass, just the album art, like a 2010 MP3 player) and **Refined** (Liquid glass + live waves). As see-through as possible at rest, crisp and solid the moment your mouse arrives. |
 | 🎵 **Live visualizer** | Bars or waves that react to the *real* audio, captured **only from Spotify** (notifications and videos don't interfere). |
 | 🎨 **Album-art accent** | Progress bar and visualizer take the dominant color of the current cover. |
 | 📜 **Scrolling titles** | Long song names scroll smoothly; hover to freeze them. |
-| 🖱️ **Scroll for volume** | Mouse wheel over the player changes **Spotify's volume only**, not your whole PC. |
+| 🖱️ **Scroll for volume** | Mouse wheel over the player changes **the player's volume only** (Spotify, your browser...), not your whole PC. |
 | 🎬 **Fullscreen-aware** | Hides automatically when a movie, game or presentation goes fullscreen on its monitor. |
 | 💤 **Hides when paused** | Paused for a while (1, 5 or 15 min)? It gets out of the way and comes back on the next play. Or hit the hide button. |
 | ↕️ **Horizontal or vertical** | Pick a wide bar or a tall card with a big cover, great next to a vertical taskbar. |
-| 🫧 **Collapsed mode** | Shrinks to a tiny pill with just the cover and play. Hover and the full player opens; move away and it tucks back in. |
+| 📌 **Pin** | The full player is pinned by default. Unpin it and it shrinks to a tiny pill with just the cover and play; hover and the full player opens, move away and it tucks back in. |
 | 🧲 **Drag anywhere** | Snaps to screen edges and remembers its position. |
-| 🎛️ **Fully configurable** | Pick which buttons show, size, idle opacity, blur, visual style and more. |
+| 🎛️ **Simple settings** | Pick a style, a few optional buttons (shuffle, repeat, progress, open Spotify), layout and size. Always on top, no knobs to tune. |
 | ⏱️ **Focus timer** | Optional: a tiny glass pill above the player. 5, 10, 25 min or type your own; a soft chime when time's up. |
 | 🔗 **Links and version in the menu** | The settings footer shows the version you're running, plus GitHub and Instagram. |
-| 🌐 **English & Portuguese** | Follows your Windows language automatically, or pick one in settings. |
+| 🌐 **English & Portuguese** | Follows your Windows language automatically. |
 | 🚀 **Starts with Windows** | Optional, one toggle. |
 
 <div align="center">
@@ -99,11 +99,10 @@ No installer and no .NET to install: everything ships inside the single `.exe`.
 |---|---|
 | **Drag** | Move the player anywhere |
 | **Double-click** or **right-click** | Open settings |
-| **Click the cover** | Cycle visual: cover → bars → waves |
-| **Mouse wheel** | Spotify volume up / down |
+| **Mouse wheel** | Player volume up / down |
 | **Click the progress bar** | Jump to that point of the song |
 | **Hide button** (—) | Hide now; it comes back on the next play |
-| **Collapse button** | Shrink to the pill; hover to open it, the pin keeps it expanded again |
+| **Pin button** | Unpin to shrink to the pill (hover opens it); pin again to keep it expanded |
 | **Tray icon** | Show / hide, settings, quit |
 
 <details>
@@ -124,7 +123,7 @@ No installer and no .NET to install: everything ships inside the single `.exe`.
 <details>
 <summary><b>Does it work with apps other than Spotify?</b></summary>
 
-Yes. Nook prefers Spotify, but if Spotify isn't open it controls whatever is playing (YouTube in your browser, other players), using the system volume for the wheel.
+Yes. Nook prefers Spotify, but if Spotify isn't open it controls whatever is playing (YouTube in your browser, other players), and the wheel changes that app's volume (or the system volume if it can't find the app).
 </details>
 
 <details>
@@ -156,6 +155,7 @@ Turn off "Start with Windows" in settings, quit from the tray icon, and delete `
 - [x] ↕️ Vertical layout and auto-hide when paused
 - [x] 🫧 Collapsed mode (just the cover and play until you hover)
 - [x] 🧊 Glass styles: Frosted, Frozen and Liquid
+- [x] 🎨 Three fixed styles: Minimalist, Old School and Refined
 - [ ] 🍎 macOS version ([public beta available](https://github.com/solanosolutions/nook/releases/tag/v1.6.0-beta.1))
 - [ ] 🐧 Linux version
 - [ ] ❤️ "Like" button (optional Spotify login)

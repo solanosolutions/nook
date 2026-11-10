@@ -6,17 +6,18 @@ using System.Runtime.InteropServices;
 namespace Nook;
 
 /// <summary>
-/// Ajusta o volume só do Spotify no mixer do Windows (sessões de áudio do Core Audio),
-/// sem mexer no volume geral do PC.
+/// Ajusta o volume só do app que está tocando (Spotify, navegador...) no mixer do Windows
+/// (sessões de áudio do Core Audio), sem mexer no volume geral do PC.
 /// </summary>
-static class SpotifyVolume
+static class AppVolume
 {
-    /// <summary>Soma delta (-1..1) ao volume do Spotify. Retorna false se não achou a sessão dele.</summary>
-    public static bool TryStep(float delta, out int percent)
+    /// <summary>Soma delta (-1..1) ao volume do app. Retorna false se não achou a sessão de áudio dele.</summary>
+    public static bool TryStep(string? processName, float delta, out int percent)
     {
         percent = 0;
+        if (string.IsNullOrWhiteSpace(processName)) return false;
         var pids = new HashSet<uint>();
-        foreach (var p in Process.GetProcessesByName("Spotify")) { pids.Add((uint)p.Id); p.Dispose(); }
+        foreach (var p in Process.GetProcessesByName(processName)) { pids.Add((uint)p.Id); p.Dispose(); }
         if (pids.Count == 0) return false;
 
         var enumerator = (IMMDeviceEnumerator)new MMDeviceEnumeratorCom();
@@ -47,7 +48,7 @@ static class SpotifyVolume
                         found = true;
                     }
                     var ctx = Guid.Empty;
-                    volume.SetMasterVolume(target, ref ctx); // Spotify pode ter mais de uma sessão: todas iguais
+                    volume.SetMasterVolume(target, ref ctx); // o app pode ter mais de uma sessão (ex.: abas do navegador): todas iguais
                 }
                 catch { }
                 finally { Marshal.ReleaseComObject(session); }
